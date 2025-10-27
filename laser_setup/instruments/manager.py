@@ -149,6 +149,16 @@ class InstrumentManager:
         :return: The instrument object or a DebugInstrument if debug=True and connection fails.
         """
         try:
+            # Detect serial ports and create SerialAdapter
+            if isinstance(adapter, str) and (adapter.startswith('/dev/') or adapter.startswith('COM')):
+                from pymeasure.adapters import SerialAdapter
+                # Extract serial kwargs from kwargs
+                serial_kwargs = {}
+                for key in ['baudrate', 'timeout', 'write_timeout', 'parity', 'stopbits', 'bytesize']:
+                    if key in kwargs:
+                        serial_kwargs[key] = kwargs.pop(key)
+                adapter = SerialAdapter(adapter, **serial_kwargs)
+
             return instrument_class(adapter=adapter, **kwargs)
         except Exception as e:
             if debug:

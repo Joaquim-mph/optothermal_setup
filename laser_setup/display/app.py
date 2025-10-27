@@ -99,10 +99,20 @@ def display_window(procedure: type[Procedure] | None = None, **kwargs):
 
     if not (splash_image := Path(CONFIG.Qt.GUI.splash_image)).is_file():
         splash_image = DefaultPaths.splash
-    pixmap = QtGui.QPixmap(
-        QtGui.QIcon(splash_image.as_posix()).pixmap(QtCore.QSize(480, 480))
-    )
-    splash = QtWidgets.QSplashScreen(pixmap)
+
+    pixmap = QtGui.QPixmap(splash_image.as_posix())
+    if pixmap.isNull():
+        # If loading as pixmap fails, try loading as icon first
+        pixmap = QtGui.QIcon(splash_image.as_posix()).pixmap(QtCore.QSize(300, 300))
+    else:
+        # Scale down the image to a reasonable size
+        pixmap = pixmap.scaled(300, 300, QtCore.Qt.AspectRatioMode.KeepAspectRatio,
+                               QtCore.Qt.TransformationMode.SmoothTransformation)
+
+    import time
+    splash_start_time = time.time()
+
+    splash = QtWidgets.QSplashScreen(pixmap, QtCore.Qt.WindowType.WindowStaysOnTopHint)
     splash.show()
 
     # Get available styles with QtWidgets.QStyleFactory.keys()
@@ -133,8 +143,15 @@ def display_window(procedure: type[Procedure] | None = None, **kwargs):
 
     window = Window(**kwargs)
 
-    splash.finish(window)
-    window.show()
+    # Keep splash visible for at least 1 second
+    elapsed = time.time() - splash_start_time
+    remaining = max(0, 1000 - int(elapsed * 1000))  # 1000ms = 1 second
+
+    splash_timer = QtCore.QTimer()
+    splash_timer.setSingleShot(True)
+    splash_timer.timeout.connect(lambda: (splash.finish(window), window.show()))
+    splash_timer.start(remaining)
+
     app.exec()
     remove_empty_data()
 

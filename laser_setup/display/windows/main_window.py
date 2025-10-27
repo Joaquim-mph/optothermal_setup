@@ -74,6 +74,10 @@ class MainWindow(QtWidgets.QMainWindow):
         ] = {}
         self._layout = QtWidgets.QGridLayout(self.centralWidget())
 
+        # Store procedure and sequence types before they're popped in create_menu_bar
+        self.procedure_types: dict[str, type[Procedure]] = self.procedures.get('_types', {})
+        self.sequence_types: dict[str, type[Sequence]] = self.sequences.get('_types', {})
+
         self.menu_bar = self.create_menu_bar()
         self.status_bar = self.statusBar()
 
@@ -82,15 +86,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self._worker.finished.connect(lambda msg: self.status_bar.showMessage(msg, 3000))
         self._thread.start()
 
-        # README Widget
-        readme = QtWidgets.QTextBrowser(parent=self)
-        readme.setOpenExternalLinks(True)
-        if self.readme_path.is_file():
-            readme_text = self.readme_path.read_text('utf-8')
-        else:
-            readme_text = metadata('laser_setup').get('Description')
-        readme.setMarkdown(readme_text)
-        self._layout.addWidget(readme)
+        # Main procedure buttons
+        self.create_main_buttons()
 
         # Reload window button
         self.reload = QtWidgets.QPushButton('Reload')
@@ -99,6 +96,88 @@ class MainWindow(QtWidgets.QMainWindow):
         )   # TODO: fix bug where the terminal misbehaves after reload
         self.reload.setShortcut('Ctrl+R')
         self.status_bar.addPermanentWidget(self.reload)
+
+    def create_main_buttons(self):
+        """Creates the main buttons for the most common procedures."""
+        # Use stored procedure types
+        procedure_types = self.procedure_types
+
+        # Define main procedures to show as buttons
+        main_procedures = ['IVg', 'It', 'IV', 'LaserCalibration']
+
+        # Create a grid for buttons
+        button_widget = QtWidgets.QWidget(parent=self)
+        button_layout = QtWidgets.QGridLayout(button_widget)
+        button_layout.setSpacing(15)
+        button_layout.setContentsMargins(50, 50, 50, 30)
+
+        # Define modern color scheme for each button
+        button_colors = [
+            ('#4A90E2', '#357ABD', '#FFFFFF'),  # Blue - IVg
+            ('#50C878', '#3DA55F', '#FFFFFF'),  # Green - It
+            ('#E74C3C', '#C0392B', '#FFFFFF'),  # Red - IV
+            ('#F39C12', '#D68910', '#FFFFFF'),  # Orange - LaserCalibration
+        ]
+
+        # Create buttons in a 2x2 grid
+        for i, proc_name in enumerate(main_procedures):
+            if proc_name not in procedure_types:
+                continue
+
+            cls = procedure_types[proc_name]
+            name = getattr(cls, 'name', cls.__name__)
+
+            # Get colors for this button
+            bg_color, hover_color, text_color = button_colors[i % len(button_colors)]
+
+            # Create button
+            button = QtWidgets.QPushButton(name, parent=button_widget)
+            button.setMinimumSize(180, 80)
+            button.setMaximumSize(250, 100)
+            button.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+            button.setStyleSheet(f"""
+                QPushButton {{
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: {text_color};
+                    border: none;
+                    border-radius: 8px;
+                    background-color: {bg_color};
+                    padding: 10px;
+                }}
+                QPushButton:hover {{
+                    background-color: {hover_color};
+                    font-size: 17px;
+                }}
+                QPushButton:pressed {{
+                    background-color: {hover_color};
+                    padding-top: 12px;
+                    padding-bottom: 8px;
+                }}
+            """)
+            button.clicked.connect(partial(self.open_procedure, cls))
+
+            # Add to grid (2 columns)
+            row = i // 2
+            col = i % 2
+            button_layout.addWidget(button, row, col)
+
+        # Add a label at the bottom
+        info_label = QtWidgets.QLabel(
+            "Select a measurement procedure to begin\n"
+            "Additional options available in the menu bar",
+            parent=button_widget
+        )
+        info_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        info_label.setStyleSheet("""
+            font-size: 13px;
+            color: #555;
+            margin-top: 25px;
+            font-weight: 500;
+        """)
+        button_layout.addWidget(info_label, (len(main_procedures) + 1) // 2, 0, 1, 2)
+
+        self._layout.addWidget(button_widget)
 
     def open_sequence(self, cls: type[Sequence]):
         self.windows[cls] = SequenceWindow(cls, parent=self)
@@ -217,9 +296,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         procedure_menu = menu.addMenu('&Procedures')
         procedure_menu.setToolTipsVisible(True)
-        procedure_types: dict[str, type[Procedure]] = self.procedures.pop('_types')
+        self.procedures.pop('_types', None)  # Remove _types from dict
         for key, item in self.procedures.items():
-            cls = procedure_types[key]
+            cls = self.procedure_types[key]
             name = getattr(cls, 'name', cls.__name__)
             action = QtGui.QAction(name, self)
             doc = cls.__doc__.replace('    ', '').strip()
@@ -231,9 +310,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         sequence_menu = menu.addMenu('Se&quences')
         sequence_menu.setToolTipsVisible(True)
-        sequence_types: dict[str, type[Sequence]] = self.sequences.pop('_types')
+        self.sequences.pop('_types', None)  # Remove _types from dict
         for key, item in self.sequences.items():
-            cls = sequence_types[key]
+            cls = self.sequence_types[key]
             name = getattr(item, 'name', cls.__name__)
             action = QtGui.QAction(key, self)
             doc = getattr(item, 'description', cls.__doc__.replace('    ', '').strip())

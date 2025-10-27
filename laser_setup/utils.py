@@ -169,14 +169,8 @@ def send_telegram_alert(message: str):
 
 
 def get_status_message(timeout: float = .5) -> str:
-    """Gets a status message from somewhere :)"""
-    try:
-        res = requests.get("https://api.benbriel.me/nanolab", timeout=timeout)
-        message = res.json()['message']
-        return message
-
-    except (requests.RequestException, KeyError):
-        return 'Ready'
+    """Gets a status message."""
+    return 'Ready'
 
 
 def read_file_parameters(file_path: str | Path) -> Dict[str, str]:

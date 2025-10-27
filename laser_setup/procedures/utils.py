@@ -22,8 +22,37 @@ class DeepCopyDictConfig(DictConfig):
         return deepcopy(item)
 
 
-Instruments = instantiate(CONFIG.instruments)
-if CONFIG._session.args.debug:
-    for key in Instruments:
-        Instruments[key].kwargs.debug = True
-Parameters = instantiate(CONFIG.parameters)
+# Lazy instantiation - don't instantiate adapters until actually used
+_instruments = None
+_parameters = None
+
+def _get_instruments():
+    global _instruments
+    if _instruments is None:
+        # Instantiate without creating adapter objects (just the config)
+        _instruments = DeepCopyDictConfig(CONFIG.instruments)
+        if CONFIG._session.args.debug:
+            for key in _instruments:
+                if hasattr(_instruments[key], 'kwargs') and _instruments[key].kwargs is not None:
+                    _instruments[key].kwargs.debug = True
+    return _instruments
+
+def _get_parameters():
+    global _parameters
+    if _parameters is None:
+        _parameters = instantiate(CONFIG.parameters)
+    return _parameters
+
+# Create properties that lazy-load on first access
+class _LazyLoader:
+    @property
+    def Instruments(self):
+        return _get_instruments()
+
+    @property
+    def Parameters(self):
+        return _get_parameters()
+
+_loader = _LazyLoader()
+Instruments = _loader.Instruments
+Parameters = _loader.Parameters
