@@ -2,6 +2,7 @@ from .BaseProcedure import BaseProcedure, Procedure
 from .ChipProcedure import ChipProcedure
 from .IVg import IVg
 from .It import It
+from .It2 import It2
 from .Vt import Vt
 from .ItVg import ItVg
 from .IV import IV
@@ -22,6 +23,10 @@ class IVT(IV):
 
 
 class ITt(It):
+    pass
+
+
+class ItThreePhase(It2):
     pass
 
 
