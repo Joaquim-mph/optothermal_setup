@@ -289,6 +289,10 @@ class AppConfig:
         default_factory=dict,
         metadata={'title': 'Instruments', 'readonly': True}
     )
+    Adapters: dict[str, str] = field(
+        default_factory=dict,
+        metadata={'title': 'Adapters', 'readonly': True}
+    )
     _session: SessionConfig = field(
         default_factory=SessionConfig,
         metadata={'title': 'Session', 'readonly': True}

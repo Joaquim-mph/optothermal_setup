@@ -25,7 +25,7 @@ This guide provides step-by-step instructions for installing and configuring the
 
 #### Fedora/RHEL/CentOS
 ```bash
-sudo dnf install python3 python3-pip python3-devel gcc
+sudo dnf install python3 python3-pip python3-devel gcc python3-tkinter
 ```
 
 #### Ubuntu/Debian
