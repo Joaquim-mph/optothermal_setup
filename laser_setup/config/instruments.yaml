@@ -2,9 +2,9 @@
 # Adapter configuration
 ############################################
 
-# Keithley 2450 USB Device Port
+# Keithley 2450 USB Device Port (Linux)
 Keithley2450:
-  adapter: USB0::0x05E6::0x2450::04448997::0::INSTR
+  adapter: USB0::0x05E6::0x2450::04448996::0::INSTR
   name: Keithley 2450
   IDN: KEITHLEY
   target: ${class:laser_setup.instruments.keithley.Keithley2450}
@@ -21,19 +21,28 @@ Bentham:
     write_termination: \r\n\x00
 
 TENMANEG:
-  adapter: COM3
+  adapter: /dev/ttyACM0
   IDN: TENMA 72-2715 V6.6 SN:37793902
   target: ${class:laser_setup.instruments.tenma.TENMA}
+  kwargs:
+    baudrate: 9600
+    timeout: 2
 
 TENMAPOS:
-  adapter: COM4
+  adapter: /dev/ttyACM1
   IDN: TENMA 72-2715 V6.6 SN:37793916
   target: ${class:laser_setup.instruments.tenma.TENMA}
+  kwargs:
+    baudrate: 9600
+    timeout: 2
 
 TENMALASER:
-  adapter: COM7
+  adapter: /dev/ttyACM0
   IDN: TENMA 72-2715 V6.6 SN:37793899
   target: ${class:laser_setup.instruments.tenma.TENMA}
+  kwargs:
+    baudrate: 9600
+    timeout: 2
 
 ThorlabsPM100USB:
   adapter: USB0::0x1313::0x8078::P0037982::INSTR

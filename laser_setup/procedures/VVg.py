@@ -8,6 +8,7 @@ from ..instruments import (TENMA, InstrumentManager, Keithley2450,
                            PT100SerialSensor)
 from .ChipProcedure import ChipProcedure, LaserMixin
 from .utils import Instruments, Parameters
+from pymeasure.experiment import IntegerParameter
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -86,10 +87,13 @@ class VVg(LaserMixin, ChipProcedure):
     Vrange = Parameters.Instrument.Vrange
     NPLC = Parameters.Instrument.NPLC
 
-    DATA_COLUMNS = ['Vg (V)', 'VDS (V)', 't (s)'] + PT100SerialSensor.DATA_COLUMNS
+    # N
+    n_sweeps = IntegerParameter('Number of sweep repetitions', default=1, minimum=1)
+
+    DATA_COLUMNS = ['Vg (V)', 'VDS (V)', 't (s)', 'sweeps_num'] + PT100SerialSensor.DATA_COLUMNS
     INPUTS = ChipProcedure.INPUTS + [
         'ids', 'vg_start', 'vg_end', 'vg_step', 'Vrange', 'step_time', 'laser_toggle', 'laser_wl',
-        'laser_v', 'burn_in_t', 'sense_T', 'NPLC'
+        'laser_v', 'burn_in_t', 'sense_T', 'NPLC', 'n_sweeps'
     ]
     EXCLUDE = ChipProcedure.EXCLUDE + ['laser_toggle', 'sense_T']
     # SEQUENCER_INPUTS = ['vds']
@@ -127,7 +131,7 @@ class VVg(LaserMixin, ChipProcedure):
         time.sleep(1.)
 
     def execute(self):
-        log.info("Starting the measurement")
+        log.info("Starting the measurement with {self.n_sweeps} sweep(s)")
         self.meter.clear_buffer()
 
         # Set the Vds
@@ -142,27 +146,35 @@ class VVg(LaserMixin, ChipProcedure):
             time.sleep(self.burn_in_t)
 
         self.vg_ramp = voltage_sweep_ramp(self.vg_start, self.vg_end, self.vg_step)
+        total_points = len(self.vg_ramp) * self.n_sweeps
+
         type(self).DATA[0] = list(self.vg_ramp)
-        for i, vg in enumerate(self.vg_ramp):
-            if self.should_stop():
-                log.warning('Measurement aborted')
-                break
 
-            self.emit('progress', 100 * i / len(self.vg_ramp))
+        for sweep_num in range(self.n_sweeps):
+            log.info(f"Starting sweep {sweep_num + 1} of {self.n_sweeps}") 
 
-            self.tenma_neg.voltage = -vg * (vg < 0)
-            self.tenma_pos.voltage = vg * (vg >= 0)
+            for i, vg in enumerate(self.vg_ramp):
+                if self.should_stop():
+                    log.warning('Measurement aborted')
+                    break
 
-            time.sleep(self.step_time)
+                # self.emit('progress', 100 * i / len(self.vg_ramp))
+                point_index = sweep_num * len(self.vg_ramp) + i
+                self.emit('progress', 100 * point_index / total_points)
 
-            keithley_time, voltage = self.meter.get_data()
-            temperature_data = self.temperature_sensor.data
+                self.tenma_neg.voltage = -vg * (vg < 0)
+                self.tenma_pos.voltage = vg * (vg >= 0)
 
-            type(self).DATA[1].append(voltage)
-            self.emit('results', dict(zip(
-                self.DATA_COLUMNS,
-                [vg, type(self).DATA[1][-1], keithley_time, *temperature_data]
-            )))
+                time.sleep(self.step_time)
+
+                keithley_time, voltage = self.meter.get_data()
+                temperature_data = self.temperature_sensor.data
+
+                type(self).DATA[1].append(voltage)
+                self.emit('results', dict(zip(
+                    self.DATA_COLUMNS,
+                    [vg, type(self).DATA[1][-1], keithley_time, *temperature_data, sweep_num + 1]
+                )))
 
     def shutdown(self):
         type(self).DATA = [[], [], []]

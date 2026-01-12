@@ -49,7 +49,7 @@ class IV(VgMixin, LaserMixin, ChipProcedure):
     NPLC = Parameters.Instrument.NPLC
     n_sweeps = IntegerParameter('Number of sweep repetitions', default=1, minimum=1)
 
-    DATA_COLUMNS = ['Vsd (V)', 'I (A)', 't (s)'] + PT100SerialSensor.DATA_COLUMNS
+    DATA_COLUMNS = ['Vsd (V)', 'I (A)', 't (s)', 'sweep_num'] + PT100SerialSensor.DATA_COLUMNS
     INPUTS = ChipProcedure.INPUTS + [
         'vg_toggle', 'vg', 'vsd_start', 'vsd_end', 'vsd_step', 'Irange', 'step_time',
         'laser_toggle', 'laser_wl', 'laser_v', 'burn_in_t', 'sense_T', 'NPLC', 'n_sweeps'
@@ -136,7 +136,7 @@ class IV(VgMixin, LaserMixin, ChipProcedure):
                 temperature_data = self.temperature_sensor.data
 
                 self.emit('results', dict(zip(
-                    self.DATA_COLUMNS, [vsd, current, measurement_time, *temperature_data]
+                    self.DATA_COLUMNS, [vsd, current, measurement_time, sweep_num + 1, *temperature_data]
                 )))
 
             if self.should_stop():

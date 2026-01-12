@@ -29,7 +29,7 @@ Chip:
     default: other
     name: Chip group name
     description: The cool name assigned to the chip
-    choices: ['other', 'Alfredo Godofredo', 'Johann Sebastian Mastropiero', 'Coni', 'Fiona', 'Margarita', 'Miguel', 'Rosita', 'Miguel-B24', 'Pepe (no ALD)', 'Lucho', 'Unbonded', '8', 'Box1', 'Box2', 'Box3', 'Box4', 'Box 1 bonding']
+    choices: ['other', 'joaquin', 'Alfredo Godofredo', 'Johann Sebastian Mastropiero', 'Coni', 'Fiona', 'Margarita', 'Miguel', 'Rosita', 'Miguel-B24', 'Pepe (no ALD)', 'Lucho', 'Unbonded', '8', 'Box1', 'Box2', 'Box3', 'Box4', 'Box 1 bonding', 'Miguel BTI']
 
   chip_number:
     _target_: *IntegerParameter

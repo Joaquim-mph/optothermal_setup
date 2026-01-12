@@ -83,8 +83,13 @@ class BaseProcedure(Procedure):
         """Shutdown method that handles the cleanup of instruments and other
         components after the measurement finishes. Override this method in a
         subclass.
+
+        Note: Instruments are kept connected and cached for reuse between experiments.
+        They will only be fully shut down when the application exits.
         """
-        self.instruments.shutdown_all()
+        # Don't shut down instruments between experiments - keep them cached for reuse
+        # This prevents USB "Resource busy" errors on consecutive experiments
+        log.debug("Keeping instruments connected for reuse in next experiment")
 
     def __init__(self, parameters: Mapping[str, Any] | None = None, **kwargs):
         """Initialize a procedure instance. It wraps the startup

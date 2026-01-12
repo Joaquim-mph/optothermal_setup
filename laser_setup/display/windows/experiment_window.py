@@ -146,6 +146,23 @@ class ExperimentWindow(ManagedWindowBase):
 
         super().closeEvent(event)
 
+    def open_experiment(self, filename=None):
+        """Open an experiment file with proper error handling for column mismatches."""
+        try:
+            super().open_experiment()
+        except KeyError as e:
+            column_name = str(e).strip("'")
+            log.error(f"Cannot open experiment: column '{column_name}' not found in data file.")
+            QtWidgets.QMessageBox.warning(
+                self,
+                "Incompatible Data File",
+                f"Cannot open this experiment file.\n\n"
+                f"The file is missing the '{column_name}' column expected by the {self.cls.__name__} procedure.\n\n"
+                f"This usually happens when trying to open data from a different procedure type.\n"
+                f"For example, IV data has 'Vsd (V)' while IVg data has 'Vg (V)'.\n\n"
+                f"Please open this file from the correct procedure window."
+            )
+
     def new_curve(self, *args, **kwargs) -> ResultsCurve | list[ResultsCurve] | None:
         curves = super().new_curve(*args, **kwargs)
         if isinstance(curves, list):

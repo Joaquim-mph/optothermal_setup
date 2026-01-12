@@ -232,10 +232,11 @@ class InstrumentManager:
 
         return self[_instance_id]
 
-    def shutdown(self, instance_id: str):
+    def shutdown(self, instance_id: str, remove_from_cache: bool = True):
         """Safely shuts down the instrument with the given id.
 
         :param instance_id: The id of the instrument to shutdown.
+        :param remove_from_cache: If True, removes the instrument from the cache after shutdown.
         """
         if instance_id not in self:
             log.warning(f"Instrument '{instance_id}' not found for shutdown.")
@@ -244,20 +245,27 @@ class InstrumentManager:
         try:
             if not isinstance(self[instance_id].adapter, FakeAdapter):
                 self[instance_id].shutdown()
-            del self[instance_id]
-            log.debug(f"Instrument '{instance_id}' was shut down.")
+            if remove_from_cache:
+                del self[instance_id]
+                log.debug(f"Instrument '{instance_id}' was shut down and removed from cache.")
+            else:
+                log.debug(f"Instrument '{instance_id}' was shut down but kept in cache.")
         except Exception as e:
             log.error(f"Error shutting down instrument '{instance_id}': {e}")
 
-    def shutdown_all(self):
-        """Safely shuts down all instruments."""
+    def shutdown_all(self, remove_from_cache: bool = False):
+        """Safely shuts down all instruments.
+
+        :param remove_from_cache: If True, removes instruments from cache after shutdown.
+                                  If False (default), keeps them cached for reuse.
+        """
         if not self:
-            log.info("No instruments to shut down")
+            log.debug("No instruments to shut down")
             return
 
-        log.info("Shutting down all instruments.")
+        log.info(f"Shutting down all instruments (remove_from_cache={remove_from_cache}).")
         for instance_id in list(self):
-            self.shutdown(instance_id)
+            self.shutdown(instance_id, remove_from_cache=remove_from_cache)
 
     def disable(self, obj, attr: str) -> None:
         """Replaces the given attribute with a DisabledInstrument. Deletes the original
