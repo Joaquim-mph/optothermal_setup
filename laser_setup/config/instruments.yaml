@@ -59,6 +59,11 @@ Clicker:
   IDN: ROSATECH,CLK100,P0000003,1.0.0
   target: ${class:laser_setup.instruments.serial.Clicker}
 
+AFG31000:
+  adapter: USB0::0x0699::0x0405::C100101::INSTR
+  IDN: TEKTRONIX,AFG31000
+  target: ${class:laser_setup.instruments.afg31000.AFG31000}
+
 # {'path': b'\\\\?\\HID#MSFT0001&Col01#5&1fa4e1d8&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}',
 #'vendor_id': 1739,
 #'product_id': 32552,
