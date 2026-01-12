@@ -10,7 +10,7 @@ from pymeasure.experiment import (BooleanParameter, Metadata, Parameter,
                                   Procedure)
 
 from ..config import configurable
-from ..instruments import InstrumentManager
+from ..instruments import InstrumentManager, Keithley2450, TENMA
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -87,9 +87,48 @@ class BaseProcedure(Procedure):
         Note: Instruments are kept connected and cached for reuse between experiments.
         They will only be fully shut down when the application exits.
         """
+        if self.should_stop():
+            self._reset_instruments_on_abort()
         # Don't shut down instruments between experiments - keep them cached for reuse
         # This prevents USB "Resource busy" errors on consecutive experiments
         log.debug("Keeping instruments connected for reuse in next experiment")
+
+    def _reset_instruments_on_abort(self) -> None:
+        """Reset critical instrument outputs to safe values on abort."""
+        for name, instrument in inspect.getmembers(self):
+            if isinstance(instrument, TENMA):
+                self._reset_tenma(instrument, name)
+            elif isinstance(instrument, Keithley2450):
+                self._reset_keithley(instrument, name)
+
+    @staticmethod
+    def _reset_tenma(tenma: TENMA, name: str) -> None:
+        try:
+            tenma.ramp_to_voltage(0., vg_step=0.5)
+            tenma.output = False
+            log.info(f"Reset TENMA '{name}' to 0 V and disabled output after abort.")
+        except Exception as exc:
+            log.warning(f"Failed to reset TENMA '{name}' after abort: {exc}")
+
+    @staticmethod
+    def _reset_keithley(meter: Keithley2450, name: str) -> None:
+        try:
+            meter.source_voltage = 0.
+        except Exception as exc:
+            log.warning(f"Failed to set Keithley '{name}' source to 0 V after abort: {exc}")
+
+        if hasattr(meter, "disable_source"):
+            try:
+                meter.disable_source()
+                log.info(f"Disabled Keithley '{name}' source after abort.")
+            except Exception as exc:
+                log.warning(f"Failed to disable Keithley '{name}' source after abort: {exc}")
+        elif hasattr(meter, "source_enabled"):
+            try:
+                meter.source_enabled = False
+                log.info(f"Disabled Keithley '{name}' source after abort.")
+            except Exception as exc:
+                log.warning(f"Failed to disable Keithley '{name}' source after abort: {exc}")
 
     def __init__(self, parameters: Mapping[str, Any] | None = None, **kwargs):
         """Initialize a procedure instance. It wraps the startup
