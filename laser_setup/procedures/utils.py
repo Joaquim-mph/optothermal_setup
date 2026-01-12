@@ -29,12 +29,33 @@ _parameters = None
 def _get_instruments():
     global _instruments
     if _instruments is None:
-        # Instantiate without creating adapter objects (just the config)
-        _instruments = DeepCopyDictConfig(CONFIG.instruments)
-        if CONFIG._session.args.debug:
-            for key in _instruments:
-                if hasattr(_instruments[key], 'kwargs') and _instruments[key].kwargs is not None:
-                    _instruments[key].kwargs.debug = True
+        from hydra.utils import instantiate as hydra_instantiate
+        from omegaconf import OmegaConf
+
+        # Convert to regular dict and instantiate the 'target' field for each instrument
+        instruments_dict = {}
+        for key in CONFIG.instruments:
+            # Convert each instrument config to a regular dict
+            inst_config = OmegaConf.to_container(CONFIG.instruments[key], resolve=True)
+
+            # Instantiate the 'target' field to get the actual class
+            if 'target' in inst_config and inst_config['target'] is not None:
+                inst_config['target'] = hydra_instantiate(inst_config['target'])
+
+            # Add debug flag if in debug mode
+            if CONFIG._session.args.debug:
+                if 'kwargs' not in inst_config or inst_config['kwargs'] is None:
+                    inst_config['kwargs'] = {}
+                inst_config['kwargs']['debug'] = True
+
+            instruments_dict[key] = inst_config
+
+        # Use a simple dict wrapper that provides attribute access and deepcopy
+        class InstrumentDict(dict):
+            def __getattr__(self, key):
+                return deepcopy(self[key])
+
+        _instruments = InstrumentDict(instruments_dict)
     return _instruments
 
 def _get_parameters():

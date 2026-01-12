@@ -4,6 +4,7 @@ from pymeasure.adapters import FakeAdapter
 from pymeasure.instruments import Instrument
 from pymeasure.instruments.thorlabs import ThorlabsPM100USB
 
+from .afg31000 import AFG31000
 from .bentham import Bentham
 from .manager import InstrumentManager, InstrumentProxy
 from .keithley import Keithley2450, Keithley6517B

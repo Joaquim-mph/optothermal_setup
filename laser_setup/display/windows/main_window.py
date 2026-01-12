@@ -183,6 +183,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.windows[cls] = SequenceWindow(cls, parent=self)
         self.windows[cls].show()
 
+    def open_sequence_creator(self):
+        """Opens the sequence creator window."""
+        from .sequence_creator_window import SequenceCreatorWindow
+        if 'sequence_creator' not in self.windows:
+            self.windows['sequence_creator'] = SequenceCreatorWindow(parent=self)
+        self.windows['sequence_creator'].show()
+        self.windows['sequence_creator'].raise_()
+
     def open_procedure(self, cls: type[Procedure]):
         self.windows[cls] = ExperimentWindow(cls)
         self.windows[cls].show()
@@ -321,6 +329,15 @@ class MainWindow(QtWidgets.QMainWindow):
             action.setStatusTip(doc)
             action.setShortcut(f'Ctrl+Shift+{len(sequence_menu.actions()) + 1}')
             sequence_menu.addAction(action)
+
+        # Add separator and sequence creator
+        sequence_menu.addSeparator()
+        new_sequence_action = QtGui.QAction('New Sequence...', self)
+        new_sequence_action.triggered.connect(self.open_sequence_creator)
+        new_sequence_action.setShortcut('Ctrl+N')
+        new_sequence_action.setToolTip('Create a new procedure sequence')
+        new_sequence_action.setStatusTip('Create a new procedure sequence')
+        sequence_menu.addAction(new_sequence_action)
 
         script_menu = menu.addMenu('&Scripts')
         script_menu.setToolTipsVisible(True)
