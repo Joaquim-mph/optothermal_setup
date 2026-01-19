@@ -48,8 +48,9 @@ This repository ships a library of PyMeasure `Procedure` classes tailored for th
   Generates deterministic-but-variable fake data for UI/testing runs. Emits time vs. pseudo-random values and exposes an estimator list in the GUI.
 - **Wait**  
   Busy-waits for `wait_time` seconds, emitting progress updates. Handy for sequence padding.
-- **Sequence** (`Sequence.py`)  
-  Not a `Procedure`, but a configurably generated container that chains multiple procedures with shared parameter overrides. Parsed from YAML definitions via Hydra resolvers.
+- **Sequence** (`laser_setup/procedures/Sequence.py`)  
+  Container that chains multiple procedures with shared parameter overrides.
+  See `docs/SEQUENCES.md` for full configuration details and a worked example.
 
 ## Instrument Summary
 Most procedures declare class attributes named after their instrument handles. Common pairings include:

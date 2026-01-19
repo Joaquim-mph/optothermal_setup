@@ -46,7 +46,7 @@ laser_setup <script_name>
 Clone the repository:
 
 ```bash
-git clone https://github.com/nanolab-fcfm/laser_setup.git
+git clone https://github.com/Joaquim-mph/laser_setup.git
 cd laser_setup
 ```
 
@@ -59,23 +59,30 @@ source <venv_name>/bin/activate  # Linux/MacOS
 pip install --upgrade pip
 ```
 
-And install the dependencies:
+And install the dependencies (editable install recommended):
+
+```bash
+pip install -e .
+# or: uv pip install --editable .
+```
+
+Or, for a non-editable local install:
 
 ```bash
 pip install .
 ```
 
-Or, for direct installation instead of cloning the repository:
+For direct installation instead of cloning the repository:
 
 ```bash
-pip install git+https://github.com/nanolab-fcfm/laser_setup.git
+pip install git+https://github.com/Joaquim-mph/optothermal_setup
 ```
 
 Optionally install using uv:
 
 ```bash
 uv venv
-uv pip install https://github.com/nanolab-fcfm/laser_setup
+uv pip install git+https://github.com/Joaquim-mph/optothermal_setup
 ```
 
 If installed, the `laser_setup` entry point for the program will be created.
@@ -99,6 +106,22 @@ This launches the window defined in [MainWindow](laser_setup/display/windows/mai
 ## Configuration
 
 Most configuration is handled in YAML files and can be loaded or overridden at runtime. OmegaConf merges these with defaults, enabling dynamic instantiation of procedures, sequences, instruments and parameters. The YAML templates are stored in [laser_setup/assets/templates](laser_setup/assets/templates).
+
+### First-time config setup
+
+If this is your first run, initialize a local `config/` directory from the
+templates:
+
+```bash
+laser_setup init
+```
+
+This runs the "Init Config" script, which copies template YAMLs from
+`laser_setup/assets/templates/` into `config/templates/` and creates the initial
+`config/` files under the repository root.
+
+Config precedence: defaults load first, then a global config (if present), and
+finally a local config. Later files override earlier values.
 
 ### Editing Configuration
 

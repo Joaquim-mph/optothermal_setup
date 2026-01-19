@@ -32,31 +32,70 @@ def get_idn(adapter: str, rm: pyvisa.ResourceManager) -> str | None:
 
 def match_idn(
     idn: str, devices: Mapping[str, InstrumentConfig], strict=True
-) -> str | None:
-    """Checks for matching IDN strings for all device.IDN
-    in the devices dictionary.
+) -> list[str]:
+    """Return all matching device keys for a given IDN string.
+
     If strict is True, checks for exact match. Otherwise, checks for
     substring match.
-
-    :param idn: IDN string to match against
-    :param devices: Dictionary of devices to match against
-    :param strict: If True, checks for exact match. Otherwise, checks for
-        substring match.
-    :return: The key of the matching device in the devices dictionary, or None
-        if no match is found.
     """
-
     def match(idn: str, device_idn: str) -> bool:
         if strict:
             return idn == device_idn
-        else:
-            return idn in device_idn or device_idn in idn
+        return idn in device_idn or device_idn in idn
 
+    matches = []
     for key, device in devices.items():
         if match(idn, device.IDN):
-            return key
+            matches.append(key)
+    return matches
 
-    return None
+
+def select_device_key(
+    adapter: str,
+    matches: list[str],
+    parent=None
+) -> str | None:
+    """Disambiguate multiple matches by prompting the user.
+
+    If the candidates include TENMA supplies, briefly apply a small voltage
+    to the device on the selected adapter so the user can identify it.
+    """
+    if not matches:
+        return None
+
+    tenma_candidates = [key for key in matches if key.upper().startswith('TENMA')]
+    use_tenma_probe = len(tenma_candidates) > 1
+
+    if use_tenma_probe:
+        log.info(f"Probing TENMA on {adapter} to identify supply role.")
+        try:
+            from .tenma import TENMA
+            tenma = TENMA(adapter)
+            tenma.apply_voltage(0.01)
+        except Exception as exc:
+            log.warning(f"Failed to probe TENMA at {adapter}: {exc}")
+        else:
+            title = 'TENMA Configuration'
+            label = 'Which TENMA shows a voltage?'
+            if parent is not None and hasattr(parent, 'select_from_list'):
+                choice = parent.select_from_list(title, tenma_candidates, label=label)
+            else:
+                prompt = f"{label} ({', '.join(tenma_candidates)}): "
+                choice = input(prompt)
+            try:
+                tenma.shutdown()
+            except Exception:
+                pass
+            return choice if choice in tenma_candidates else None
+
+    title = 'Instrument Configuration'
+    label = 'Multiple devices match this IDN. Choose one:'
+    if parent is not None and hasattr(parent, 'select_from_list'):
+        choice = parent.select_from_list(title, matches, label=label)
+    else:
+        prompt = f"{label} ({', '.join(matches)}): "
+        choice = input(prompt)
+    return choice if choice in matches else None
 
 
 def setup(parent=None, visa_library: str = '') -> None:
@@ -81,10 +120,20 @@ def setup(parent=None, visa_library: str = '') -> None:
             missing_ports.append(res)
             continue
 
-        if not (key := match_idn(idn, devices, False)):
+        matches = match_idn(idn, devices, False)
+        if not matches:
             log.info(f"Device with IDN '{idn}' exists in port '{res}' but is not in config.")
             missing_ports.append(res)
             continue
+
+        if len(matches) > 1:
+            key = select_device_key(res, matches, parent=parent)
+            if key is None:
+                log.warning(f"Skipping {res}: could not disambiguate {matches}.")
+                missing_ports.append(res)
+                continue
+        else:
+            key = matches[0]
 
         devices[key].adapter = res
         missing_devices.remove(key)

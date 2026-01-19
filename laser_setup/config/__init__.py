@@ -3,7 +3,12 @@ files, setting up logging, and creating the Argument Parser.
 """
 import logging
 
-from pymeasure.experiment.config import set_mpl_rcparams
+try:
+    from pymeasure.experiment.config import set_mpl_rcparams
+except ModuleNotFoundError as exc:
+    if exc.name != "pymeasure":
+        raise
+    set_mpl_rcparams = None
 
 from .config import CONFIG
 from .defaults import DefaultPaths
@@ -38,5 +43,9 @@ def setup(
         logger.info(f"Using config file: {CONFIG._session.config_path_used}")
 
     if matplotlib:
+        if set_mpl_rcparams is None:
+            raise ModuleNotFoundError(
+                "pymeasure is required to configure matplotlib rcParams"
+            )
         _rcparams = {'matplotlib.rcParams': CONFIG.matplotlib_rcParams}
         set_mpl_rcparams(type('rcParams', (), {'_sections': _rcparams}))
