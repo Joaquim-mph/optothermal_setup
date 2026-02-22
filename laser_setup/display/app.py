@@ -5,8 +5,10 @@ from pymeasure.experiment import Procedure
 
 from .. import __version__
 from ..config import CONFIG, DefaultPaths
+from ..patches import patch_results_dialog
 from ..utils import remove_empty_data
 from .Qt import QtCore, QtGui, QtWidgets, make_app
+from .theme import manager as theme_manager
 
 _app_id = "NanoLabFCFM.LaserSetup.v" + __version__
 
@@ -93,6 +95,7 @@ def display_window(procedure: type[Procedure] | None = None, **kwargs):
     :param kwargs: Additional keyword arguments to pass to the window.
     """
     _patch_taskbar_icon()
+    patch_results_dialog()  # Apply deferred patches now that display is needed
     app = make_app()
     shortcut_filter = ShortcutFilter(app)
     app.installEventFilter(shortcut_filter)
@@ -117,8 +120,11 @@ def display_window(procedure: type[Procedure] | None = None, **kwargs):
 
     # Get available styles with QtWidgets.QStyleFactory.keys()
     app.setStyle(CONFIG.Qt.GUI.style)
-    if CONFIG.Qt.GUI.dark_mode:
-        app.setPalette(get_dark_palette())
+
+    # Initialize theme system
+    theme = theme_manager()
+    theme.set_mode_from_config(CONFIG.Qt.GUI.dark_mode)
+    theme.ensure_applied()
     QtCore.QLocale.setDefault(QtCore.QLocale(
         QtCore.QLocale.Language.English,
         QtCore.QLocale.Country.UnitedStates

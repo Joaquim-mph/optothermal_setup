@@ -15,6 +15,7 @@ from ...instruments import InstrumentManager
 from ...procedures import Sequence
 from ...utils import get_status_message
 from ..Qt import ConsoleWidget, QtCore, QtGui, QtWidgets, Worker
+from ..theme import manager as theme_manager, get_procedure_button_style
 from ..widgets import ConfigWidget, LogsWidget, SQLiteWidget
 from ..widgets.camera_widget import CameraWidget
 from .experiment_window import ExperimentWindow
@@ -106,18 +107,13 @@ class MainWindow(QtWidgets.QMainWindow):
         main_procedures = ['IVg', 'It', 'IV', 'LaserCalibration']
 
         # Create a grid for buttons
-        button_widget = QtWidgets.QWidget(parent=self)
-        button_layout = QtWidgets.QGridLayout(button_widget)
+        self._button_widget = QtWidgets.QWidget(parent=self)
+        button_layout = QtWidgets.QGridLayout(self._button_widget)
         button_layout.setSpacing(15)
         button_layout.setContentsMargins(50, 50, 50, 30)
 
-        # Define modern color scheme for each button
-        button_colors = [
-            ('#4A90E2', '#357ABD', '#FFFFFF'),  # Blue - IVg
-            ('#50C878', '#3DA55F', '#FFFFFF'),  # Green - It
-            ('#E74C3C', '#C0392B', '#FFFFFF'),  # Red - IV
-            ('#F39C12', '#D68910', '#FFFFFF'),  # Orange - LaserCalibration
-        ]
+        # Store button references for theme updates
+        self._proc_buttons: dict[str, QtWidgets.QPushButton] = {}
 
         # Create buttons in a 2x2 grid
         for i, proc_name in enumerate(main_procedures):
@@ -127,35 +123,16 @@ class MainWindow(QtWidgets.QMainWindow):
             cls = procedure_types[proc_name]
             name = getattr(cls, 'name', cls.__name__)
 
-            # Get colors for this button
-            bg_color, hover_color, text_color = button_colors[i % len(button_colors)]
-
             # Create button
-            button = QtWidgets.QPushButton(name, parent=button_widget)
+            button = QtWidgets.QPushButton(name, parent=self._button_widget)
             button.setMinimumSize(180, 80)
             button.setMaximumSize(250, 100)
             button.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-            button.setStyleSheet(f"""
-                QPushButton {{
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: {text_color};
-                    border: none;
-                    border-radius: 8px;
-                    background-color: {bg_color};
-                    padding: 10px;
-                }}
-                QPushButton:hover {{
-                    background-color: {hover_color};
-                    font-size: 17px;
-                }}
-                QPushButton:pressed {{
-                    background-color: {hover_color};
-                    padding-top: 12px;
-                    padding-bottom: 8px;
-                }}
-            """)
+            button.setStyleSheet(get_procedure_button_style(proc_name))
             button.clicked.connect(partial(self.open_procedure, cls))
+
+            # Store reference for theme updates
+            self._proc_buttons[proc_name] = button
 
             # Add to grid (2 columns)
             row = i // 2
@@ -163,21 +140,35 @@ class MainWindow(QtWidgets.QMainWindow):
             button_layout.addWidget(button, row, col)
 
         # Add a label at the bottom
-        info_label = QtWidgets.QLabel(
+        self._info_label = QtWidgets.QLabel(
             "Select a measurement procedure to begin\n"
             "Additional options available in the menu bar",
-            parent=button_widget
+            parent=self._button_widget
         )
-        info_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        info_label.setStyleSheet("""
+        self._info_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self._apply_info_label_style()
+        button_layout.addWidget(self._info_label, (len(main_procedures) + 1) // 2, 0, 1, 2)
+
+        # Connect to theme changes
+        theme_manager().theme_changed.connect(self._on_theme_changed)
+
+        self._layout.addWidget(self._button_widget)
+
+    def _apply_info_label_style(self):
+        """Apply styling to the info label based on current theme."""
+        c = theme_manager().colors
+        self._info_label.setStyleSheet(f"""
             font-size: 13px;
-            color: #555;
+            color: {c.fg_secondary};
             margin-top: 25px;
             font-weight: 500;
         """)
-        button_layout.addWidget(info_label, (len(main_procedures) + 1) // 2, 0, 1, 2)
 
-        self._layout.addWidget(button_widget)
+    def _on_theme_changed(self, _colors=None):
+        """Handle theme changes by updating button styles."""
+        for proc_name, button in self._proc_buttons.items():
+            button.setStyleSheet(get_procedure_button_style(proc_name))
+        self._apply_info_label_style()
 
     def open_sequence(self, cls: type[Sequence]):
         self.windows[cls] = SequenceWindow(cls, parent=self)
@@ -190,6 +181,48 @@ class MainWindow(QtWidgets.QMainWindow):
             self.windows['sequence_creator'] = SequenceCreatorWindow(parent=self)
         self.windows['sequence_creator'].show()
         self.windows['sequence_creator'].raise_()
+
+    def open_sequence_editor(self):
+        """Opens a dialog to select a sequence to edit."""
+        from .sequence_creator_window import SequenceCreatorWindow
+
+        # Get list of available sequences (excluding _types)
+        sequence_names = [
+            name for name in self.sequences.keys()
+            if name != '_types' and name in self.sequence_types
+        ]
+
+        if not sequence_names:
+            QtWidgets.QMessageBox.information(
+                self,
+                "No Sequences",
+                "No sequences available to edit."
+            )
+            return
+
+        # Show selection dialog
+        sequence_name, ok = QtWidgets.QInputDialog.getItem(
+            self,
+            "Edit Sequence",
+            "Select a sequence to edit:",
+            sequence_names,
+            0,  # Default selection
+            False  # Not editable
+        )
+
+        if ok and sequence_name:
+            # Close existing creator window if open
+            if 'sequence_creator' in self.windows:
+                self.windows['sequence_creator'].close()
+                del self.windows['sequence_creator']
+
+            # Open creator with sequence loaded for editing
+            self.windows['sequence_creator'] = SequenceCreatorWindow(
+                parent=self,
+                sequence_name=sequence_name
+            )
+            self.windows['sequence_creator'].show()
+            self.windows['sequence_creator'].raise_()
 
     def open_procedure(self, cls: type[Procedure]):
         self.windows[cls] = ExperimentWindow(cls)
@@ -287,6 +320,148 @@ class MainWindow(QtWidgets.QMainWindow):
                 child.wait()
         super().closeEvent(event)
 
+    # ═══════════════════════════════════════════════════════════════════
+    # Processing Menu Handlers
+    # ═══════════════════════════════════════════════════════════════════
+
+    def _open_pipeline_widget(self):
+        """Open the data pipeline widget."""
+        from ..widgets.processing import PipelineWidget
+        if 'pipeline' not in self.windows:
+            self.windows['pipeline'] = PipelineWidget(parent=self)
+        self.open_widget(self.windows['pipeline'], 'Data Pipeline')
+
+    def _open_history_browser(self):
+        """Open the chip history browser widget."""
+        from ..widgets.processing import HistoryBrowserWidget
+        if 'history_browser' not in self.windows:
+            self.windows['history_browser'] = HistoryBrowserWidget(parent=self)
+        self.open_widget(self.windows['history_browser'], 'Chip History Browser')
+
+    def _open_plot_builder(self, plot_type: str = None):
+        """Open the plot builder widget."""
+        from ..widgets.processing import PlotBuilderWidget
+        if 'plot_builder' not in self.windows:
+            self.windows['plot_builder'] = PlotBuilderWidget(parent=self)
+        if plot_type:
+            idx = self.windows['plot_builder'].combo_plot_type.findText(
+                plot_type, QtCore.Qt.MatchFlag.MatchContains
+            )
+            if idx >= 0:
+                self.windows['plot_builder'].combo_plot_type.setCurrentIndex(idx)
+        self.open_widget(self.windows['plot_builder'], 'Plot Builder')
+
+    def _open_batch_plot(self):
+        """Open the batch plot widget."""
+        from ..widgets.processing import BatchPlotWidget
+        if 'batch_plot' not in self.windows:
+            self.windows['batch_plot'] = BatchPlotWidget(parent=self)
+        self.open_widget(self.windows['batch_plot'], 'Batch Plot')
+
+    def _open_cache_stats(self):
+        """Open the cache statistics widget."""
+        from ..widgets.processing import CacheStatsWidget
+        if 'cache_stats' not in self.windows:
+            self.windows['cache_stats'] = CacheStatsWidget(parent=self)
+        self.open_widget(self.windows['cache_stats'], 'Cache Statistics')
+
+    def _run_build_histories(self):
+        """Run build histories operation directly."""
+        self._open_pipeline_widget()
+        # Trigger the build histories button
+        if 'pipeline' in self.windows:
+            self.windows['pipeline']._run_build_histories()
+
+    def _run_derive_metrics(self):
+        """Run derive metrics operation directly."""
+        self._open_pipeline_widget()
+        # Trigger the derive metrics button
+        if 'pipeline' in self.windows:
+            self.windows['pipeline']._run_derive_metrics()
+
+    def _export_history(self):
+        """Export history via the history browser."""
+        self._open_history_browser()
+        # The browser has an export button
+
+    def _enrich_history(self):
+        """Enrich chip histories with derived metrics."""
+        from ..widgets.processing import PipelineWidget
+        if 'pipeline' not in self.windows:
+            self.windows['pipeline'] = PipelineWidget(parent=self)
+
+        # Show info dialog about enrichment
+        QtWidgets.QMessageBox.information(
+            self,
+            'Enrich History',
+            'To enrich chip histories with derived metrics:\n\n'
+            '1. Open the Pipeline widget\n'
+            '2. Run "Derive Metrics" to extract metrics\n'
+            '3. Use the CLI command: optothermal-process enrich-history <chip>\n\n'
+            'Enriched histories will be saved to:\n'
+            'data/03_derived/chip_histories_enriched/'
+        )
+
+    def _validate_manifest(self):
+        """Validate the manifest file."""
+        try:
+            from pathlib import Path
+            import polars as pl
+
+            # Find manifest file
+            current = Path.cwd()
+            manifest_path = None
+            for parent in [current] + list(current.parents):
+                check_path = parent / "data" / "02_stage" / "raw_measurements" / "_manifest" / "manifest.parquet"
+                if check_path.exists():
+                    manifest_path = check_path
+                    break
+
+            if manifest_path is None:
+                QtWidgets.QMessageBox.warning(
+                    self, 'Manifest Not Found',
+                    'Could not find manifest.parquet file.\n\n'
+                    'Expected location: data/02_stage/raw_measurements/_manifest/manifest.parquet\n\n'
+                    'Run the staging pipeline first to create the manifest.'
+                )
+                return
+
+            # Load and validate
+            df = pl.read_parquet(manifest_path)
+            stats = {
+                'total_rows': len(df),
+                'procedures': df['proc'].n_unique() if 'proc' in df.columns else 0,
+                'chips': df['chip_number'].n_unique() if 'chip_number' in df.columns else 0,
+            }
+
+            # Count by status
+            if 'status' in df.columns:
+                status_counts = df.group_by('status').count()
+                for row in status_counts.iter_rows(named=True):
+                    stats[f'status_{row["status"]}'] = row['count']
+
+            # Build message
+            msg = f"Manifest Validation Results\n{'='*40}\n\n"
+            msg += f"Location: {manifest_path}\n\n"
+            msg += f"Total records: {stats['total_rows']}\n"
+            msg += f"Unique procedures: {stats['procedures']}\n"
+            msg += f"Unique chips: {stats['chips']}\n"
+
+            if 'status_ok' in stats:
+                msg += f"\nStatus OK: {stats.get('status_ok', 0)}"
+            if 'status_skipped' in stats:
+                msg += f"\nStatus Skipped: {stats.get('status_skipped', 0)}"
+            if 'status_error' in stats:
+                msg += f"\nStatus Error: {stats.get('status_error', 0)}"
+
+            QtWidgets.QMessageBox.information(self, 'Manifest Validation', msg)
+
+        except Exception as e:
+            QtWidgets.QMessageBox.critical(
+                self, 'Validation Error',
+                f'Failed to validate manifest:\n\n{str(e)}'
+            )
+
     def create_menu_bar(self) -> QtWidgets.QMenuBar:
         """Creates the menu bar with the following options:
         - Procedures
@@ -320,6 +495,10 @@ class MainWindow(QtWidgets.QMainWindow):
         sequence_menu.setToolTipsVisible(True)
         self.sequences.pop('_types', None)  # Remove _types from dict
         for key, item in self.sequences.items():
+            # Skip sequences not registered in _types (e.g., manually added)
+            if key not in self.sequence_types:
+                log.warning(f"Sequence '{key}' not found in _types, skipping menu entry")
+                continue
             cls = self.sequence_types[key]
             name = getattr(item, 'name', cls.__name__)
             action = QtGui.QAction(key, self)
@@ -330,7 +509,7 @@ class MainWindow(QtWidgets.QMainWindow):
             action.setShortcut(f'Ctrl+Shift+{len(sequence_menu.actions()) + 1}')
             sequence_menu.addAction(action)
 
-        # Add separator and sequence creator
+        # Add separator and sequence creator/editor
         sequence_menu.addSeparator()
         new_sequence_action = QtGui.QAction('New Sequence...', self)
         new_sequence_action.triggered.connect(self.open_sequence_creator)
@@ -338,6 +517,13 @@ class MainWindow(QtWidgets.QMainWindow):
         new_sequence_action.setToolTip('Create a new procedure sequence')
         new_sequence_action.setStatusTip('Create a new procedure sequence')
         sequence_menu.addAction(new_sequence_action)
+
+        edit_sequence_action = QtGui.QAction('Edit Sequence...', self)
+        edit_sequence_action.triggered.connect(self.open_sequence_editor)
+        edit_sequence_action.setShortcut('Ctrl+E')
+        edit_sequence_action.setToolTip('Edit an existing procedure sequence')
+        edit_sequence_action.setStatusTip('Edit an existing procedure sequence')
+        sequence_menu.addAction(edit_sequence_action)
 
         script_menu = menu.addMenu('&Scripts')
         script_menu.setToolTipsVisible(True)

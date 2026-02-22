@@ -1,0 +1,67 @@
+"""Theme system for laser_setup GUI.
+
+Provides centralized theme management with support for light and dark modes,
+automatic system theme detection, and Qt palette integration.
+
+Usage:
+    from laser_setup.display.theme import manager, colors, qss
+
+    # Get the theme manager singleton
+    theme = manager()
+    theme.set_mode_from_config(dark_mode=True)
+
+    # Get current colors
+    current_colors = colors()
+    print(current_colors.fg_primary)
+
+    # Get a specific color
+    accent = color('accent_primary')
+
+    # Get QSS for a named style
+    button_style = qss('button_primary')
+
+    # Connect to theme changes
+    theme.theme_changed.connect(my_widget.on_theme_changed)
+"""
+
+from .colors import ThemeColors, create_dark_theme, create_light_theme
+from .manager import ThemeManager, ThemeMode, manager
+from .qss import qss, get_procedure_button_style
+
+
+def colors() -> ThemeColors:
+    """Get current theme colors.
+
+    Returns:
+        ThemeColors dataclass with all color definitions
+    """
+    return manager().colors
+
+
+def color(name: str) -> str:
+    """Get a specific color by name.
+
+    Args:
+        name: Color attribute name (e.g., 'fg_primary', 'accent_primary')
+
+    Returns:
+        Hex color string
+    """
+    return manager().color(name)
+
+
+__all__ = [
+    # Manager
+    'ThemeManager',
+    'ThemeMode',
+    'manager',
+    # Colors
+    'ThemeColors',
+    'colors',
+    'color',
+    'create_light_theme',
+    'create_dark_theme',
+    # QSS
+    'qss',
+    'get_procedure_button_style',
+]

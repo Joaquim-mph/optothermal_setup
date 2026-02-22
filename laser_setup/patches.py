@@ -144,22 +144,21 @@ def set_parameter(self: Input, parameter: Parameter):
 
 Input.set_parameter = set_parameter
 
-# ResultsDialog - Patch update_preview to handle column mismatches
-from pymeasure.display.widgets.results_dialog import ResultsDialog
+def patch_results_dialog():
+    """Patches ResultsDialog.update_preview to handle column mismatches.
 
-_ResultsDialog_update_preview = ResultsDialog.update_preview
+    Deferred until display is needed to avoid importing Qt at startup.
+    """
+    from pymeasure.display.widgets.results_dialog import ResultsDialog
 
+    _ResultsDialog_update_preview = ResultsDialog.update_preview
 
-@wraps(_ResultsDialog_update_preview)
-def update_preview(self: ResultsDialog, selected_file_name: str | None = None):
-    """Patched update_preview that handles KeyError when columns don't match."""
-    try:
-        _ResultsDialog_update_preview(self, selected_file_name)
-    except KeyError as e:
-        # Column doesn't exist in the data file - silently skip preview
-        # The actual error will be shown when user tries to open the file
-        log.debug(f"Preview failed for {selected_file_name}: column {e} not found")
-        pass
+    @wraps(_ResultsDialog_update_preview)
+    def update_preview(self: ResultsDialog, selected_file_name: str | None = None):
+        """Patched update_preview that handles KeyError when columns don't match."""
+        try:
+            _ResultsDialog_update_preview(self, selected_file_name)
+        except KeyError as e:
+            log.debug(f"Preview failed for {selected_file_name}: column {e} not found")
 
-
-ResultsDialog.update_preview = update_preview
+    ResultsDialog.update_preview = update_preview

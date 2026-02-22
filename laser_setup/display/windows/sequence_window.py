@@ -71,7 +71,17 @@ class SequenceWindow(QtWidgets.QMainWindow):
             if i not in cls.inputs_ignored
         ]
 
-        widget = _InputsWidget(cls.common_procedure, inputs=base_inputs)
+        common_parameters = getattr(cls, 'common_parameters', None) or None
+        if common_parameters:
+            try:
+                common_procedure = cls.common_procedure(parameters=common_parameters)
+            except TypeError:
+                common_procedure = cls.common_procedure()
+                if hasattr(common_procedure, 'override_parameters'):
+                    common_procedure.override_parameters(common_parameters)
+            widget = _InputsWidget(procedure=common_procedure, inputs=base_inputs)
+        else:
+            widget = _InputsWidget(cls.common_procedure, inputs=base_inputs)
         widget.layout().setSpacing(10)
         widget.layout().setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(widget, 1)
