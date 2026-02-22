@@ -21,6 +21,7 @@ class ShortcutFilter(QtCore.QObject):
     zoom_out_keys = (QtCore.Qt.Key.Key_Minus, QtCore.Qt.Key.Key_Underscore)
     maximize_keys = (QtCore.Qt.Key.Key_F11,)
     close_keys = (QtCore.Qt.Key.Key_W,)
+    command_palette_key = QtCore.Qt.Key.Key_P
 
     def __init__(self, app: QtWidgets.QApplication):
         super().__init__()
@@ -39,6 +40,16 @@ class ShortcutFilter(QtCore.QObject):
                     return True
                 elif key in self.zoom_out_keys:
                     self.app_zoom(-1)
+                    return True
+                elif key == self.command_palette_key:
+                    from .windows.main_window import MainWindow
+                    from .widgets.command_palette import CommandPaletteDialog
+                    mw = next(
+                        (w for w in self.app.topLevelWidgets() if isinstance(w, MainWindow)),
+                        None
+                    )
+                    if mw:
+                        CommandPaletteDialog(mw).exec()
                     return True
 
             if key in self.maximize_keys:

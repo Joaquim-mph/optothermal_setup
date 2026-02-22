@@ -157,6 +157,10 @@ class MainWindowConfig:
         default=str(DefaultPaths.splash),
         metadata={'title': 'Icon', 'type': 'file'}
     )
+    main_procedures: list = field(
+        default_factory=lambda: ['IVg', 'It', 'IV', 'LaserCalibration'],
+        metadata={'title': 'Main procedure buttons'}
+    )
     scripts: ScriptsConfig = field(
         default='${scripts}',
         metadata={'title': 'Scripts', 'readonly': True}
