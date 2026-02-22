@@ -158,7 +158,7 @@ class MainWindowConfig:
         metadata={'title': 'Icon', 'type': 'file'}
     )
     main_procedures: list = field(
-        default_factory=lambda: ['IVg', 'It', 'IV', 'LaserCalibration'],
+        default_factory=lambda: ['IVg', 'It', 'IV', 'VVg', 'Vt', 'LaserCalibration'],
         metadata={'title': 'Main procedure buttons'}
     )
     scripts: ScriptsConfig = field(

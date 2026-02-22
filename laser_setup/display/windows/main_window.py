@@ -99,7 +99,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(icon) if icon else self.style().standardIcon(
             QtWidgets.QStyle.StandardPixmap.SP_TitleBarMenuButton
         ))
-        self.resize(*size)
         self.setCentralWidget(QtWidgets.QWidget(parent=self))
 
         self.windows: dict[
@@ -137,6 +136,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.reload.setShortcut('Ctrl+R')
         self.status_bar.addPermanentWidget(self.reload)
 
+        self.adjustSize()
+
     # ------------------------------------------------------------------
     # Main button grid
     # ------------------------------------------------------------------
@@ -161,8 +162,9 @@ class MainWindow(QtWidgets.QMainWindow):
         button_layout.setSpacing(15)
         button_layout.setContentsMargins(50, 50, 50, 30)
 
-        # Store button references for theme updates
+        # Store button references and grid indices for theme updates
         self._proc_buttons: dict[str, QtWidgets.QPushButton] = {}
+        self._proc_button_indices: dict[str, int] = {}
 
         # Create buttons in a 2x2 grid
         for i, proc_name in enumerate(self.main_procedures):
@@ -176,10 +178,11 @@ class MainWindow(QtWidgets.QMainWindow):
             button.setMinimumSize(180, 80)
             button.setMaximumSize(250, 100)
             button.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-            button.setStyleSheet(get_procedure_button_style(proc_name))
+            button.setStyleSheet(get_procedure_button_style(proc_name, index=i))
             button.clicked.connect(partial(self.open_procedure, cls))
 
             self._proc_buttons[proc_name] = button
+            self._proc_button_indices[proc_name] = i
 
             row = i // 2
             col = i % 2
@@ -211,7 +214,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _on_theme_changed(self, _colors=None):
         for proc_name, button in self._proc_buttons.items():
-            button.setStyleSheet(get_procedure_button_style(proc_name))
+            button.setStyleSheet(get_procedure_button_style(
+                proc_name, index=self._proc_button_indices.get(proc_name)
+            ))
         self._apply_info_label_style()
         self._update_laser_indicator()
 

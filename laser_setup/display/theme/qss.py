@@ -277,20 +277,56 @@ def _scroll_area() -> str:
     """
 
 
-def get_procedure_button_style(proc_name: str) -> str:
+# Per-procedure color palette: (light_bg, light_hover, dark_bg, dark_hover)
+_PROC_PALETTE = [
+    ("#2563EB", "#1D4ED8", "#4A90E2", "#60A5FA"),  # Blue    (IVg)
+    ("#16A34A", "#15803D", "#22C55E", "#4ADE80"),  # Green   (It)
+    ("#DC2626", "#B91C1C", "#EF4444", "#F87171"),  # Red     (IV)
+    ("#D97706", "#B45309", "#F59E0B", "#FBBF24"),  # Orange  (LaserCalibration)
+    ("#7C3AED", "#6D28D9", "#8B5CF6", "#A78BFA"),  # Purple
+    ("#0891B2", "#0E7490", "#06B6D4", "#22D3EE"),  # Cyan
+    ("#BE185D", "#9D174D", "#EC4899", "#F472B6"),  # Pink
+    ("#065F46", "#047857", "#10B981", "#34D399"),  # Teal
+]
+
+# Well-known procedures get a fixed palette slot regardless of their button position
+_PROC_FIXED_INDEX: dict[str, int] = {
+    'IVg': 0,           # Blue
+    'It': 1,            # Green
+    'IV': 2,            # Red
+    'LaserCalibration': 3,  # Orange
+    'VVg': 4,           # Purple
+    'Vt': 5,            # Cyan
+}
+
+
+def get_procedure_button_style(proc_name: str, index: int | None = None) -> str:
     """Get button style for a procedure by name.
 
+    Known procedures (IVg, It, IV, LaserCalibration) always receive their
+    fixed palette color.  Any other procedure receives a color derived from
+    its grid *index* so that every button in the main grid is visually
+    distinct.
+
     Args:
-        proc_name: Procedure name (IVg, It, IV, LaserCalibration)
+        proc_name: Procedure class name.
+        index: Zero-based position in the button grid.  Used to pick a
+               palette entry for procedures not in the fixed map.
 
     Returns:
-        QSS style string for the procedure button
+        QSS style string for the procedure button.
     """
-    style_map = {
-        'IVg': 'button_proc_ivg',
-        'It': 'button_proc_it',
-        'IV': 'button_proc_iv',
-        'LaserCalibration': 'button_proc_laser',
-    }
-    style_name = style_map.get(proc_name, 'button_primary')
-    return qss(style_name)
+    c = manager().colors
+    is_dark = c.name == "dark"
+
+    if proc_name in _PROC_FIXED_INDEX:
+        idx = _PROC_FIXED_INDEX[proc_name]
+    elif index is not None:
+        idx = index % len(_PROC_PALETTE)
+    else:
+        idx = hash(proc_name) % len(_PROC_PALETTE)
+
+    light_bg, light_hover, dark_bg, dark_hover = _PROC_PALETTE[idx]
+    bg = dark_bg if is_dark else light_bg
+    hover = dark_hover if is_dark else light_hover
+    return _proc_button_template(bg, hover)
