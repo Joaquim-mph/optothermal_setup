@@ -54,7 +54,7 @@ class IVg(LaserMixin, ChipProcedure):
         'laser_v', 'burn_in_t', 'sense_T', 'NPLC'
     ]
     EXCLUDE = ChipProcedure.EXCLUDE + ['laser_toggle', 'sense_T']
-    # SEQUENCER_INPUTS = ['vds']
+    SEQUENCER_INPUTS = ['vds']
 
     DATA = [[], []]
 

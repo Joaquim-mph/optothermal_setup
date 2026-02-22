@@ -96,7 +96,7 @@ class VVg(LaserMixin, ChipProcedure):
         'laser_v', 'burn_in_t', 'sense_T', 'NPLC', 'n_sweeps'
     ]
     EXCLUDE = ChipProcedure.EXCLUDE + ['laser_toggle', 'sense_T']
-    # SEQUENCER_INPUTS = ['vds']
+    SEQUENCER_INPUTS = ['ids']
 
     DATA = [[], [], []]
 

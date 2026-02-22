@@ -97,11 +97,97 @@ class ExperimentWindow(ManagedWindowBase):
         self.abort_button.setText('&Abort')
         self.queue_button.setText('&Queue')
 
+        # Rearrange left panel: inputs fill space; estimator + sequencer as collapsible sections
+        _inputs_dock = _seq_dock = _est_dock = None
+        for dock in self.findChildren(QtWidgets.QDockWidget):
+            if self.use_sequencer and dock.widget() is self.sequencer:
+                _seq_dock = dock
+            elif self.use_estimator and dock.widget() is self.estimator:
+                _est_dock = dock
+            elif dock.windowTitle() == 'Input Parameters':
+                _inputs_dock = dock
+
+        if _inputs_dock:
+            container = _inputs_dock.widget()
+            layout = container.layout()
+
+            # Let the inputs widget expand to fill all available vertical space
+            layout.setStretch(0, 1)
+
+            # Remove trailing stretch
+            last = layout.itemAt(layout.count() - 1)
+            if last and last.spacerItem():
+                layout.takeAt(layout.count() - 1)
+
+            if _est_dock:
+                self._est_toggle = QtWidgets.QToolButton(container)
+                self._est_toggle.setText(' Estimator')
+                self._est_toggle.setArrowType(QtCore.Qt.ArrowType.RightArrow)
+                self._est_toggle.setToolButtonStyle(
+                    QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
+                )
+                self._est_toggle.setCheckable(True)
+                self._est_toggle.setChecked(False)
+                self._est_toggle.setSizePolicy(
+                    QtWidgets.QSizePolicy.Policy.Expanding,
+                    QtWidgets.QSizePolicy.Policy.Fixed,
+                )
+                self._est_toggle.setStyleSheet('QToolButton { border: none; padding: 4px 2px; }')
+                self._est_toggle.toggled.connect(self._toggle_estimator)
+
+                _est_dock.setWidget(None)
+                self.estimator.setParent(container)
+                self.estimator.hide()
+
+                layout.addWidget(self._est_toggle)
+                layout.addWidget(self.estimator)
+
+                self.removeDockWidget(_est_dock)
+                _est_dock.deleteLater()
+
+            if _seq_dock:
+                self._seq_toggle = QtWidgets.QToolButton(container)
+                self._seq_toggle.setText(' Sequencer')
+                self._seq_toggle.setArrowType(QtCore.Qt.ArrowType.RightArrow)
+                self._seq_toggle.setToolButtonStyle(
+                    QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
+                )
+                self._seq_toggle.setCheckable(True)
+                self._seq_toggle.setChecked(False)
+                self._seq_toggle.setSizePolicy(
+                    QtWidgets.QSizePolicy.Policy.Expanding,
+                    QtWidgets.QSizePolicy.Policy.Fixed,
+                )
+                self._seq_toggle.setStyleSheet('QToolButton { border: none; padding: 4px 2px; }')
+                self._seq_toggle.toggled.connect(self._toggle_sequencer)
+
+                _seq_dock.setWidget(None)
+                self.sequencer.setParent(container)
+                self.sequencer.hide()
+
+                layout.addWidget(self._seq_toggle)
+                layout.addWidget(self.sequencer)
+
+                self.removeDockWidget(_seq_dock)
+                _seq_dock.deleteLater()
+
         self.browser_widget.browser.measured_quantities.update([self.x_axis, self.y_axis])
 
         self.log = logging.getLogger()
         self.log.addHandler(self.log_widget.handler)
         self.log.debug(f"{type(self).__name__} connected to logging")
+
+    def _toggle_estimator(self, checked: bool) -> None:
+        self.estimator.setVisible(checked)
+        self._est_toggle.setArrowType(
+            QtCore.Qt.ArrowType.DownArrow if checked else QtCore.Qt.ArrowType.RightArrow
+        )
+
+    def _toggle_sequencer(self, checked: bool) -> None:
+        self.sequencer.setVisible(checked)
+        self._seq_toggle.setArrowType(
+            QtCore.Qt.ArrowType.DownArrow if checked else QtCore.Qt.ArrowType.RightArrow
+        )
 
     def queue(self, procedure: Procedure | None = None):
         if procedure is None:
