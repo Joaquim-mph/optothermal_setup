@@ -25,8 +25,8 @@ log = logging.getLogger(__name__)
 # Grouped procedures — displayed in this order in the &Measurement menu
 _PROCEDURE_GROUPS = [
     ('I-V Measurements', ['IV', 'IVg', 'VVg']),
-    ('Time-Resolved', ['It', 'ItWl', 'ItVg', 'Vt', 'Stress']),
-    ('Calibration', ['LaserCalibration', 'Pt', 'Pwl', 'Tt']),
+    ('Time-Resolved', ['It', 'It2', 'ItWl', 'ItVg', 'Vt', 'Tt', 'Stress']),
+    ('Calibration', ['LaserCalibration', 'Pt', 'Pwl']),
 ]
 
 # Keyboard shortcuts for the 4 main procedures (consistent with buttons)
