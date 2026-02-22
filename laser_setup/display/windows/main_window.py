@@ -19,15 +19,9 @@ from ..widgets import ConfigWidget, LogsWidget, SQLiteWidget
 from ..widgets.camera_widget import CameraWidget
 from .experiment_window import ExperimentWindow
 from .sequence_window import SequenceWindow
+from .._procedure_groups import _PROCEDURE_GROUPS
 
 log = logging.getLogger(__name__)
-
-# Grouped procedures — displayed in this order in the &Measurement menu
-_PROCEDURE_GROUPS = [
-    ('I-V Measurements', ['IV', 'IVg', 'VVg']),
-    ('Time-Resolved', ['It', 'It2', 'ItWl', 'ItVg', 'Vt', 'Tt', 'Stress']),
-    ('Calibration', ['LaserCalibration', 'Pt', 'Pwl']),
-]
 
 # Keyboard shortcuts for the 4 main procedures (consistent with buttons)
 _PROCEDURE_SHORTCUTS: dict[str, str] = {

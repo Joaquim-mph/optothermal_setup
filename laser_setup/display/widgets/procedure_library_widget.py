@@ -2,6 +2,7 @@
 
 from ..Qt import QtCore, QtGui, QtWidgets
 from ..theme import manager, qss
+from .._procedure_groups import _PROCEDURE_GROUPS
 from ...config import CONFIG, instantiate
 
 
@@ -18,6 +19,8 @@ class ProcedureLibraryWidget(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self._groups: list[tuple[QtWidgets.QListWidgetItem, list[QtWidgets.QListWidgetItem]]] = []
+        self._header_items: list[QtWidgets.QListWidgetItem] = []
         self._setup_ui()
         self._populate_procedures()
         self._apply_style()
@@ -76,27 +79,73 @@ class ProcedureLibraryWidget(QtWidgets.QWidget):
             }}
         """)
 
+        bold_font = QtGui.QFont()
+        bold_font.setBold(True)
+        header_color = QtGui.QColor(c.fg_dark)
+        for header_item in self._header_items:
+            header_item.setFont(bold_font)
+            header_item.setForeground(header_color)
+
     def _populate_procedures(self):
-        """Populate list with available procedures."""
+        """Populate list with available procedures grouped like the Measurement menu."""
         try:
             procedure_types = instantiate(CONFIG.procedures._types)
         except Exception:
             procedure_types = {}
 
-        for proc_name, proc_class in sorted(procedure_types.items()):
-            item = QtWidgets.QListWidgetItem()
-            item.setText(proc_name)
-            item.setData(QtCore.Qt.ItemDataRole.UserRole, proc_name)
+        self._groups.clear()
+        self._header_items.clear()
+        self.list_widget.clear()
 
-            # Add tooltip with procedure description
-            doc = getattr(proc_class, '__doc__', '') or ''
-            if doc:
-                item.setToolTip(doc.strip().split('\n')[0])
+        added: set[str] = set()
 
-            # Set icon based on procedure type
-            self._set_procedure_icon(item, proc_name)
+        for group_name, proc_names in _PROCEDURE_GROUPS:
+            available = [p for p in proc_names if p in procedure_types]
+            if not available:
+                continue
 
-            self.list_widget.addItem(item)
+            header = QtWidgets.QListWidgetItem(group_name)
+            header.setFlags(QtCore.Qt.ItemFlag.ItemIsEnabled)
+            self.list_widget.addItem(header)
+            self._header_items.append(header)
+
+            group_items: list[QtWidgets.QListWidgetItem] = []
+            for proc_name in available:
+                item = self._make_proc_item(proc_name, procedure_types[proc_name])
+                self.list_widget.addItem(item)
+                group_items.append(item)
+                added.add(proc_name)
+
+            self._groups.append((header, group_items))
+
+        # Ungrouped procedures go into an "Other" group
+        ungrouped = [(n, c) for n, c in sorted(procedure_types.items()) if n not in added]
+        if ungrouped:
+            header = QtWidgets.QListWidgetItem("Other")
+            header.setFlags(QtCore.Qt.ItemFlag.ItemIsEnabled)
+            self.list_widget.addItem(header)
+            self._header_items.append(header)
+
+            group_items = []
+            for proc_name, proc_class in ungrouped:
+                item = self._make_proc_item(proc_name, proc_class)
+                self.list_widget.addItem(item)
+                group_items.append(item)
+
+            self._groups.append((header, group_items))
+
+    def _make_proc_item(self, proc_name: str, proc_class) -> QtWidgets.QListWidgetItem:
+        """Create a draggable list item for a procedure."""
+        item = QtWidgets.QListWidgetItem()
+        item.setText(proc_name)
+        item.setData(QtCore.Qt.ItemDataRole.UserRole, proc_name)
+
+        doc = getattr(proc_class, '__doc__', '') or ''
+        if doc:
+            item.setToolTip(doc.strip().split('\n')[0])
+
+        self._set_procedure_icon(item, proc_name)
+        return item
 
     def _set_procedure_icon(self, item: QtWidgets.QListWidgetItem, proc_name: str):
         """Set icon for procedure based on type."""
@@ -129,17 +178,23 @@ class ProcedureLibraryWidget(QtWidgets.QWidget):
         item.setIcon(QtGui.QIcon(pixmap))
 
     def _filter_procedures(self, text: str):
-        """Filter procedures based on search text."""
+        """Filter procedures based on search text, hiding empty group headers."""
         text = text.lower()
-        for i in range(self.list_widget.count()):
-            item = self.list_widget.item(i)
-            proc_name = item.data(QtCore.Qt.ItemDataRole.UserRole)
-            item.setHidden(text not in proc_name.lower())
+        for header, items in self._groups:
+            any_visible = False
+            for item in items:
+                proc_name = item.data(QtCore.Qt.ItemDataRole.UserRole)
+                visible = text in proc_name.lower()
+                item.setHidden(not visible)
+                if visible:
+                    any_visible = True
+            header.setHidden(not any_visible)
 
     def _on_double_click(self, item: QtWidgets.QListWidgetItem):
         """Handle double-click on procedure."""
         proc_name = item.data(QtCore.Qt.ItemDataRole.UserRole)
-        self.procedureDoubleClicked.emit(proc_name)
+        if proc_name:  # skip header items (UserRole is None)
+            self.procedureDoubleClicked.emit(proc_name)
 
     def startDrag(self, supportedActions):
         """Override to set drag mime data."""

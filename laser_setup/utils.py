@@ -298,7 +298,7 @@ def extract_date_and_number(filename: str | Path) -> tuple[datetime.datetime, in
     :return: A tuple with the date and number of the file
     """
     filename = Path(filename).name
-    date_part, number_part = filename.split('_')
+    date_part, number_part = filename.rsplit('_', 1)
     date = datetime.datetime.strptime(date_part[-10:], '%Y-%m-%d')
     number = int(number_part.split('.')[0])
     return date, number
