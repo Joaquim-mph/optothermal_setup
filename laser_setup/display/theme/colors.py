@@ -1,7 +1,7 @@
-"""Theme color definitions with semantic naming.
+"""Theme color definitions with 16-token paradigm.
 
-This module defines color palettes for light and dark themes with improved
-contrast ratios for accessibility.
+Single source of truth: ThemeColors carries all tokens and can produce
+the palette dict expected by build_stylesheet() via as_palette_dict().
 """
 
 from dataclasses import dataclass
@@ -9,144 +9,103 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class ThemeColors:
-    """Semantic color definitions for a theme.
+    """16-token color palette for a theme.
 
-    Colors are organized by purpose rather than visual appearance,
-    allowing consistent theming across the application.
+    Names follow the QT_DARK_STYLE_GUIDE convention so that ThemeColors
+    and the QSS palette dict always stay in sync.
     """
 
-    # Mode identifier
-    name: str
-
-    # Foreground colors (text)
-    fg_primary: str      # Main text
-    fg_secondary: str    # Subdued text, labels
-    fg_disabled: str     # Disabled text
-
-    # Background colors
-    bg_primary: str      # Main background
-    bg_secondary: str    # Cards, panels
-    bg_tertiary: str     # Inputs, nested elements
-
-    # Accent colors
-    accent_primary: str    # Primary actions, links
-    accent_primary_hover: str
-    accent_secondary: str  # Secondary accent
-
-    # Semantic colors
-    success: str
-    success_hover: str
-    warning: str
-    warning_hover: str
-    danger: str
-    danger_hover: str
-    info: str
-
-    # Border colors
-    border_primary: str
-    border_secondary: str
-    border_focus: str
-
-    # Procedure-specific colors (for main buttons)
-    proc_ivg: str        # Blue - IVg
+    name: str               # 'dark' | 'light'
+    # ── 4 background levels ──────────────────────────────────────────
+    bg: str                 # main canvas
+    bg_dark: str            # recessed: tables, inputs
+    bg_highlight: str       # raised: buttons, hover
+    bg_sidebar: str         # panel / card area
+    # ── 4 text levels ────────────────────────────────────────────────
+    fg: str                 # primary text
+    fg_dark: str            # secondary text
+    comment: str            # muted / disabled
+    fg_gutter: str          # barely visible
+    # ── 7 semantic accent colours ────────────────────────────────────
+    blue: str               # primary accent
+    cyan: str               # secondary accent
+    green: str              # success
+    magenta: str            # tertiary accent
+    orange: str             # warning
+    red: str                # danger / error
+    yellow: str             # alert
+    # ── 2 structural tokens ──────────────────────────────────────────
+    border: str             # all dividers
+    selection: str          # selected row bg
+    # ── 7 hover variants ─────────────────────────────────────────────
+    blue_hover: str
+    cyan_hover: str
+    green_hover: str
+    magenta_hover: str
+    orange_hover: str
+    red_hover: str
+    yellow_hover: str
+    # ── 8 procedure colours ──────────────────────────────────────────
+    proc_ivg: str
     proc_ivg_hover: str
-    proc_it: str         # Green - It
+    proc_it: str
     proc_it_hover: str
-    proc_iv: str         # Red - IV
+    proc_iv: str
     proc_iv_hover: str
-    proc_laser: str      # Orange - Laser
+    proc_laser: str
     proc_laser_hover: str
 
-
-def create_light_theme() -> ThemeColors:
-    """Create light theme with improved contrast.
-
-    Key fix: Uses darker blue (#2563EB) instead of #4A90E2 for better
-    contrast on light backgrounds.
-    """
-    return ThemeColors(
-        name="light",
-        # Foreground - dark text for light backgrounds
-        fg_primary="#1A1A1A",        # Near-black for main text
-        fg_secondary="#495057",      # Dark gray for secondary text
-        fg_disabled="#9CA3AF",       # Light gray for disabled
-
-        # Background - light colors
-        bg_primary="#FFFFFF",        # White
-        bg_secondary="#F8F9FA",      # Very light gray
-        bg_tertiary="#E9ECEF",       # Light gray for inputs
-
-        # Accent - darker blue for better contrast
-        accent_primary="#2563EB",    # Darker blue (was #4A90E2)
-        accent_primary_hover="#1D4ED8",
-        accent_secondary="#6366F1",  # Indigo
-
-        # Semantic colors
-        success="#16A34A",           # Green
-        success_hover="#15803D",
-        warning="#D97706",           # Amber
-        warning_hover="#B45309",
-        danger="#DC2626",            # Red
-        danger_hover="#B91C1C",
-        info="#2563EB",              # Same as accent for consistency
-
-        # Borders
-        border_primary="#D1D5DB",    # Medium gray
-        border_secondary="#E5E7EB",  # Light gray
-        border_focus="#2563EB",      # Accent color
-
-        # Procedure buttons
-        proc_ivg="#2563EB",          # Blue
-        proc_ivg_hover="#1D4ED8",
-        proc_it="#16A34A",           # Green
-        proc_it_hover="#15803D",
-        proc_iv="#DC2626",           # Red
-        proc_iv_hover="#B91C1C",
-        proc_laser="#D97706",        # Orange/Amber
-        proc_laser_hover="#B45309",
-    )
+    def as_palette_dict(self) -> dict:
+        """Return the 16+7 token dict expected by build_stylesheet()."""
+        return {
+            'bg': self.bg, 'bg_dark': self.bg_dark,
+            'bg_highlight': self.bg_highlight, 'bg_sidebar': self.bg_sidebar,
+            'fg': self.fg, 'fg_dark': self.fg_dark,
+            'comment': self.comment, 'fg_gutter': self.fg_gutter,
+            'blue': self.blue, 'cyan': self.cyan, 'green': self.green,
+            'magenta': self.magenta, 'orange': self.orange,
+            'red': self.red, 'yellow': self.yellow,
+            'border': self.border, 'selection': self.selection,
+            'blue_hover': self.blue_hover, 'cyan_hover': self.cyan_hover,
+            'green_hover': self.green_hover, 'magenta_hover': self.magenta_hover,
+            'orange_hover': self.orange_hover, 'red_hover': self.red_hover,
+            'yellow_hover': self.yellow_hover,
+        }
 
 
 def create_dark_theme() -> ThemeColors:
-    """Create dark theme optimized for low-light environments."""
+    """Create dark theme using Tokyo Night palette."""
     return ThemeColors(
         name="dark",
-        # Foreground - light text for dark backgrounds
-        fg_primary="#E5E7EB",        # Light gray
-        fg_secondary="#9CA3AF",      # Medium gray
-        fg_disabled="#6B7280",       # Dark gray for disabled
+        bg="#1a1b26", bg_dark="#16161e", bg_highlight="#292e42", bg_sidebar="#1f2335",
+        fg="#c0caf5", fg_dark="#a9b1d6", comment="#565f89", fg_gutter="#3b4261",
+        blue="#7aa2f7", cyan="#7dcfff", green="#9ece6a", magenta="#bb9af7",
+        orange="#ff9e64", red="#f7768e", yellow="#e0af68",
+        border="#3b4261", selection="#283457",
+        blue_hover="#a9c1ff", cyan_hover="#a5e5ff", green_hover="#b9e08a",
+        magenta_hover="#d0b4ff", orange_hover="#ffb885", red_hover="#ff9aab",
+        yellow_hover="#f0c88a",
+        proc_ivg="#4A90E2", proc_ivg_hover="#60A5FA",
+        proc_it="#22C55E",  proc_it_hover="#4ADE80",
+        proc_iv="#EF4444",  proc_iv_hover="#F87171",
+        proc_laser="#F59E0B", proc_laser_hover="#FBBF24",
+    )
 
-        # Background - dark colors
-        bg_primary="#1F1F1F",        # Near-black
-        bg_secondary="#2D2D2D",      # Dark gray for cards
-        bg_tertiary="#3D3D3D",       # Lighter gray for inputs
 
-        # Accent - brighter for dark backgrounds
-        accent_primary="#4A90E2",    # Original blue works well on dark
-        accent_primary_hover="#60A5FA",
-        accent_secondary="#818CF8",  # Lighter indigo
-
-        # Semantic colors - brighter for dark backgrounds
-        success="#22C55E",           # Bright green
-        success_hover="#4ADE80",
-        warning="#F59E0B",           # Bright amber
-        warning_hover="#FBBF24",
-        danger="#EF4444",            # Bright red
-        danger_hover="#F87171",
-        info="#4A90E2",              # Same as accent
-
-        # Borders
-        border_primary="#4B5563",    # Medium gray
-        border_secondary="#374151",  # Darker gray
-        border_focus="#4A90E2",      # Accent color
-
-        # Procedure buttons - brighter for dark mode
-        proc_ivg="#4A90E2",          # Blue
-        proc_ivg_hover="#60A5FA",
-        proc_it="#22C55E",           # Green
-        proc_it_hover="#4ADE80",
-        proc_iv="#EF4444",           # Red
-        proc_iv_hover="#F87171",
-        proc_laser="#F59E0B",        # Orange/Amber
-        proc_laser_hover="#FBBF24",
+def create_light_theme() -> ThemeColors:
+    """Create light theme."""
+    return ThemeColors(
+        name="light",
+        bg="#F8F9FA", bg_dark="#F0F2F4", bg_highlight="#E9ECEF", bg_sidebar="#F1F3F5",
+        fg="#1A1A1A", fg_dark="#495057", comment="#868E96", fg_gutter="#CED4DA",
+        blue="#2563EB", cyan="#0891B2", green="#16A34A", magenta="#7C3AED",
+        orange="#D97706", red="#DC2626", yellow="#B45309",
+        border="#D1D5DB", selection="#DBEAFE",
+        blue_hover="#1D4ED8", cyan_hover="#0E7490", green_hover="#15803D",
+        magenta_hover="#6D28D9", orange_hover="#B45309", red_hover="#B91C1C",
+        yellow_hover="#92400E",
+        proc_ivg="#2563EB", proc_ivg_hover="#1D4ED8",
+        proc_it="#16A34A",  proc_it_hover="#15803D",
+        proc_iv="#DC2626",  proc_iv_hover="#B91C1C",
+        proc_laser="#D97706", proc_laser_hover="#B45309",
     )

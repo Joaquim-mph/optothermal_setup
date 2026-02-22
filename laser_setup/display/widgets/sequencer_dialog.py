@@ -104,7 +104,7 @@ class SequencerDialog(QtWidgets.QDialog):
         """Apply styling based on current theme."""
         # Use info style but add bold - access the color directly
         c = manager().colors
-        self.preview_label.setStyleSheet(f"color: {c.info}; font-weight: bold;")
+        self.preview_label.setStyleSheet(f"color: {c.blue}; font-weight: bold;")
 
     def _get_procedure_inputs(self) -> list[str]:
         """Get available inputs for sweep.

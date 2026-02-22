@@ -1,6 +1,7 @@
 import logging
 import time
 
+import pyqtgraph as pg
 from pymeasure.display.curves import ResultsCurve
 from pymeasure.display.widgets import PlotFrame, PlotWidget
 from pymeasure.display.widgets.dock_widget import DockWidget
@@ -10,7 +11,26 @@ from pymeasure.experiment import Procedure, Results, unique_filename
 from ...config import CONFIG, configurable
 from ...procedures import BaseProcedure
 from ..Qt import QtCore, QtGui, QtWidgets
+from ..theme import manager as theme_manager
+from ..theme.colors import ThemeColors
 from ..widgets import LogWidget, TextWidget
+
+pg.setConfigOptions(antialias=True)
+
+
+def _apply_plot_style(plot_frame: PlotFrame, colors: ThemeColors) -> None:
+    """Apply themed styling to a pyqtgraph PlotFrame."""
+    bg, fg = colors.bg, colors.fg
+    plot_frame.setStyleSheet(f'background-color: {bg};')
+    plot_frame.plot_widget.setBackground(bg)
+    axis_pen = pg.mkPen(color=fg, width=1)
+    text_pen = pg.mkPen(color=fg)
+    for axis_name in ('bottom', 'left'):
+        axis = plot_frame.plot.getAxis(axis_name)
+        axis.setPen(axis_pen)
+        axis.setTextPen(text_pen)
+        axis.enableAutoSIPrefix(True)
+    plot_frame.plot.showGrid(x=False, y=False)
 
 log = logging.getLogger(__name__)
 
@@ -40,8 +60,8 @@ class ExperimentWindow(ManagedWindowBase):
     ):
         self.cls = cls
 
-        if CONFIG.Qt.GUI.dark_mode:
-            PlotFrame.LABEL_STYLE['color'] = '#AAAAAA'
+        colors = theme_manager().colors
+        PlotFrame.LABEL_STYLE['color'] = colors.fg
 
         if not hasattr(cls, 'DATA_COLUMNS') or len(cls.DATA_COLUMNS) < 2:
             raise AttributeError(
@@ -61,11 +81,8 @@ class ExperimentWindow(ManagedWindowBase):
             x_axis_labels=[self.x_axis,],
             y_axis_labels=cls.DATA_COLUMNS[1:dock_plot_number+1],
         )
-        if CONFIG.Qt.GUI.dark_mode:
-            for plot_widget in (self.plot_widget, *self.dock_widget.plot_frames):
-                plot_widget.setAutoFillBackground(True)
-                plot_widget.plot_frame.setStyleSheet('background-color: black;')
-                plot_widget.plot_frame.plot_widget.setBackground('k')
+        for pw in (self.plot_widget, *self.dock_widget.plot_frames):
+            _apply_plot_style(pw.plot_frame, colors)
 
         widget_list = (self.plot_widget, self.log_widget, self.text_widget, self.dock_widget)
 

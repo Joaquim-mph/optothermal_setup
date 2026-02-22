@@ -57,21 +57,21 @@ class ProcedureLibraryWidget(QtWidgets.QWidget):
     def _apply_style(self, _colors=None):
         c = manager().colors
         self.title_label.setStyleSheet(
-            f"font-weight: 600; font-size: 13px; color: {c.fg_primary};"
+            f"font-weight: 600; font-size: 13px; color: {c.fg};"
         )
         self.instructions_label.setStyleSheet(
-            f"color: {c.fg_secondary}; font-size: 11px;"
+            f"color: {c.fg_dark}; font-size: 11px;"
         )
         self.search_box.setStyleSheet(qss('input'))
         self.list_widget.setStyleSheet(f"""
             QListWidget {{
-                background-color: {c.bg_secondary};
-                color: {c.fg_primary};
-                border: 1px solid {c.border_primary};
+                background-color: {c.bg_highlight};
+                color: {c.fg};
+                border: 1px solid {c.border};
                 border-radius: 4px;
             }}
             QListWidget::item:selected {{
-                background-color: {c.accent_primary};
+                background-color: {c.blue};
                 color: #FFFFFF;
             }}
         """)

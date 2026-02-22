@@ -191,13 +191,13 @@ class SequenceCreatorWindow(QtWidgets.QMainWindow):
         """Apply styling based on current theme."""
         c = manager().colors
         self.builder_title.setStyleSheet(
-            f"font-weight: bold; font-size: 14px; color: {c.fg_primary};"
+            f"font-weight: bold; font-size: 14px; color: {c.fg};"
         )
         self.scroll_area.setStyleSheet(f"""
             QScrollArea {{
-                border: 1px solid {c.border_primary};
+                border: 1px solid {c.border};
                 border-radius: 8px;
-                background-color: {c.bg_secondary};
+                background-color: {c.bg_highlight};
             }}
         """)
         self.clear_btn.setStyleSheet(qss('button_secondary'))

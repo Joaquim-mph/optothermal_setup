@@ -114,7 +114,7 @@ class ThemeManager(QtCore.QObject):
         """Get a specific color by name.
 
         Args:
-            name: Color attribute name (e.g., 'fg_primary', 'accent_primary')
+            name: Color attribute name (e.g., 'fg', 'blue')
 
         Returns:
             Hex color string
@@ -145,50 +145,30 @@ class ThemeManager(QtCore.QObject):
             return
 
         colors = self.colors
+        qt_roles = {
+            'Window':          colors.bg,
+            'WindowText':      colors.fg,
+            'Text':            colors.fg,
+            'Button':          colors.bg_highlight,
+            'ButtonText':      colors.fg,
+            'Base':            colors.bg,
+            'AlternateBase':   colors.bg_sidebar,
+            'Link':            colors.blue,
+            'Highlight':       colors.blue,
+            'HighlightedText': '#FFFFFF',
+            'PlaceholderText': colors.comment,
+        }
         palette = QtGui.QPalette()
-
-        if colors.name == "dark":
-            palette_dict = {
-                'Window': self._hex_to_rgb(colors.bg_primary),
-                'WindowText': self._hex_to_rgb(colors.fg_primary),
-                'Text': self._hex_to_rgb(colors.fg_primary),
-                'Button': self._hex_to_rgb(colors.bg_tertiary),
-                'ButtonText': self._hex_to_rgb(colors.fg_primary),
-                'Base': self._hex_to_rgb(colors.bg_secondary),
-                'AlternateBase': self._hex_to_rgb(colors.bg_tertiary),
-                'Link': self._hex_to_rgb(colors.accent_primary),
-                'Highlight': self._hex_to_rgb(colors.accent_primary),
-                'HighlightedText': (240, 240, 240),
-                'PlaceholderText': self._hex_to_rgb(colors.fg_disabled),
-            }
-        else:
-            palette_dict = {
-                'Window': self._hex_to_rgb(colors.bg_secondary),
-                'WindowText': self._hex_to_rgb(colors.fg_primary),
-                'Text': self._hex_to_rgb(colors.fg_primary),
-                'Button': self._hex_to_rgb(colors.bg_tertiary),
-                'ButtonText': self._hex_to_rgb(colors.fg_primary),
-                'Base': self._hex_to_rgb(colors.bg_primary),
-                'AlternateBase': self._hex_to_rgb(colors.bg_secondary),
-                'Link': self._hex_to_rgb(colors.accent_primary),
-                'Highlight': self._hex_to_rgb(colors.accent_primary),
-                'HighlightedText': (255, 255, 255),
-                'PlaceholderText': self._hex_to_rgb(colors.fg_disabled),
-            }
-
-        for role, color in palette_dict.items():
+        for role, hex_color in qt_roles.items():
             palette.setColor(
                 getattr(QtGui.QPalette.ColorRole, role),
-                QtGui.QColor(*color)
+                QtGui.QColor(hex_color),
             )
-
         app.setPalette(palette)
 
-    @staticmethod
-    def _hex_to_rgb(hex_color: str) -> tuple[int, int, int]:
-        """Convert hex color string to RGB tuple."""
-        hex_color = hex_color.lstrip('#')
-        return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+        # Apply full QSS stylesheet so every widget is covered globally
+        from .qss import build_stylesheet
+        app.setStyleSheet(build_stylesheet(colors.as_palette_dict()))
 
 
 # Module-level singleton accessor

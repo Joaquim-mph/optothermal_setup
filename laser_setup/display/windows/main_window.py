@@ -14,7 +14,7 @@ from ...instruments import InstrumentManager
 from ...procedures import ChipProcedure, Sequence
 from ...utils import get_status_message
 from ..Qt import ConsoleWidget, QtCore, QtGui, QtWidgets, Worker
-from ..theme import manager as theme_manager, get_procedure_button_style, ThemeMode
+from ..theme import manager as theme_manager, get_proc_btn_index, ThemeMode
 from ..widgets import ConfigWidget, LogsWidget, SQLiteWidget
 from ..widgets.camera_widget import CameraWidget
 from .experiment_window import ExperimentWindow
@@ -162,9 +162,8 @@ class MainWindow(QtWidgets.QMainWindow):
         button_layout.setSpacing(15)
         button_layout.setContentsMargins(50, 50, 50, 30)
 
-        # Store button references and grid indices for theme updates
+        # Store button references for theme updates
         self._proc_buttons: dict[str, QtWidgets.QPushButton] = {}
-        self._proc_button_indices: dict[str, int] = {}
 
         # Create buttons in a 2x2 grid
         for i, proc_name in enumerate(self.main_procedures):
@@ -178,11 +177,11 @@ class MainWindow(QtWidgets.QMainWindow):
             button.setMinimumSize(180, 80)
             button.setMaximumSize(250, 100)
             button.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-            button.setStyleSheet(get_procedure_button_style(proc_name, index=i))
+            idx = get_proc_btn_index(proc_name, fallback_index=i)
+            button.setObjectName(f"proc-btn-{idx}")
             button.clicked.connect(partial(self.open_procedure, cls))
 
             self._proc_buttons[proc_name] = button
-            self._proc_button_indices[proc_name] = i
 
             row = i // 2
             col = i % 2
@@ -195,7 +194,7 @@ class MainWindow(QtWidgets.QMainWindow):
             parent=self._button_widget
         )
         self._info_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self._apply_info_label_style()
+        self._info_label.setObjectName("page-subtitle")
         button_layout.addWidget(
             self._info_label, (len(self.main_procedures) + 1) // 2, 0, 1, 2
         )
@@ -203,21 +202,7 @@ class MainWindow(QtWidgets.QMainWindow):
         theme_manager().theme_changed.connect(self._on_theme_changed)
         self._layout.addWidget(self._button_widget)
 
-    def _apply_info_label_style(self):
-        c = theme_manager().colors
-        self._info_label.setStyleSheet(f"""
-            font-size: 13px;
-            color: {c.fg_secondary};
-            margin-top: 25px;
-            font-weight: 500;
-        """)
-
     def _on_theme_changed(self, _colors=None):
-        for proc_name, button in self._proc_buttons.items():
-            button.setStyleSheet(get_procedure_button_style(
-                proc_name, index=self._proc_button_indices.get(proc_name)
-            ))
-        self._apply_info_label_style()
         self._update_laser_indicator()
 
     # ------------------------------------------------------------------
@@ -461,7 +446,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def _make_status_icon(self, connected: bool) -> QtGui.QIcon:
         """Create a 12×12 colored circle icon for instrument connection status."""
         c = theme_manager().colors
-        color_hex = c.success if connected else c.fg_disabled
+        color_hex = c.green if connected else c.comment
         pixmap = QtGui.QPixmap(12, 12)
         pixmap.fill(QtCore.Qt.GlobalColor.transparent)
         painter = QtGui.QPainter(pixmap)
@@ -526,12 +511,12 @@ class MainWindow(QtWidgets.QMainWindow):
         if self._is_laser_on():
             self._laser_indicator.setText(' LASER ON ')
             self._laser_indicator.setStyleSheet(
-                f'background-color: {c.danger}; color: white; font-weight: bold;'
+                f'background-color: {c.red}; color: white; font-weight: bold;'
             )
         else:
             self._laser_indicator.setText(' LASER OFF ')
             self._laser_indicator.setStyleSheet(
-                f'background-color: {c.fg_disabled}; color: {c.bg_primary};'
+                f'background-color: {c.comment}; color: {c.bg};'
             )
 
     # ------------------------------------------------------------------

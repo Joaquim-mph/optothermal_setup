@@ -12,10 +12,10 @@ Usage:
 
     # Get current colors
     current_colors = colors()
-    print(current_colors.fg_primary)
+    print(current_colors.fg)
 
     # Get a specific color
-    accent = color('accent_primary')
+    accent = color('blue')
 
     # Get QSS for a named style
     button_style = qss('button_primary')
@@ -26,7 +26,7 @@ Usage:
 
 from .colors import ThemeColors, create_dark_theme, create_light_theme
 from .manager import ThemeManager, ThemeMode, manager
-from .qss import qss, get_procedure_button_style
+from .qss import qss, get_procedure_button_style, build_stylesheet, get_proc_btn_index
 
 
 def colors() -> ThemeColors:
@@ -64,4 +64,6 @@ __all__ = [
     # QSS
     'qss',
     'get_procedure_button_style',
+    'build_stylesheet',
+    'get_proc_btn_index',
 ]
