@@ -366,6 +366,21 @@ QPushButton#proc-btn-{slot}:pressed {{
 }}
 """
 
+    # Build proc-card rules for slots 0–7
+    proc_card_rules = ""
+    for slot, (ck, hk) in enumerate(_SLOT_COLORS):
+        proc_card_rules += f"""
+QFrame#proc-card-{slot} {{
+    background-color: {p['bg_sidebar']};
+    border: 1px solid {p['border']};
+    border-radius: 8px;
+}}
+QFrame#proc-card-{slot}:hover {{
+    background-color: {p['bg_highlight']};
+    border: 2px solid {p[hk]};
+}}
+"""
+
     return f"""
 /* ── Base ─────────────────────────────────────────────────────────── */
 QMainWindow, QWidget {{
@@ -466,6 +481,9 @@ QPushButton#sidebar-btn-quit:hover {{ background-color: {p['bg_highlight']}; col
 
 /* ── Procedure buttons (slots 0–7) ───────────────────────────────── */
 {proc_btn_rules}
+
+/* ── Procedure cards (slots 0–7) ────────────────────────────────── */
+{proc_card_rules}
 
 /* ── Inputs ──────────────────────────────────────────────────────── */
 QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {{
@@ -715,7 +733,7 @@ def get_procedure_button_style(proc_name: str, index: int | None = None) -> str:
         QSS style string for the procedure button.
     """
     c = manager().colors
-    is_dark = c.name == "dark"
+    is_dark = c.is_dark
 
     if proc_name in _PROC_FIXED_INDEX:
         idx = _PROC_FIXED_INDEX[proc_name]

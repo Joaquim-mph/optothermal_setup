@@ -24,7 +24,9 @@ Usage:
     theme.theme_changed.connect(my_widget.on_theme_changed)
 """
 
-from .colors import ThemeColors, create_dark_theme, create_light_theme
+from .colors import (ThemeColors, create_dark_theme, create_light_theme,
+                     create_dracula_theme, create_catppuccin_theme,
+                     create_solarized_dark_theme, create_gruvbox_theme)
 from .manager import ThemeManager, ThemeMode, manager
 from .qss import qss, get_procedure_button_style, build_stylesheet, get_proc_btn_index
 
@@ -61,6 +63,10 @@ __all__ = [
     'color',
     'create_light_theme',
     'create_dark_theme',
+    'create_dracula_theme',
+    'create_catppuccin_theme',
+    'create_solarized_dark_theme',
+    'create_gruvbox_theme',
     # QSS
     'qss',
     'get_procedure_button_style',

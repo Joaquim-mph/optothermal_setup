@@ -8,60 +8,69 @@ from typing import Callable
 from pymeasure.experiment import Procedure
 
 from ...cli import parameters_to_db
-from ...config import ConfigHandler, CONFIG, configurable
-from ...config.defaults import ProceduresConfig, SequencesConfig, ScriptsConfig, InstrumentConfig
+from ...config import CONFIG, ConfigHandler, configurable
+from ...config.defaults import (
+    InstrumentConfig,
+    ProceduresConfig,
+    ScriptsConfig,
+    SequencesConfig,
+)
 from ...instruments import InstrumentManager
 from ...procedures import ChipProcedure, Sequence
 from ...utils import get_status_message
+from .._procedure_groups import _PROCEDURE_GROUPS
 from ..Qt import ConsoleWidget, QtCore, QtGui, QtWidgets, Worker
-from ..theme import manager as theme_manager, get_proc_btn_index, ThemeMode
+from ..theme import ThemeMode, get_proc_btn_index
+from ..theme import manager as theme_manager
 from ..widgets import ConfigWidget, LogsWidget, SQLiteWidget
 from ..widgets.camera_widget import CameraWidget
 from .experiment_window import ExperimentWindow
 from .sequence_window import SequenceWindow
-from .._procedure_groups import _PROCEDURE_GROUPS
 
 log = logging.getLogger(__name__)
 
 # Keyboard shortcuts for the 4 main procedures (consistent with buttons)
 _PROCEDURE_SHORTCUTS: dict[str, str] = {
-    'IV': 'Ctrl+1',
-    'IVg': 'Ctrl+2',
-    'It': 'Ctrl+3',
-    'LaserCalibration': 'Ctrl+4',
+    "IV": "Ctrl+5",
+    "IVg": "Ctrl+1",
+    "It": "Ctrl+2",
+    "VVg": "Ctrl+3",
+    "Vt": "Ctrl+4",
+    "LaserCalibration": "Ctrl+6",
 }
 
 
 def _set_widget_value(widget, value) -> None:
     """Best-effort value setter for various Qt input widget types."""
-    if hasattr(widget, 'setCurrentText'):
+    if hasattr(widget, "setCurrentText"):
         widget.setCurrentText(str(value))
-    elif hasattr(widget, 'setValue'):
+    elif hasattr(widget, "setValue"):
         widget.setValue(value)
-    elif hasattr(widget, 'setText'):
+    elif hasattr(widget, "setText"):
         widget.setText(str(value))
-    elif hasattr(widget, 'setChecked'):
+    elif hasattr(widget, "setChecked"):
         widget.setChecked(bool(value))
 
 
-@configurable('Qt.MainWindow', on_definition=False, subclasses=False)
+@configurable("Qt.MainWindow", on_definition=False, subclasses=False)
 class MainWindow(QtWidgets.QMainWindow):
     """The main window for program. It contains buttons to open
     the experiment windows, sequence windows, and run scripts.
     """
+
     def __init__(
         self,
         procedures: ProceduresConfig,
         sequences: SequencesConfig,
         scripts: ScriptsConfig,
         instruments: dict[str, InstrumentConfig],
-        title: str = 'Main Window',
+        title: str = "Main Window",
         size: tuple[int, int] = (640, 480),
         widget_size: tuple[int, int] = (640, 480),
         icon: str | None = None,
-        readme_file: str | Path = 'README.md',
+        readme_file: str | Path = "README.md",
         main_procedures: list | None = None,
-        **kwargs
+        **kwargs,
     ):
         """Initializes the main window with the given procedures, sequences, and scripts.
 
@@ -83,16 +92,22 @@ class MainWindow(QtWidgets.QMainWindow):
         self.sequences = sequences
         self.scripts = scripts
         self.instruments = instruments
-        self.main_procedures = list(main_procedures) if main_procedures else [
-            'IVg', 'It', 'IV', 'LaserCalibration'
-        ]
+        self.main_procedures = (
+            list(main_procedures)
+            if main_procedures
+            else ["IVg", "It", "IV", "LaserCalibration"]
+        )
         self.config_handler = ConfigHandler(parent=self, config=CONFIG)
 
         super().__init__(**kwargs)
         self.setWindowTitle(title)
-        self.setWindowIcon(QtGui.QIcon(icon) if icon else self.style().standardIcon(
-            QtWidgets.QStyle.StandardPixmap.SP_TitleBarMenuButton
-        ))
+        self.setWindowIcon(
+            QtGui.QIcon(icon)
+            if icon
+            else self.style().standardIcon(
+                QtWidgets.QStyle.StandardPixmap.SP_TitleBarMenuButton
+            )
+        )
         self.setCentralWidget(QtWidgets.QWidget(parent=self))
 
         self.windows: dict[
@@ -101,15 +116,21 @@ class MainWindow(QtWidgets.QMainWindow):
         self._layout = QtWidgets.QGridLayout(self.centralWidget())
 
         # Store procedure and sequence types before they're popped in create_menu_bar
-        self.procedure_types: dict[str, type[Procedure]] = self.procedures.get('_types', {})
-        self.sequence_types: dict[str, type[Sequence]] = self.sequences.get('_types', {})
+        self.procedure_types: dict[str, type[Procedure]] = self.procedures.get(
+            "_types", {}
+        )
+        self.sequence_types: dict[str, type[Sequence]] = self.sequences.get(
+            "_types", {}
+        )
 
         self.menu_bar = self.create_menu_bar()
         self.status_bar = self.statusBar()
 
         self._thread = QtCore.QThread(parent=self)
         self._worker = Worker(get_status_message, self._thread)
-        self._worker.finished.connect(lambda msg: self.status_bar.showMessage(msg, 3000))
+        self._worker.finished.connect(
+            lambda msg: self.status_bar.showMessage(msg, 3000)
+        )
         self._worker.finished.connect(lambda _: self._update_laser_indicator())
         self._thread.start()
 
@@ -117,17 +138,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.create_main_buttons()
 
         # Laser state indicator in status bar
-        self._laser_indicator = QtWidgets.QLabel(' LASER OFF ')
-        self._laser_indicator.setToolTip('TENMA Laser channel state')
+        self._laser_indicator = QtWidgets.QLabel(" LASER OFF ")
+        self._laser_indicator.setToolTip("TENMA Laser channel state")
         self._update_laser_indicator()
         self.status_bar.addPermanentWidget(self._laser_indicator)
 
         # Reload window button
-        self.reload = QtWidgets.QPushButton('Reload')
+        self.reload = QtWidgets.QPushButton("Reload")
         self.reload.clicked.connect(
-            lambda: os.execl(sys.executable, sys.executable, '-m', 'laser_setup', *sys.argv[1:])
-        )   # TODO: fix bug where the terminal misbehaves after reload
-        self.reload.setShortcut('Ctrl+R')
+            lambda: os.execl(
+                sys.executable, sys.executable, "-m", "laser_setup", *sys.argv[1:]
+            )
+        )  # TODO: fix bug where the terminal misbehaves after reload
+        self.reload.setShortcut("Ctrl+R")
         self.status_bar.addPermanentWidget(self.reload)
 
         self.adjustSize()
@@ -142,11 +165,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Session context panel (shown when at least one ChipProcedure is available)
         has_chip_proc = any(
-            issubclass(cls, ChipProcedure)
-            for cls in procedure_types.values()
+            issubclass(cls, ChipProcedure) for cls in procedure_types.values()
         )
         if has_chip_proc:
             from ..widgets.session_context_widget import SessionContextWidget
+
             self._session_widget = SessionContextWidget(parent=self)
             self._layout.addWidget(self._session_widget)
 
@@ -154,44 +177,31 @@ class MainWindow(QtWidgets.QMainWindow):
         self._button_widget = QtWidgets.QWidget(parent=self)
         button_layout = QtWidgets.QGridLayout(self._button_widget)
         button_layout.setSpacing(15)
-        button_layout.setContentsMargins(50, 50, 50, 30)
+        button_layout.setContentsMargins(30, 30, 30, 20)
 
-        # Store button references for theme updates
-        self._proc_buttons: dict[str, QtWidgets.QPushButton] = {}
+        from ..widgets.procedure_card_widget import ProcedureCardWidget
 
-        # Create buttons in a 2x2 grid
+        # Store card references
+        self._proc_buttons: dict[str, ProcedureCardWidget] = {}
+
+        # Create cards in a 2-column grid
         for i, proc_name in enumerate(self.main_procedures):
             if proc_name not in procedure_types:
                 continue
 
             cls = procedure_types[proc_name]
-            name = getattr(cls, 'name', cls.__name__)
-
-            button = QtWidgets.QPushButton(name, parent=self._button_widget)
-            button.setMinimumSize(180, 80)
-            button.setMaximumSize(250, 100)
-            button.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
             idx = get_proc_btn_index(proc_name, fallback_index=i)
-            button.setObjectName(f"proc-btn-{idx}")
-            button.clicked.connect(partial(self.open_procedure, cls))
+            shortcut = _PROCEDURE_SHORTCUTS.get(proc_name, "")
 
-            self._proc_buttons[proc_name] = button
+            card = ProcedureCardWidget(
+                cls, idx, shortcut=shortcut, parent=self._button_widget
+            )
+            card.clicked.connect(partial(self.open_procedure, cls))
+            self._proc_buttons[proc_name] = card
 
             row = i // 2
             col = i % 2
-            button_layout.addWidget(button, row, col)
-
-        # Info label at the bottom
-        self._info_label = QtWidgets.QLabel(
-            "Select a measurement procedure to begin\n"
-            "Additional options available in the menu bar",
-            parent=self._button_widget
-        )
-        self._info_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self._info_label.setObjectName("page-subtitle")
-        button_layout.addWidget(
-            self._info_label, (len(self.main_procedures) + 1) // 2, 0, 1, 2
-        )
+            button_layout.addWidget(card, row, col)
 
         theme_manager().theme_changed.connect(self._on_theme_changed)
         self._layout.addWidget(self._button_widget)
@@ -211,8 +221,8 @@ class MainWindow(QtWidgets.QMainWindow):
         :return: The menu bar.
         """
         menu = self.menuBar()
-        self.procedures.pop('_types', None)
-        self.sequences.pop('_types', None)
+        self.procedures.pop("_types", None)
+        self.sequences.pop("_types", None)
 
         self._add_measurement_menu(menu)
         self._add_sequences_menu(menu)
@@ -226,7 +236,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _add_measurement_menu(self, menu: QtWidgets.QMenuBar):
         """Add grouped &Measurement menu (was flat &Procedures)."""
-        proc_menu = menu.addMenu('&Measurement')
+        proc_menu = menu.addMenu("&Measurement")
         proc_menu.setToolTipsVisible(True)
 
         bold_font = QtGui.QFont()
@@ -251,9 +261,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
             for proc_name in available:
                 cls = self.procedure_types[proc_name]
-                display_name = getattr(cls, 'name', cls.__name__)
+                display_name = getattr(cls, "name", cls.__name__)
                 action = QtGui.QAction(display_name, self)
-                doc = (cls.__doc__ or '').replace('    ', '').strip()
+                doc = (cls.__doc__ or "").replace("    ", "").strip()
                 action.triggered.connect(partial(self.open_procedure, cls))
                 action.setToolTip(doc)
                 action.setStatusTip(doc)
@@ -263,52 +273,56 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Recent submenu (rebuilt on every open)
         proc_menu.addSeparator()
-        self._recent_menu = proc_menu.addMenu('Recent')
+        self._recent_menu = proc_menu.addMenu("Recent")
         proc_menu.aboutToShow.connect(self._rebuild_recent_menu)
         self._rebuild_recent_menu()
 
     def _add_sequences_menu(self, menu: QtWidgets.QMenuBar):
         """Add Se&quences menu."""
-        sequence_menu = menu.addMenu('Se&quences')
+        sequence_menu = menu.addMenu("Se&quences")
         sequence_menu.setToolTipsVisible(True)
 
         for key, item in self.sequences.items():
             if key not in self.sequence_types:
-                log.warning(f"Sequence '{key}' not found in _types, skipping menu entry")
+                log.warning(
+                    f"Sequence '{key}' not found in _types, skipping menu entry"
+                )
                 continue
             cls = self.sequence_types[key]
-            name = getattr(item, 'name', cls.__name__)
+            name = getattr(item, "name", cls.__name__)
             action = QtGui.QAction(key, self)
-            doc = getattr(item, 'description', (cls.__doc__ or '').replace('    ', '').strip())
+            doc = getattr(
+                item, "description", (cls.__doc__ or "").replace("    ", "").strip()
+            )
             action.triggered.connect(partial(self.open_sequence, cls))
             action.setToolTip(doc)
             action.setStatusTip(doc)
-            action.setShortcut(f'Ctrl+Shift+{len(sequence_menu.actions()) + 1}')
+            action.setShortcut(f"Ctrl+Shift+{len(sequence_menu.actions()) + 1}")
             sequence_menu.addAction(action)
 
         sequence_menu.addSeparator()
-        new_seq = QtGui.QAction('New Sequence...', self)
+        new_seq = QtGui.QAction("New Sequence...", self)
         new_seq.triggered.connect(self.open_sequence_creator)
-        new_seq.setShortcut('Ctrl+N')
-        new_seq.setToolTip('Create a new procedure sequence')
-        new_seq.setStatusTip('Create a new procedure sequence')
+        new_seq.setShortcut("Ctrl+N")
+        new_seq.setToolTip("Create a new procedure sequence")
+        new_seq.setStatusTip("Create a new procedure sequence")
         sequence_menu.addAction(new_seq)
 
-        edit_seq = QtGui.QAction('Edit Sequence...', self)
+        edit_seq = QtGui.QAction("Edit Sequence...", self)
         edit_seq.triggered.connect(self.open_sequence_editor)
-        edit_seq.setShortcut('Ctrl+E')
-        edit_seq.setToolTip('Edit an existing procedure sequence')
-        edit_seq.setStatusTip('Edit an existing procedure sequence')
+        edit_seq.setShortcut("Ctrl+E")
+        edit_seq.setToolTip("Edit an existing procedure sequence")
+        edit_seq.setStatusTip("Edit an existing procedure sequence")
         sequence_menu.addAction(edit_seq)
 
     def _add_instruments_menu(self, menu: QtWidgets.QMenuBar):
         """Add &Instruments menu with live connection status icons."""
-        inst_menu = menu.addMenu('&Instruments')
+        inst_menu = menu.addMenu("&Instruments")
         inst_menu.setToolTipsVisible(True)
 
         self._instrument_actions: dict[str, QtGui.QAction] = {}
         for key, item in self.instruments.items():
-            display_name = getattr(item, 'name', None) or key
+            display_name = getattr(item, "name", None) or key
             action = QtGui.QAction(display_name, self)
             action.setEnabled(False)  # Status display only
             inst_menu.addAction(action)
@@ -316,29 +330,31 @@ class MainWindow(QtWidgets.QMainWindow):
 
         inst_menu.addSeparator()
 
-        setup_action = QtGui.QAction('Setup Adapters...', self)
-        setup_action.setStatusTip('Detect and configure instrument adapters')
-        if 'setup_adapters' in self.scripts:
-            func = self.scripts['setup_adapters'].target
+        setup_action = QtGui.QAction("Setup Adapters...", self)
+        setup_action.setStatusTip("Detect and configure instrument adapters")
+        if "setup_adapters" in self.scripts:
+            func = self.scripts["setup_adapters"].target
             setup_action.triggered.connect(partial(self.run_script, func))
         inst_menu.addAction(setup_action)
 
-        shutdown_action = QtGui.QAction('Shutdown All', self)
-        shutdown_action.setStatusTip('Shut down all connected instruments')
+        shutdown_action = QtGui.QAction("Shutdown All", self)
+        shutdown_action.setStatusTip("Shut down all connected instruments")
         shutdown_action.triggered.connect(self._shutdown_all_instruments)
         inst_menu.addAction(shutdown_action)
 
         inst_menu.addSeparator()
 
         # Instrument help submenu (moved from Help)
-        help_sub = inst_menu.addMenu('Help')
+        help_sub = inst_menu.addMenu("Help")
         unique_instruments = {i.target for i in self.instruments.values()}
         for cls in unique_instruments:
-            name = getattr(cls, 'name', cls.__name__)
+            name = getattr(cls, "name", cls.__name__)
             ha = QtGui.QAction(name, self)
-            ha.triggered.connect(partial(
-                self.text_window, name, InstrumentManager.help(cls, return_str=True)
-            ))
+            ha.triggered.connect(
+                partial(
+                    self.text_window, name, InstrumentManager.help(cls, return_str=True)
+                )
+            )
             help_sub.addAction(ha)
 
         # Refresh icons when menu opens
@@ -347,80 +363,103 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _add_scripts_menu(self, menu: QtWidgets.QMenuBar):
         """Add &Scripts menu."""
-        script_menu = menu.addMenu('&Scripts')
+        script_menu = menu.addMenu("&Scripts")
         script_menu.setToolTipsVisible(True)
         for key, item in self.scripts.items():
             func: Callable = item.target
             action = QtGui.QAction(item.name or func.__doc__, self)
-            doc = (sys.modules[func.__module__].__doc__ or '').replace('    ', '').strip()
+            doc = (
+                (sys.modules[func.__module__].__doc__ or "").replace("    ", "").strip()
+            )
             action.triggered.connect(partial(self.run_script, func, **item.kwargs))
             action.setToolTip(doc)
             action.setStatusTip(doc)
-            action.setShortcut(f'Alt+{len(script_menu.actions()) + 1}')
+            action.setShortcut(f"Alt+{len(script_menu.actions()) + 1}")
             script_menu.addAction(action)
 
     def _add_view_menu(self, menu: QtWidgets.QMenuBar):
         """Add &View menu with dark mode toggle and shortcut hints."""
-        view_menu = menu.addMenu('&View')
+        view_menu = menu.addMenu("&View")
 
         db_action = view_menu.addAction(
-            'Parameter Database', partial(self.open_database, CONFIG.Dir.database)
+            "Parameter Database", partial(self.open_database, CONFIG.Dir.database)
         )
-        db_action.setShortcut('Ctrl+Shift+B')
+        db_action.setShortcut("Ctrl+Shift+B")
 
-        video_action = view_menu.addAction('Cameras', self.open_camera)
-        video_action.setShortcut('Ctrl+Shift+C')
+        video_action = view_menu.addAction("Cameras", self.open_camera)
+        video_action.setShortcut("Ctrl+Shift+C")
 
         self.log_widget = LogsWidget(parent=self)
         self.log_widget.setWindowFlags(QtCore.Qt.WindowType.Dialog)
-        self.log = logging.getLogger('laser_setup')
+        self.log = logging.getLogger("laser_setup")
         self.log.addHandler(self.log_widget.handler)
 
-        log_action = view_menu.addAction('Logs', partial(self.open_widget, self.log_widget, 'Logs'))
-        log_action.setShortcut('Ctrl+Shift+L')
+        log_action = view_menu.addAction(
+            "Logs", partial(self.open_widget, self.log_widget, "Logs")
+        )
+        log_action.setShortcut("Ctrl+Shift+L")
 
-        console_action = view_menu.addAction('Terminal', self.open_terminal)
-        console_action.setShortcut('Ctrl+Shift+T')
+        console_action = view_menu.addAction("Terminal", self.open_terminal)
+        console_action.setShortcut("Ctrl+Shift+T")
 
         view_menu.addSeparator()
 
-        dark_action = QtGui.QAction('Toggle Dark Mode', self)
-        dark_action.setShortcut('Ctrl+Shift+D')
-        dark_action.setStatusTip('Switch between light and dark theme')
-        dark_action.triggered.connect(self._toggle_dark_mode)
-        view_menu.addAction(dark_action)
+        dark_toggle = QtGui.QAction("Toggle Light/Dark", self)
+        dark_toggle.setShortcut("Ctrl+Shift+D")
+        dark_toggle.setStatusTip("Switch between light and dark theme")
+        dark_toggle.triggered.connect(self._toggle_dark_mode)
+        view_menu.addAction(dark_toggle)
+
+        theme_menu = view_menu.addMenu("Theme")
+        self._theme_action_group = QtGui.QActionGroup(self)
+        self._theme_action_group.setExclusive(True)
+        _THEME_ENTRIES = [
+            ("Light", ThemeMode.LIGHT),
+            ("Dark (Tokyo Night)", ThemeMode.DARK),
+            ("Dracula", ThemeMode.DRACULA),
+            ("Catppuccin Mocha", ThemeMode.CATPPUCCIN),
+            ("Solarized Dark", ThemeMode.SOLARIZED_DARK),
+            ("Gruvbox", ThemeMode.GRUVBOX),
+        ]
+        tm = theme_manager()
+        for label, mode in _THEME_ENTRIES:
+            act = QtGui.QAction(label, self, checkable=True)
+            act.setChecked(tm.mode == mode)
+            act.triggered.connect(partial(theme_manager().set_mode, mode))
+            self._theme_action_group.addAction(act)
+            theme_menu.addAction(act)
 
         view_menu.addSeparator()
 
         # Visible shortcut hints for zoom and fullscreen (handled by ShortcutFilter)
-        zoom_in = view_menu.addAction('Zoom In', lambda: self._app_zoom(1))
-        zoom_in.setShortcut('Ctrl++')
+        zoom_in = view_menu.addAction("Zoom In", lambda: self._app_zoom(1))
+        zoom_in.setShortcut("Ctrl++")
 
-        zoom_out = view_menu.addAction('Zoom Out', lambda: self._app_zoom(-1))
-        zoom_out.setShortcut('Ctrl+-')
+        zoom_out = view_menu.addAction("Zoom Out", lambda: self._app_zoom(-1))
+        zoom_out.setShortcut("Ctrl+-")
 
-        fullscreen = view_menu.addAction('Toggle Fullscreen', self._toggle_fullscreen)
-        fullscreen.setShortcut('F11')
+        fullscreen = view_menu.addAction("Toggle Fullscreen", self._toggle_fullscreen)
+        fullscreen.setShortcut("F11")
 
     def _add_config_menu(self, menu: QtWidgets.QMenuBar):
         """Add &Config menu."""
-        config_menu = menu.addMenu('&Config')
+        config_menu = menu.addMenu("&Config")
         self.config_widget = ConfigWidget(parent=self)
         self.config_widget.setWindowFlags(QtCore.Qt.WindowType.Dialog)
         config_menu.addAction(
-            'Edit config', partial(self.open_widget, self.config_widget, 'Config')
+            "Edit config", partial(self.open_widget, self.config_widget, "Config")
         )
-        config_menu.addAction('Load config', self.config_handler.import_config)
-        config_menu.addAction('Open config file', self.config_handler.edit_config)
+        config_menu.addAction("Load config", self.config_handler.import_config)
+        config_menu.addAction("Open config file", self.config_handler.edit_config)
 
     def _add_help_menu(self, menu: QtWidgets.QMenuBar):
         """Add &Help menu."""
-        help_menu = menu.addMenu('&Help')
+        help_menu = menu.addMenu("&Help")
         help_menu.setToolTipsVisible(True)
         # Instrument docs moved to Instruments > Help submenu
         # Keep help menu for future use / README
-        readme_action = QtGui.QAction('README', self)
-        readme_action.setStatusTip('Open the README file')
+        readme_action = QtGui.QAction("README", self)
+        readme_action.setStatusTip("Open the README file")
         readme_action.triggered.connect(self._open_readme)
         help_menu.addAction(readme_action)
 
@@ -432,7 +471,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """Collect all instrument IDs currently held in any procedure's manager."""
         connected: set = set()
         for cls in self.procedure_types.values():
-            mgr = getattr(cls, 'instruments', None)
+            mgr = getattr(cls, "instruments", None)
             if isinstance(mgr, InstrumentManager):
                 connected.update(mgr.instrument_dict.keys())
         return connected
@@ -456,17 +495,17 @@ class MainWindow(QtWidgets.QMainWindow):
         connected_ids = self._get_connected_instrument_ids()
         for key, action in self._instrument_actions.items():
             item = self.instruments[key]
-            idn = getattr(item, 'IDN', None)
-            target = getattr(item, 'target', None)
-            target_name = getattr(target, '__name__', '') if target else key
-            adapter = getattr(item, 'adapter', '')
+            idn = getattr(item, "IDN", None)
+            target = getattr(item, "target", None)
+            target_name = getattr(target, "__name__", "") if target else key
+            adapter = getattr(item, "adapter", "")
 
             # Check by IDN first, then by "{ClassName}/{adapter}" pattern
             if idn and idn in connected_ids:
                 connected = True
             elif any(target_name in cid for cid in connected_ids):
                 connected = True
-            elif f'{target_name}/{adapter}' in connected_ids:
+            elif f"{target_name}/{adapter}" in connected_ids:
                 connected = True
             else:
                 connected = False
@@ -476,7 +515,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def _shutdown_all_instruments(self):
         """Shut down all instruments across all procedure managers."""
         for cls in self.procedure_types.values():
-            mgr = getattr(cls, 'instruments', None)
+            mgr = getattr(cls, "instruments", None)
             if isinstance(mgr, InstrumentManager):
                 mgr.shutdown_all()
         self._refresh_instrument_status()
@@ -489,28 +528,28 @@ class MainWindow(QtWidgets.QMainWindow):
     def _is_laser_on(self) -> bool:
         """Return True if the TENMA laser channel reports output=True."""
         for cls in self.procedure_types.values():
-            mgr = getattr(cls, 'instruments', None)
+            mgr = getattr(cls, "instruments", None)
             if not isinstance(mgr, InstrumentManager):
                 continue
             for key, inst in mgr.instrument_dict.items():
-                if 'TENMALASER' in key or 'tenma_laser' in key.lower():
-                    return bool(getattr(inst, 'output', False))
+                if "TENMALASER" in key or "tenma_laser" in key.lower():
+                    return bool(getattr(inst, "output", False))
         return False
 
     def _update_laser_indicator(self):
         """Refresh laser status label colours."""
-        if not hasattr(self, '_laser_indicator'):
+        if not hasattr(self, "_laser_indicator"):
             return
         c = theme_manager().colors
         if self._is_laser_on():
-            self._laser_indicator.setText(' LASER ON ')
+            self._laser_indicator.setText(" LASER ON ")
             self._laser_indicator.setStyleSheet(
-                f'background-color: {c.red}; color: white; font-weight: bold;'
+                f"background-color: {c.red}; color: white; font-weight: bold;"
             )
         else:
-            self._laser_indicator.setText(' LASER OFF ')
+            self._laser_indicator.setText(" LASER OFF ")
             self._laser_indicator.setStyleSheet(
-                f'background-color: {c.comment}; color: {c.bg};'
+                f"background-color: {c.comment}; color: {c.bg};"
             )
 
     # ------------------------------------------------------------------
@@ -519,24 +558,24 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _record_recent(self, name: str):
         """Persist procedure name in QSettings MRU list (up to 5 entries)."""
-        settings = QtCore.QSettings('LaserSetup', 'LaserSetup')
-        recent = settings.value('recent_procedures', []) or []
+        settings = QtCore.QSettings("LaserSetup", "LaserSetup")
+        recent = settings.value("recent_procedures", []) or []
         if isinstance(recent, str):
             recent = [recent]
         recent = [n for n in recent if n != name][:4]
-        settings.setValue('recent_procedures', [name] + recent)
+        settings.setValue("recent_procedures", [name] + recent)
 
     def _rebuild_recent_menu(self):
         """Repopulate the Recent submenu from QSettings."""
-        if not hasattr(self, '_recent_menu'):
+        if not hasattr(self, "_recent_menu"):
             return
         self._recent_menu.clear()
-        settings = QtCore.QSettings('LaserSetup', 'LaserSetup')
-        recent = settings.value('recent_procedures', []) or []
+        settings = QtCore.QSettings("LaserSetup", "LaserSetup")
+        recent = settings.value("recent_procedures", []) or []
         if isinstance(recent, str):
             recent = [recent]
         if not recent:
-            none_action = QtGui.QAction('(none yet)', self)
+            none_action = QtGui.QAction("(none yet)", self)
             none_action.setEnabled(False)
             self._recent_menu.addAction(none_action)
             return
@@ -544,7 +583,7 @@ class MainWindow(QtWidgets.QMainWindow):
             cls = self.procedure_types.get(name)
             if cls is None:
                 continue
-            display = getattr(cls, 'name', cls.__name__)
+            display = getattr(cls, "name", cls.__name__)
             action = QtGui.QAction(display, self)
             action.triggered.connect(partial(self.open_procedure, cls))
             self._recent_menu.addAction(action)
@@ -555,22 +594,20 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _apply_session_context(self, window, cls: type[Procedure]):
         """Pre-fill matching parameter widgets in a newly opened ExperimentWindow."""
-        if not hasattr(self, '_session_widget'):
+        if not hasattr(self, "_session_widget"):
             return
         if not issubclass(cls, ChipProcedure):
             return
 
         ctx = self._session_widget.get_context()
-        inputs = getattr(window, 'inputs', None)
+        inputs = getattr(window, "inputs", None)
         if inputs is None:
             return
 
         # Try parameter_widgets property (newer PyMeasure) then direct attr access
-        param_widgets = getattr(inputs, 'parameter_widgets', None)
+        param_widgets = getattr(inputs, "parameter_widgets", None)
         if param_widgets is None:
-            param_widgets = {
-                name: getattr(inputs, name, None) for name in ctx.keys()
-            }
+            param_widgets = {name: getattr(inputs, name, None) for name in ctx.keys()}
 
         for param_name, value in ctx.items():
             widget = param_widgets.get(param_name) if param_widgets else None
@@ -579,7 +616,7 @@ class MainWindow(QtWidgets.QMainWindow):
             try:
                 _set_widget_value(widget, value)
             except Exception as exc:
-                log.debug(f'Could not set {param_name}={value!r}: {exc}')
+                log.debug(f"Could not set {param_name}={value!r}: {exc}")
 
     # ------------------------------------------------------------------
     # Theme helpers
@@ -618,41 +655,47 @@ class MainWindow(QtWidgets.QMainWindow):
     def open_sequence_creator(self):
         """Opens the sequence creator window."""
         from .sequence_creator_window import SequenceCreatorWindow
-        if 'sequence_creator' not in self.windows:
-            self.windows['sequence_creator'] = SequenceCreatorWindow(parent=self)
-        self.windows['sequence_creator'].show()
-        self.windows['sequence_creator'].raise_()
+
+        if "sequence_creator" not in self.windows:
+            self.windows["sequence_creator"] = SequenceCreatorWindow(parent=self)
+        self.windows["sequence_creator"].show()
+        self.windows["sequence_creator"].raise_()
 
     def open_sequence_editor(self):
         """Opens a dialog to select a sequence to edit."""
         from .sequence_creator_window import SequenceCreatorWindow
 
         sequence_names = [
-            name for name in self.sequences.keys()
-            if name != '_types' and name in self.sequence_types
+            name
+            for name in self.sequences.keys()
+            if name != "_types" and name in self.sequence_types
         ]
 
         if not sequence_names:
             QtWidgets.QMessageBox.information(
-                self, 'No Sequences', 'No sequences available to edit.'
+                self, "No Sequences", "No sequences available to edit."
             )
             return
 
         sequence_name, ok = QtWidgets.QInputDialog.getItem(
-            self, 'Edit Sequence', 'Select a sequence to edit:',
-            sequence_names, 0, False
+            self,
+            "Edit Sequence",
+            "Select a sequence to edit:",
+            sequence_names,
+            0,
+            False,
         )
 
         if ok and sequence_name:
-            if 'sequence_creator' in self.windows:
-                self.windows['sequence_creator'].close()
-                del self.windows['sequence_creator']
+            if "sequence_creator" in self.windows:
+                self.windows["sequence_creator"].close()
+                del self.windows["sequence_creator"]
 
-            self.windows['sequence_creator'] = SequenceCreatorWindow(
+            self.windows["sequence_creator"] = SequenceCreatorWindow(
                 parent=self, sequence_name=sequence_name
             )
-            self.windows['sequence_creator'].show()
-            self.windows['sequence_creator'].raise_()
+            self.windows["sequence_creator"].show()
+            self.windows["sequence_creator"].raise_()
 
     def open_procedure(self, cls: type[Procedure]):
         self._record_recent(cls.__name__)
@@ -677,19 +720,23 @@ class MainWindow(QtWidgets.QMainWindow):
         widget.show()
 
     def suggest_reload(self):
-        self.reload.setStyleSheet('background-color: red;')
-        self.reload.setText('Reload to apply changes')
-        self.reload.setShortcut('Ctrl+R')
+        self.reload.setStyleSheet("background-color: red;")
+        self.reload.setText("Reload to apply changes")
+        self.reload.setShortcut("Ctrl+R")
 
     def error_dialog(self, message: str):
         error_dialog = QtWidgets.QMessageBox(parent=self)
-        error_dialog.setText(f"An error occurred:\n{message}\nPlease reload the program.")
+        error_dialog.setText(
+            f"An error occurred:\n{message}\nPlease reload the program."
+        )
         error_dialog.setIcon(QtWidgets.QMessageBox.Icon.Critical)
-        self.open_widget(error_dialog, 'Error')
+        self.open_widget(error_dialog, "Error")
         error_dialog.exec()
         self.reload.click()
 
-    def select_from_list(self, title: str, items: list[str], label: str = '') -> str | None:
+    def select_from_list(
+        self, title: str, items: list[str], label: str = ""
+    ) -> str | None:
         item, ok = QtWidgets.QInputDialog.getItem(self, title, label, items, 0, False)
         if ok:
             return item
@@ -711,18 +758,19 @@ class MainWindow(QtWidgets.QMainWindow):
     def open_camera(self):
         """Opens the camera widget."""
         self.camera_widget = CameraWidget(parent=self)
-        self.open_widget(self.camera_widget, 'Cameras')
+        self.open_widget(self.camera_widget, "Cameras")
 
     def open_terminal(self):
         """Opens an interactive console. Loads common modules and instruments."""
         from ...instruments import FakeAdapter  # noqa: F401
+
         instruments = InstrumentManager()
 
         header = (
             "Interactive console. To instantiate an instrument, use the "
             "'instruments.connect' method.\n"
         )
-        if '-d' in sys.argv or '--debug' in sys.argv:
+        if "-d" in sys.argv or "--debug" in sys.argv:
             header += (
                 "\nDebug mode (the InstrumentManager will use a FakeAdapter if "
                 "it can't connect to an instrument).\n"
@@ -730,13 +778,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.console_widget = ConsoleWidget(
             namespace=globals() | locals(), text=header, parent=self
         )
-        self.open_widget(self.console_widget, 'Console')
+        self.open_widget(self.console_widget, "Console")
 
     def open_database(self, db_name: str):
         db_path = Path(CONFIG.Dir.data_dir) / db_name
         if not db_path.exists():
             ans = self.question_box(
-                'Database not found', f'Database {db_path} not found. Create new database?'
+                "Database not found",
+                f"Database {db_path} not found. Create new database?",
             )
             if not ans:
                 return
@@ -750,8 +799,8 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             text = self.readme_path.read_text()
         except Exception:
-            text = f'Could not read {self.readme_path}'
-        self.text_window('README', text)
+            text = f"Could not read {self.readme_path}"
+        self.text_window("README", text)
 
     def closeEvent(self, event):
         """Ensures all running threads are properly stopped."""

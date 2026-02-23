@@ -15,7 +15,7 @@ class LaserCalibration(BaseProcedure):
     """Uses the Power Meter to calculate the effective power of the laser
     at a given voltage.
     """
-    name = 'Laser Calibration'
+    name = 'P vs Vl'
 
     instruments = InstrumentManager()
     power_meter: ThorlabsPM100USB = instruments.queue(**Instruments.ThorlabsPM100USB)

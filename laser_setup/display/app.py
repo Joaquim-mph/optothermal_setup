@@ -134,7 +134,7 @@ def display_window(procedure: type[Procedure] | None = None, **kwargs):
 
     # Initialize theme system
     theme = theme_manager()
-    theme.set_mode_from_config(CONFIG.Qt.GUI.dark_mode)
+    theme.restore_from_settings(fallback_dark=CONFIG.Qt.GUI.dark_mode)
     theme.ensure_applied()
     QtCore.QLocale.setDefault(QtCore.QLocale(
         QtCore.QLocale.Language.English,

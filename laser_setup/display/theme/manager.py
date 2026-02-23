@@ -9,7 +9,9 @@ from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 from ..Qt import QtCore, QtGui, QtWidgets
-from .colors import ThemeColors, create_dark_theme, create_light_theme
+from .colors import (ThemeColors, create_dark_theme, create_light_theme,
+                     create_dracula_theme, create_catppuccin_theme,
+                     create_solarized_dark_theme, create_gruvbox_theme)
 from .detection import detect_system_dark_mode
 
 if TYPE_CHECKING:
@@ -20,9 +22,13 @@ log = logging.getLogger(__name__)
 
 class ThemeMode(Enum):
     """Theme mode options."""
-    AUTO = auto()   # Follow system preference
-    LIGHT = auto()  # Force light theme
-    DARK = auto()   # Force dark theme
+    AUTO = auto()           # Follow system preference
+    LIGHT = auto()          # Force light theme
+    DARK = auto()           # Tokyo Night Dark
+    DRACULA = auto()        # Dracula
+    CATPPUCCIN = auto()     # Catppuccin Mocha
+    SOLARIZED_DARK = auto() # Solarized Dark
+    GRUVBOX = auto()        # Gruvbox Dark
 
 
 class ThemeManager(QtCore.QObject):
@@ -58,6 +64,10 @@ class ThemeManager(QtCore.QObject):
         self._current_colors: ThemeColors | None = None
         self._light_theme = create_light_theme()
         self._dark_theme = create_dark_theme()
+        self._dracula_theme = create_dracula_theme()
+        self._catppuccin_theme = create_catppuccin_theme()
+        self._solarized_dark_theme = create_solarized_dark_theme()
+        self._gruvbox_theme = create_gruvbox_theme()
 
     @property
     def mode(self) -> ThemeMode:
@@ -74,7 +84,7 @@ class ThemeManager(QtCore.QObject):
     @property
     def is_dark(self) -> bool:
         """Whether the current theme is dark."""
-        return self.colors.name == "dark"
+        return self.colors.is_dark
 
     def set_mode(self, mode: ThemeMode) -> None:
         """Set the theme mode and apply changes.
@@ -90,6 +100,32 @@ class ThemeManager(QtCore.QObject):
             self._apply_palette()
             self.theme_changed.emit(self._current_colors)
             log.info(f"Theme changed to: {self._current_colors.name}")
+
+        self._save_to_settings(mode)
+
+    def _save_to_settings(self, mode: ThemeMode) -> None:
+        """Persist theme mode to QSettings."""
+        if QtWidgets.QApplication.instance() is None:
+            return
+        settings = QtCore.QSettings('LaserSetup', 'LaserSetup')
+        settings.setValue('theme_mode', mode.name)
+
+    def restore_from_settings(self, fallback_dark: bool = False) -> None:
+        """Restore theme from QSettings, falling back to a config default.
+
+        Args:
+            fallback_dark: Used when no saved theme exists; True → DARK, False → LIGHT
+        """
+        settings = QtCore.QSettings('LaserSetup', 'LaserSetup')
+        saved = settings.value('theme_mode')
+        if saved:
+            try:
+                mode = ThemeMode[saved]
+                self.set_mode(mode)
+                return
+            except KeyError:
+                log.warning(f"Unknown saved theme mode '{saved}', using default")
+        self.set_mode_from_config(fallback_dark)
 
     def set_mode_from_config(self, dark_mode: bool) -> None:
         """Set theme mode from config boolean (backwards compatibility).
@@ -126,16 +162,21 @@ class ThemeManager(QtCore.QObject):
 
     def _resolve_colors(self) -> ThemeColors:
         """Resolve current colors based on mode and system preference."""
-        if self._mode == ThemeMode.LIGHT:
+        _map = {
+            ThemeMode.LIGHT:          self._light_theme,
+            ThemeMode.DARK:           self._dark_theme,
+            ThemeMode.DRACULA:        self._dracula_theme,
+            ThemeMode.CATPPUCCIN:     self._catppuccin_theme,
+            ThemeMode.SOLARIZED_DARK: self._solarized_dark_theme,
+            ThemeMode.GRUVBOX:        self._gruvbox_theme,
+        }
+        if self._mode in _map:
+            return _map[self._mode]
+        # AUTO
+        system_dark = detect_system_dark_mode()
+        if system_dark is None:
             return self._light_theme
-        elif self._mode == ThemeMode.DARK:
-            return self._dark_theme
-        else:  # AUTO
-            system_dark = detect_system_dark_mode()
-            if system_dark is None:
-                # Default to light if detection fails
-                return self._light_theme
-            return self._dark_theme if system_dark else self._light_theme
+        return self._dark_theme if system_dark else self._light_theme
 
     def _apply_palette(self) -> None:
         """Apply current theme as Qt palette to the application."""
