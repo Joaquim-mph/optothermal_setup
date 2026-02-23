@@ -438,7 +438,10 @@ class DebugInstrument(FakeInstrument):
     make_buffer = _func
     reset = _func
     enable_source = _func
-    clear_buffer = _func
+
+    def clear_buffer(self, name: str = None):
+        """Reset the time reference, mirroring the real Keithley's REL timestamp reset."""
+        self._tstart = time.time()
 
     # tenma
     output: bool = False

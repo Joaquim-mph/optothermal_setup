@@ -1,10 +1,13 @@
 import logging
 import time
 
-from pymeasure.experiment import FloatParameter
-
-from ..instruments import (TENMA, Clicker, InstrumentManager, Keithley2450,
-                           PT100SerialSensor)
+from ..instruments import (
+    TENMA,
+    Clicker,
+    InstrumentManager,
+    Keithley2450,
+    PT100SerialSensor,
+)
 from .ChipProcedure import ChipProcedure, LaserMixin, VgMixin
 from .utils import Instruments, Parameters
 
@@ -18,7 +21,8 @@ class It(VgMixin, LaserMixin, ChipProcedure):
     TENMA source. The plate and ambient temperatures are measured using a
     PT100 sensor. The clicker is used to control the plate temperature.
     """
-    name = 'I vs t'
+
+    name = "I vs t"
 
     # Instruments
     instruments = InstrumentManager()
@@ -52,27 +56,38 @@ class It(VgMixin, LaserMixin, ChipProcedure):
     sampling_t = Parameters.Control.sampling_t
     Irange = Parameters.Instrument.Irange
     NPLC = Parameters.Instrument.NPLC
-    relax_time = FloatParameter('Relax time after ON-OFF cycle', units='s', default=0., minimum=0.)
 
-    DATA_COLUMNS = ['t (s)', 'I (A)', 'VL (V)'] + PT100SerialSensor.DATA_COLUMNS
+    DATA_COLUMNS = ["t (s)", "I (A)", "VL (V)"] + PT100SerialSensor.DATA_COLUMNS
     INPUTS = ChipProcedure.INPUTS + [
-        'vds', 'Irange', 'vg_toggle', 'vg', 'laser_toggle', 'laser_wl', 'laser_v', 'laser_T',
-        'sampling_t', 'sense_T', 'initial_T', 'target_T', 'T_start_t', 'NPLC', 'relax_time'
+        "vds",
+        "Irange",
+        "vg_toggle",
+        "vg",
+        "laser_toggle",
+        "laser_wl",
+        "laser_v",
+        "laser_T",
+        "sampling_t",
+        "sense_T",
+        "initial_T",
+        "target_T",
+        "T_start_t",
+        "NPLC",
     ]
-    EXCLUDE = ChipProcedure.EXCLUDE + ['vg_toggle', 'laser_toggle', 'sense_T']
-    SEQUENCER_INPUTS = ['vds', 'laser_v', 'vg', 'target_T']
+    EXCLUDE = ChipProcedure.EXCLUDE + ["vg_toggle", "laser_toggle", "sense_T"]
+    SEQUENCER_INPUTS = ["vds", "laser_v", "vg", "target_T"]
 
     def connect_instruments(self):
         if not self.vg_toggle:
-            self.instruments.disable(self, 'tenma_neg')
-            self.instruments.disable(self, 'tenma_pos')
+            self.instruments.disable(self, "tenma_neg")
+            self.instruments.disable(self, "tenma_pos")
         if not self.laser_toggle:
-            self.instruments.disable(self, 'tenma_laser')
+            self.instruments.disable(self, "tenma_laser")
         if not self.sense_T:
-            self.instruments.disable(self, 'temperature_sensor')
-            self.instruments.disable(self, 'clicker')
+            self.instruments.disable(self, "temperature_sensor")
+            self.instruments.disable(self, "clicker")
         if self.target_T == 0:
-            self.instruments.disable(self, 'clicker')
+            self.instruments.disable(self, "clicker")
         super().connect_instruments()
 
     def startup(self):
@@ -87,9 +102,9 @@ class It(VgMixin, LaserMixin, ChipProcedure):
         )
 
         # TENMA sources
-        self.tenma_neg.apply_voltage(0.)
-        self.tenma_pos.apply_voltage(0.)
-        self.tenma_laser.apply_voltage(0.)
+        self.tenma_neg.apply_voltage(0.0)
+        self.tenma_pos.apply_voltage(0.0)
+        self.tenma_laser.apply_voltage(0.0)
 
         # Turn on the outputs
         self.meter.enable_source()
@@ -97,11 +112,11 @@ class It(VgMixin, LaserMixin, ChipProcedure):
         self.tenma_neg.output = True
         self.tenma_pos.output = True
         self.tenma_laser.output = True
-        time.sleep(1.)
+        time.sleep(1.0)
 
     def execute(self):
-        log.info(f"Starting the measurement (ON-OFF period: {self.laser_T}s, Relax time: {self.relax_time}s)")
-        total_time = self.laser_T + self.relax_time
+        log.info("Starting the measurement")
+        total_time = self.laser_T * 3 / 2
         self.meter.clear_buffer()
 
         self.meter.source_voltage = self.vds
@@ -118,15 +133,15 @@ class It(VgMixin, LaserMixin, ChipProcedure):
             self.tenma_neg.ramp_to_voltage(-self.vg)
 
         def measuring_loop(t_end: float, laser_v: float):
-            keithley_time = 0.
+            keithley_time = 0.0
             while keithley_time < t_end:
                 if self.should_stop():
-                    if not getattr(self, 'abort_warned', False):
-                        log.warning('Measurement aborted')
+                    if not getattr(self, "abort_warned", False):
+                        log.warning("Measurement aborted")
                         self.abort_warned = True
                     break
 
-                self.emit('progress', 100 * keithley_time / total_time)
+                self.emit("progress", 100 * keithley_time / total_time)
 
                 keithley_time, current = self.meter.get_data()
 
@@ -134,22 +149,20 @@ class It(VgMixin, LaserMixin, ChipProcedure):
                 if keithley_time > self.T_start_t:
                     self.clicker.go()
 
-                self.emit('results', dict(zip(
-                    self.DATA_COLUMNS, [keithley_time, current, laser_v, *temperature_data]
-                )))
+                self.emit(
+                    "results",
+                    dict(
+                        zip(
+                            self.DATA_COLUMNS,
+                            [keithley_time, current, laser_v, *temperature_data],
+                        )
+                    ),
+                )
                 time.sleep(self.sampling_t)
 
-        # Phase 1: LED OFF for laser_T/2
-        self.tenma_laser.voltage = 0.
-        log.info(f"Phase 1: LED OFF for {self.laser_T/2}s")
-        measuring_loop(self.laser_T / 2, 0.)
-
-        # Phase 2: LED ON for laser_T/2
+        self.tenma_laser.voltage = 0.0
+        measuring_loop(total_time / 3, 0.0)
         self.tenma_laser.voltage = self.laser_v
-        log.info(f"Phase 2: LED ON for {self.laser_T/2}s")
-        measuring_loop(self.laser_T, self.laser_v)
-
-        # Phase 3: LED OFF for relax_time
-        self.tenma_laser.voltage = 0.
-        log.info(f"Phase 3: Relax time (LED OFF) for {self.relax_time}s")
-        measuring_loop(total_time, 0.)
+        measuring_loop(total_time * 2 / 3, self.laser_v)
+        self.tenma_laser.voltage = 0.0
+        measuring_loop(total_time, 0.0)
