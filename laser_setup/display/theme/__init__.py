@@ -26,7 +26,8 @@ Usage:
 
 from .colors import (ThemeColors, create_dark_theme, create_light_theme,
                      create_dracula_theme, create_catppuccin_theme,
-                     create_solarized_dark_theme, create_gruvbox_theme)
+                     create_solarized_dark_theme, create_gruvbox_theme,
+                     create_monokai_theme)
 from .manager import ThemeManager, ThemeMode, manager
 from .qss import qss, get_procedure_button_style, build_stylesheet, get_proc_btn_index
 
@@ -67,6 +68,7 @@ __all__ = [
     'create_catppuccin_theme',
     'create_solarized_dark_theme',
     'create_gruvbox_theme',
+    'create_monokai_theme',
     # QSS
     'qss',
     'get_procedure_button_style',

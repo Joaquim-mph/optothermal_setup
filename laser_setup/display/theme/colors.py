@@ -190,3 +190,22 @@ def create_gruvbox_theme() -> ThemeColors:
         proc_iv="#fb4934",  proc_iv_hover="#fc6a50",
         proc_laser="#fe8019", proc_laser_hover="#ffa040",
     )
+
+
+def create_monokai_theme() -> ThemeColors:
+    """Create Monokai Dark theme (https://monokai.pro)."""
+    return ThemeColors(
+        name="monokai",
+        bg="#272822", bg_dark="#1e1f1c", bg_highlight="#3e3d32", bg_sidebar="#2d2e27",
+        fg="#f8f8f2", fg_dark="#cfcfc2", comment="#75715e", fg_gutter="#49483e",
+        blue="#66d9e8", cyan="#a1efe4", green="#a6e22e", magenta="#ae81ff",
+        orange="#fd971f", red="#f92672", yellow="#e6db74",
+        border="#49483e", selection="#49483e",
+        blue_hover="#8ae8f4", cyan_hover="#c0f5ef", green_hover="#c4f04e",
+        magenta_hover="#c9a8ff", orange_hover="#ffb347", red_hover="#ff5294",
+        yellow_hover="#f5ef94",
+        proc_ivg="#66d9e8", proc_ivg_hover="#8ae8f4",
+        proc_it="#a6e22e",  proc_it_hover="#c4f04e",
+        proc_iv="#f92672",  proc_iv_hover="#ff5294",
+        proc_laser="#fd971f", proc_laser_hover="#ffb347",
+    )

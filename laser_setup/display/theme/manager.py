@@ -11,7 +11,8 @@ from typing import TYPE_CHECKING
 from ..Qt import QtCore, QtGui, QtWidgets
 from .colors import (ThemeColors, create_dark_theme, create_light_theme,
                      create_dracula_theme, create_catppuccin_theme,
-                     create_solarized_dark_theme, create_gruvbox_theme)
+                     create_solarized_dark_theme, create_gruvbox_theme,
+                     create_monokai_theme)
 from .detection import detect_system_dark_mode
 
 if TYPE_CHECKING:
@@ -29,6 +30,7 @@ class ThemeMode(Enum):
     CATPPUCCIN = auto()     # Catppuccin Mocha
     SOLARIZED_DARK = auto() # Solarized Dark
     GRUVBOX = auto()        # Gruvbox Dark
+    MONOKAI = auto()        # Monokai Dark
 
 
 class ThemeManager(QtCore.QObject):
@@ -68,6 +70,7 @@ class ThemeManager(QtCore.QObject):
         self._catppuccin_theme = create_catppuccin_theme()
         self._solarized_dark_theme = create_solarized_dark_theme()
         self._gruvbox_theme = create_gruvbox_theme()
+        self._monokai_theme = create_monokai_theme()
 
     @property
     def mode(self) -> ThemeMode:
@@ -169,6 +172,7 @@ class ThemeManager(QtCore.QObject):
             ThemeMode.CATPPUCCIN:     self._catppuccin_theme,
             ThemeMode.SOLARIZED_DARK: self._solarized_dark_theme,
             ThemeMode.GRUVBOX:        self._gruvbox_theme,
+            ThemeMode.MONOKAI:        self._monokai_theme,
         }
         if self._mode in _map:
             return _map[self._mode]

@@ -420,6 +420,7 @@ class MainWindow(QtWidgets.QMainWindow):
             ("Catppuccin Mocha", ThemeMode.CATPPUCCIN),
             ("Solarized Dark", ThemeMode.SOLARIZED_DARK),
             ("Gruvbox", ThemeMode.GRUVBOX),
+            ("Monokai Dark", ThemeMode.MONOKAI),
         ]
         tm = theme_manager()
         for label, mode in _THEME_ENTRIES:
