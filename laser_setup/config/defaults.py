@@ -70,7 +70,23 @@ class GUIConfig:
     )
     dark_mode: bool = field(
         default=True,
-        metadata={'title': 'Dark mode', 'type': 'bool'}
+        metadata={'title': 'Dark mode', 'type': 'bool', 'readonly': True}
+    )
+    theme_mode: str = field(
+        default='DARK',
+        metadata={
+            'title': 'Theme',
+            'type': 'list',
+            'limits': [
+                'AUTO',
+                'LIGHT', 'DARK',
+                'DRACULA_LIGHT', 'DRACULA',
+                'CATPPUCCIN_LIGHT', 'CATPPUCCIN',
+                'SOLARIZED_LIGHT', 'SOLARIZED_DARK',
+                'GRUVBOX_LIGHT', 'GRUVBOX',
+                'MONOKAI_LIGHT', 'MONOKAI',
+            ],
+        }
     )
     font: str = field(
         default='Segoe UI',

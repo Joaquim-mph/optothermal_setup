@@ -57,8 +57,8 @@ class ThemeColors:
 
     @property
     def is_dark(self) -> bool:
-        """Whether this is a dark theme (all non-light themes are dark)."""
-        return self.name != "light"
+        """Whether this is a dark theme."""
+        return not (self.name == 'light' or self.name.endswith('_light'))
 
     def as_palette_dict(self) -> dict:
         """Return the 16+7 token dict expected by build_stylesheet()."""
@@ -76,6 +76,44 @@ class ThemeColors:
             'orange_hover': self.orange_hover, 'red_hover': self.red_hover,
             'yellow_hover': self.yellow_hover,
         }
+
+
+def create_default_dark_theme() -> ThemeColors:
+    """Create Default Dark theme — matches the old Qt palette (dark gray + steel blue)."""
+    return ThemeColors(
+        name="default_dark",
+        bg="#323232", bg_dark="#232323", bg_highlight="#1e1e1e", bg_sidebar="#2d2d2d",
+        fg="#c8c8c8", fg_dark="#a0a0a0", comment="#707070", fg_gutter="#404040",
+        blue="#2A82DA", cyan="#3A9EC0", green="#5AA85A", magenta="#9050A0",
+        orange="#C07830", red="#C84040", yellow="#B0A030",
+        border="#484848", selection="#1a4a7a",
+        blue_hover="#4A9AE8", cyan_hover="#55B8D8", green_hover="#74C274",
+        magenta_hover="#AA68B8", orange_hover="#D89048", red_hover="#E06060",
+        yellow_hover="#C8B848",
+        proc_ivg="#2A82DA", proc_ivg_hover="#4A9AE8",
+        proc_it="#5AA85A",  proc_it_hover="#74C274",
+        proc_iv="#C84040",  proc_iv_hover="#E06060",
+        proc_laser="#C07830", proc_laser_hover="#D89048",
+    )
+
+
+def create_default_light_theme() -> ThemeColors:
+    """Create Default Light theme — light gray counterpart of the old Qt palette."""
+    return ThemeColors(
+        name="default_light",
+        bg="#F0F0F0", bg_dark="#E0E0E0", bg_highlight="#E8E8E8", bg_sidebar="#EAEAEA",
+        fg="#1A1A1A", fg_dark="#505050", comment="#808080", fg_gutter="#C0C0C0",
+        blue="#1A6DB5", cyan="#1A7A9A", green="#3A7A3A", magenta="#7A3A7A",
+        orange="#9A5A20", red="#9A2A2A", yellow="#7A6A10",
+        border="#C8C8C8", selection="#C8DCF0",
+        blue_hover="#1558A0", cyan_hover="#156280", green_hover="#2E622E",
+        magenta_hover="#622E62", orange_hover="#7C4818", red_hover="#7C2222",
+        yellow_hover="#62560C",
+        proc_ivg="#1A6DB5", proc_ivg_hover="#1558A0",
+        proc_it="#3A7A3A",  proc_it_hover="#2E622E",
+        proc_iv="#9A2A2A",  proc_iv_hover="#7C2222",
+        proc_laser="#9A5A20", proc_laser_hover="#7C4818",
+    )
 
 
 def create_dark_theme() -> ThemeColors:
@@ -208,4 +246,101 @@ def create_monokai_theme() -> ThemeColors:
         proc_it="#a6e22e",  proc_it_hover="#c4f04e",
         proc_iv="#f92672",  proc_iv_hover="#ff5294",
         proc_laser="#fd971f", proc_laser_hover="#ffb347",
+    )
+
+
+# ── Light variants of dark themes ────────────────────────────────────────────
+
+def create_dracula_light_theme() -> ThemeColors:
+    """Create Dracula Light theme (inverted Dracula palette)."""
+    return ThemeColors(
+        name="dracula_light",
+        bg="#F8F8F2", bg_dark="#F0F0EE", bg_highlight="#E6E5F2", bg_sidebar="#EDEDF8",
+        fg="#282A36", fg_dark="#44475A", comment="#6272A4", fg_gutter="#C8C7D8",
+        blue="#6E4DF2", cyan="#0A9EC4", green="#1EA54A", magenta="#CC2980",
+        orange="#C96A10", red="#D62020", yellow="#8A8A00",
+        border="#D0CFDF", selection="#E6E5F2",
+        blue_hover="#5538D8", cyan_hover="#0880A0", green_hover="#17873C",
+        magenta_hover="#A82068", orange_hover="#A85508", red_hover="#B01818",
+        yellow_hover="#6E6E00",
+        proc_ivg="#6E4DF2", proc_ivg_hover="#5538D8",
+        proc_it="#1EA54A",  proc_it_hover="#17873C",
+        proc_iv="#D62020",  proc_iv_hover="#B01818",
+        proc_laser="#C96A10", proc_laser_hover="#A85508",
+    )
+
+
+def create_catppuccin_latte_theme() -> ThemeColors:
+    """Create Catppuccin Latte theme (official light variant, catppuccin.com)."""
+    return ThemeColors(
+        name="catppuccin_light",
+        bg="#EFF1F5", bg_dark="#E6E9EF", bg_highlight="#DCE0E8", bg_sidebar="#E6E9EF",
+        fg="#4C4F69", fg_dark="#5C5F77", comment="#6C6F85", fg_gutter="#9CA0B0",
+        blue="#1E66F5", cyan="#04A5E5", green="#40A02B", magenta="#8839EF",
+        orange="#FE640B", red="#D20F39", yellow="#DF8E1D",
+        border="#CCD0DA", selection="#BCC0CC",
+        blue_hover="#1550CC", cyan_hover="#0388C0", green_hover="#328022",
+        magenta_hover="#6E2EC8", orange_hover="#D05008", red_hover="#A80B2E",
+        yellow_hover="#B87218",
+        proc_ivg="#1E66F5", proc_ivg_hover="#1550CC",
+        proc_it="#40A02B",  proc_it_hover="#328022",
+        proc_iv="#D20F39",  proc_iv_hover="#A80B2E",
+        proc_laser="#FE640B", proc_laser_hover="#D05008",
+    )
+
+
+def create_solarized_light_theme() -> ThemeColors:
+    """Create Solarized Light theme (https://ethanschoonover.com/solarized/)."""
+    return ThemeColors(
+        name="solarized_light",
+        bg="#FDF6E3", bg_dark="#EEE8D5", bg_highlight="#E8E4CF", bg_sidebar="#EEE8D5",
+        fg="#657B83", fg_dark="#586E75", comment="#93A1A1", fg_gutter="#D4CEB8",
+        blue="#268BD2", cyan="#2AA198", green="#859900", magenta="#D33682",
+        orange="#CB4B16", red="#DC322F", yellow="#B58900",
+        border="#D4CEB8", selection="#EEE8D5",
+        blue_hover="#1A6FAE", cyan_hover="#1E847C", green_hover="#6A7A00",
+        magenta_hover="#AD2A68", orange_hover="#A33A10", red_hover="#B42626",
+        yellow_hover="#916E00",
+        proc_ivg="#268BD2", proc_ivg_hover="#1A6FAE",
+        proc_it="#859900",  proc_it_hover="#6A7A00",
+        proc_iv="#DC322F",  proc_iv_hover="#B42626",
+        proc_laser="#CB4B16", proc_laser_hover="#A33A10",
+    )
+
+
+def create_gruvbox_light_theme() -> ThemeColors:
+    """Create Gruvbox Light theme (https://github.com/morhetz/gruvbox)."""
+    return ThemeColors(
+        name="gruvbox_light",
+        bg="#FBF1C7", bg_dark="#F2E5BC", bg_highlight="#EBDBB2", bg_sidebar="#F2E5BC",
+        fg="#3C3836", fg_dark="#504945", comment="#928374", fg_gutter="#D5C4A1",
+        blue="#458588", cyan="#689D6A", green="#79740E", magenta="#B16286",
+        orange="#D65D0E", red="#9D0006", yellow="#B57614",
+        border="#D5C4A1", selection="#EBDBB2",
+        blue_hover="#336668", cyan_hover="#4E7A50", green_hover="#5C5A0A",
+        magenta_hover="#8C4D68", orange_hover="#A8480A", red_hover="#7A0005",
+        yellow_hover="#8E5C10",
+        proc_ivg="#458588", proc_ivg_hover="#336668",
+        proc_it="#79740E",  proc_it_hover="#5C5A0A",
+        proc_iv="#9D0006",  proc_iv_hover="#7A0005",
+        proc_laser="#D65D0E", proc_laser_hover="#A8480A",
+    )
+
+
+def create_monokai_light_theme() -> ThemeColors:
+    """Create Monokai Light theme (light adaptation of Monokai Pro)."""
+    return ThemeColors(
+        name="monokai_light",
+        bg="#FAF8F2", bg_dark="#F2F0EA", bg_highlight="#E8E6E0", bg_sidebar="#F5F3ED",
+        fg="#272822", fg_dark="#49483E", comment="#75715E", fg_gutter="#D0CEC8",
+        blue="#009BB0", cyan="#00897B", green="#6A8E00", magenta="#7040D0",
+        orange="#C06010", red="#B80040", yellow="#8A7600",
+        border="#D4D2CC", selection="#E8E6E0",
+        blue_hover="#007C8E", cyan_hover="#006B62", green_hover="#527000",
+        magenta_hover="#5830A8", orange_hover="#9A4C0C", red_hover="#940033",
+        yellow_hover="#6E5E00",
+        proc_ivg="#009BB0", proc_ivg_hover="#007C8E",
+        proc_it="#6A8E00",  proc_it_hover="#527000",
+        proc_iv="#B80040",  proc_iv_hover="#940033",
+        proc_laser="#C06010", proc_laser_hover="#9A4C0C",
     )

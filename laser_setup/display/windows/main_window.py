@@ -22,10 +22,11 @@ from .._procedure_groups import _PROCEDURE_GROUPS
 from ..Qt import ConsoleWidget, QtCore, QtGui, QtWidgets, Worker
 from ..theme import ThemeMode, get_proc_btn_index
 from ..theme import manager as theme_manager
-from ..widgets import ConfigWidget, LogsWidget, SQLiteWidget
+from ..widgets import LogsWidget, SQLiteWidget
 from ..widgets.camera_widget import CameraWidget
 from .experiment_window import ExperimentWindow
 from .sequence_window import SequenceWindow
+from .settings_dialog import SettingsDialog
 
 log = logging.getLogger(__name__)
 
@@ -413,22 +414,27 @@ class MainWindow(QtWidgets.QMainWindow):
         theme_menu = view_menu.addMenu("Theme")
         self._theme_action_group = QtGui.QActionGroup(self)
         self._theme_action_group.setExclusive(True)
-        _THEME_ENTRIES = [
-            ("Light", ThemeMode.LIGHT),
-            ("Dark (Tokyo Night)", ThemeMode.DARK),
-            ("Dracula", ThemeMode.DRACULA),
-            ("Catppuccin Mocha", ThemeMode.CATPPUCCIN),
-            ("Solarized Dark", ThemeMode.SOLARIZED_DARK),
-            ("Gruvbox", ThemeMode.GRUVBOX),
-            ("Monokai Dark", ThemeMode.MONOKAI),
+        # (label, light_mode, dark_mode)
+        _THEME_FAMILIES = [
+            ("Default",    ThemeMode.DEFAULT_LIGHT,   ThemeMode.DEFAULT_DARK),
+            ("Tokyo Night", ThemeMode.LIGHT,          ThemeMode.DARK),
+            ("Dracula",    ThemeMode.DRACULA_LIGHT,   ThemeMode.DRACULA),
+            ("Catppuccin", ThemeMode.CATPPUCCIN_LIGHT, ThemeMode.CATPPUCCIN),
+            ("Solarized",  ThemeMode.SOLARIZED_LIGHT, ThemeMode.SOLARIZED_DARK),
+            ("Gruvbox",    ThemeMode.GRUVBOX_LIGHT,   ThemeMode.GRUVBOX),
+            ("Monokai",    ThemeMode.MONOKAI_LIGHT,   ThemeMode.MONOKAI),
         ]
         tm = theme_manager()
-        for label, mode in _THEME_ENTRIES:
+        # Map frozenset({light_mode, dark_mode}) → QAction for checkmark updates
+        self._theme_family_actions: dict[frozenset, QtGui.QAction] = {}
+        for label, light_mode, dark_mode in _THEME_FAMILIES:
             act = QtGui.QAction(label, self, checkable=True)
-            act.setChecked(tm.mode == mode)
-            act.triggered.connect(partial(theme_manager().set_mode, mode))
+            act.setChecked(tm.mode in (light_mode, dark_mode))
+            act.triggered.connect(partial(self._select_theme_family, light_mode, dark_mode))
             self._theme_action_group.addAction(act)
             theme_menu.addAction(act)
+            self._theme_family_actions[frozenset([light_mode, dark_mode])] = act
+        tm.theme_changed.connect(self._update_theme_family_checks)
 
         view_menu.addSeparator()
 
@@ -445,13 +451,23 @@ class MainWindow(QtWidgets.QMainWindow):
     def _add_config_menu(self, menu: QtWidgets.QMenuBar):
         """Add &Config menu."""
         config_menu = menu.addMenu("&Config")
-        self.config_widget = ConfigWidget(parent=self)
-        self.config_widget.setWindowFlags(QtCore.Qt.WindowType.Dialog)
-        config_menu.addAction(
-            "Edit config", partial(self.open_widget, self.config_widget, "Config")
+        self._settings_dialog = SettingsDialog(
+            config_handler=self.config_handler, parent=self
         )
+        edit_action = config_menu.addAction("Edit config", self._open_settings)
+        edit_action.setShortcut("Ctrl+,")
+        edit_action.setStatusTip("Open the settings dialog")
+        config_menu.addSeparator()
         config_menu.addAction("Load config", self.config_handler.import_config)
         config_menu.addAction("Open config file", self.config_handler.edit_config)
+
+    def _open_settings(self) -> None:
+        """Show the settings dialog, raising it if already visible."""
+        if self._settings_dialog.isVisible():
+            self._settings_dialog.raise_()
+            self._settings_dialog.activateWindow()
+        else:
+            self._settings_dialog.show()
 
     def _add_help_menu(self, menu: QtWidgets.QMenuBar):
         """Add &Help menu."""
@@ -624,10 +640,37 @@ class MainWindow(QtWidgets.QMainWindow):
     # ------------------------------------------------------------------
 
     def _toggle_dark_mode(self):
-        """Toggle between light and dark theme."""
+        """Toggle between the light and dark variant of the current theme family."""
         tm = theme_manager()
-        new_mode = ThemeMode.LIGHT if tm.is_dark else ThemeMode.DARK
+        _PAIRS = {
+            ThemeMode.DEFAULT_LIGHT:   ThemeMode.DEFAULT_DARK,
+            ThemeMode.DEFAULT_DARK:    ThemeMode.DEFAULT_LIGHT,
+            ThemeMode.LIGHT:           ThemeMode.DARK,
+            ThemeMode.DARK:            ThemeMode.LIGHT,
+            ThemeMode.DRACULA_LIGHT:   ThemeMode.DRACULA,
+            ThemeMode.DRACULA:         ThemeMode.DRACULA_LIGHT,
+            ThemeMode.CATPPUCCIN_LIGHT: ThemeMode.CATPPUCCIN,
+            ThemeMode.CATPPUCCIN:      ThemeMode.CATPPUCCIN_LIGHT,
+            ThemeMode.SOLARIZED_LIGHT: ThemeMode.SOLARIZED_DARK,
+            ThemeMode.SOLARIZED_DARK:  ThemeMode.SOLARIZED_LIGHT,
+            ThemeMode.GRUVBOX_LIGHT:   ThemeMode.GRUVBOX,
+            ThemeMode.GRUVBOX:         ThemeMode.GRUVBOX_LIGHT,
+            ThemeMode.MONOKAI_LIGHT:   ThemeMode.MONOKAI,
+            ThemeMode.MONOKAI:         ThemeMode.MONOKAI_LIGHT,
+        }
+        new_mode = _PAIRS.get(tm.mode, ThemeMode.DEFAULT_LIGHT if tm.is_dark else ThemeMode.DEFAULT_DARK)
         tm.set_mode(new_mode)
+
+    def _select_theme_family(self, light_mode: ThemeMode, dark_mode: ThemeMode):
+        """Switch to a theme family, preserving the current light/dark polarity."""
+        tm = theme_manager()
+        tm.set_mode(dark_mode if tm.is_dark else light_mode)
+
+    def _update_theme_family_checks(self, _colors):
+        """Sync theme menu checkmarks after any theme change."""
+        tm = theme_manager()
+        for family_modes, act in self._theme_family_actions.items():
+            act.setChecked(tm.mode in family_modes)
 
     def _app_zoom(self, factor: int):
         """Zoom the whole application font size."""

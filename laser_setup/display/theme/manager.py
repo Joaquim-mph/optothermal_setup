@@ -9,10 +9,14 @@ from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 from ..Qt import QtCore, QtGui, QtWidgets
-from .colors import (ThemeColors, create_dark_theme, create_light_theme,
+from .colors import (ThemeColors, create_default_dark_theme, create_default_light_theme,
+                     create_dark_theme, create_light_theme,
                      create_dracula_theme, create_catppuccin_theme,
                      create_solarized_dark_theme, create_gruvbox_theme,
-                     create_monokai_theme)
+                     create_monokai_theme,
+                     create_dracula_light_theme, create_catppuccin_latte_theme,
+                     create_solarized_light_theme, create_gruvbox_light_theme,
+                     create_monokai_light_theme)
 from .detection import detect_system_dark_mode
 
 if TYPE_CHECKING:
@@ -23,14 +27,28 @@ log = logging.getLogger(__name__)
 
 class ThemeMode(Enum):
     """Theme mode options."""
-    AUTO = auto()           # Follow system preference
-    LIGHT = auto()          # Force light theme
-    DARK = auto()           # Tokyo Night Dark
-    DRACULA = auto()        # Dracula
-    CATPPUCCIN = auto()     # Catppuccin Mocha
-    SOLARIZED_DARK = auto() # Solarized Dark
-    GRUVBOX = auto()        # Gruvbox Dark
-    MONOKAI = auto()        # Monokai Dark
+    AUTO = auto()            # Follow system preference
+    # Default pair (classic Qt gray + steel blue)
+    DEFAULT_LIGHT = auto()   # Default Light
+    DEFAULT_DARK = auto()    # Default Dark
+    # Tokyo Night pair
+    LIGHT = auto()           # Tokyo Night Light
+    DARK = auto()            # Tokyo Night Dark
+    # Dracula pair
+    DRACULA_LIGHT = auto()   # Dracula Light
+    DRACULA = auto()         # Dracula Dark
+    # Catppuccin pair
+    CATPPUCCIN_LIGHT = auto() # Catppuccin Latte (Light)
+    CATPPUCCIN = auto()      # Catppuccin Mocha (Dark)
+    # Solarized pair
+    SOLARIZED_LIGHT = auto() # Solarized Light
+    SOLARIZED_DARK = auto()  # Solarized Dark
+    # Gruvbox pair
+    GRUVBOX_LIGHT = auto()   # Gruvbox Light
+    GRUVBOX = auto()         # Gruvbox Dark
+    # Monokai pair
+    MONOKAI_LIGHT = auto()   # Monokai Light
+    MONOKAI = auto()         # Monokai Dark
 
 
 class ThemeManager(QtCore.QObject):
@@ -64,12 +82,19 @@ class ThemeManager(QtCore.QObject):
 
         self._mode = ThemeMode.AUTO
         self._current_colors: ThemeColors | None = None
+        self._default_light_theme = create_default_light_theme()
+        self._default_dark_theme = create_default_dark_theme()
         self._light_theme = create_light_theme()
         self._dark_theme = create_dark_theme()
+        self._dracula_light_theme = create_dracula_light_theme()
         self._dracula_theme = create_dracula_theme()
+        self._catppuccin_latte_theme = create_catppuccin_latte_theme()
         self._catppuccin_theme = create_catppuccin_theme()
+        self._solarized_light_theme = create_solarized_light_theme()
         self._solarized_dark_theme = create_solarized_dark_theme()
+        self._gruvbox_light_theme = create_gruvbox_light_theme()
         self._gruvbox_theme = create_gruvbox_theme()
+        self._monokai_light_theme = create_monokai_light_theme()
         self._monokai_theme = create_monokai_theme()
 
     @property
@@ -113,11 +138,11 @@ class ThemeManager(QtCore.QObject):
         settings = QtCore.QSettings('LaserSetup', 'LaserSetup')
         settings.setValue('theme_mode', mode.name)
 
-    def restore_from_settings(self, fallback_dark: bool = False) -> None:
+    def restore_from_settings(self, fallback_theme: str = 'DARK') -> None:
         """Restore theme from QSettings, falling back to a config default.
 
         Args:
-            fallback_dark: Used when no saved theme exists; True → DARK, False → LIGHT
+            fallback_theme: ThemeMode name used when no saved theme exists (e.g. 'DARK', 'MONOKAI').
         """
         settings = QtCore.QSettings('LaserSetup', 'LaserSetup')
         saved = settings.value('theme_mode')
@@ -128,7 +153,12 @@ class ThemeManager(QtCore.QObject):
                 return
             except KeyError:
                 log.warning(f"Unknown saved theme mode '{saved}', using default")
-        self.set_mode_from_config(fallback_dark)
+        try:
+            mode = ThemeMode[fallback_theme]
+        except KeyError:
+            log.warning(f"Unknown fallback theme mode '{fallback_theme}', falling back to DARK")
+            mode = ThemeMode.DARK
+        self.set_mode(mode)
 
     def set_mode_from_config(self, dark_mode: bool) -> None:
         """Set theme mode from config boolean (backwards compatibility).
@@ -166,21 +196,28 @@ class ThemeManager(QtCore.QObject):
     def _resolve_colors(self) -> ThemeColors:
         """Resolve current colors based on mode and system preference."""
         _map = {
-            ThemeMode.LIGHT:          self._light_theme,
-            ThemeMode.DARK:           self._dark_theme,
-            ThemeMode.DRACULA:        self._dracula_theme,
-            ThemeMode.CATPPUCCIN:     self._catppuccin_theme,
-            ThemeMode.SOLARIZED_DARK: self._solarized_dark_theme,
-            ThemeMode.GRUVBOX:        self._gruvbox_theme,
-            ThemeMode.MONOKAI:        self._monokai_theme,
+            ThemeMode.DEFAULT_LIGHT:   self._default_light_theme,
+            ThemeMode.DEFAULT_DARK:    self._default_dark_theme,
+            ThemeMode.LIGHT:           self._light_theme,
+            ThemeMode.DARK:            self._dark_theme,
+            ThemeMode.DRACULA_LIGHT:   self._dracula_light_theme,
+            ThemeMode.DRACULA:         self._dracula_theme,
+            ThemeMode.CATPPUCCIN_LIGHT: self._catppuccin_latte_theme,
+            ThemeMode.CATPPUCCIN:      self._catppuccin_theme,
+            ThemeMode.SOLARIZED_LIGHT: self._solarized_light_theme,
+            ThemeMode.SOLARIZED_DARK:  self._solarized_dark_theme,
+            ThemeMode.GRUVBOX_LIGHT:   self._gruvbox_light_theme,
+            ThemeMode.GRUVBOX:         self._gruvbox_theme,
+            ThemeMode.MONOKAI_LIGHT:   self._monokai_light_theme,
+            ThemeMode.MONOKAI:         self._monokai_theme,
         }
         if self._mode in _map:
             return _map[self._mode]
         # AUTO
         system_dark = detect_system_dark_mode()
         if system_dark is None:
-            return self._light_theme
-        return self._dark_theme if system_dark else self._light_theme
+            return self._default_light_theme
+        return self._default_dark_theme if system_dark else self._default_light_theme
 
     def _apply_palette(self) -> None:
         """Apply current theme as Qt palette to the application."""

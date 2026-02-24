@@ -386,8 +386,6 @@ QFrame#proc-card-{slot}:hover {{
 QMainWindow, QWidget {{
     background-color: {p['bg']};
     color: {p['fg']};
-    font-family: "Segoe UI", "Inter", sans-serif;
-    font-size: 14px;
 }}
 
 /* ── Labels ──────────────────────────────────────────────────────── */
