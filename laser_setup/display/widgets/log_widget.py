@@ -1,4 +1,5 @@
 import logging
+import warnings
 
 from pymeasure.display.log import LogHandler
 from pymeasure.display.widgets import LogWidget
@@ -8,12 +9,14 @@ from ..Qt import QtGui, QtWidgets
 
 
 def get_log_config(
-    fmt: str = '%(asctime)s: [%(levelname)s] %(message)s (%(name)s)',
-    datefmt: str = '%I:%M:%S %p',
+    fmt: str = '%(asctime)s [%(levelname)s] %(message)s (%(name)s)',
+    datefmt: str = '%H:%M:%S',
 ) -> tuple[str, str]:
     """Get the log format and dateformat for the log widgets.
-    Defaults to this module's default formats.
-    Falls back to the given arguments.
+
+    Reads format strings from the configured console handler of this module's
+    logger. If logging has not been initialised yet, emits a UserWarning and
+    falls back to the supplied defaults.
 
     :param fmt: Format string for the log messages.
     :param datefmt: Format string for the date in the log messages.
@@ -24,6 +27,13 @@ def get_log_config(
         if handler.formatter is not None:
             return handler.formatter._fmt, handler.formatter.datefmt
 
+    warnings.warn(
+        "get_log_config() called before setup_logging() completed; "
+        "falling back to default format strings. "
+        "Ensure setup() is called before importing display widgets.",
+        UserWarning,
+        stacklevel=2,
+    )
     return fmt, datefmt
 
 

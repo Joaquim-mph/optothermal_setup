@@ -190,7 +190,7 @@ class ExperimentWindow(ManagedWindowBase):
 
         self.browser_widget.browser.measured_quantities.update([self.x_axis, self.y_axis])
 
-        self.log = logging.getLogger()
+        self.log = logging.getLogger("laser_setup")
         self.log.addHandler(self.log_widget.handler)
         self.log.debug(f"{type(self).__name__} connected to logging")
 

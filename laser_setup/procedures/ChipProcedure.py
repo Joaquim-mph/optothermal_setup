@@ -1,5 +1,6 @@
 import logging
 
+from ..config.log import set_experiment_context
 from ..utils import get_latest_DP, send_telegram_alert
 from .BaseProcedure import BaseProcedure
 from .utils import Parameters
@@ -18,6 +19,14 @@ class ChipProcedure(BaseProcedure):
     sample: str = Parameters.Chip.sample
 
     INPUTS = BaseProcedure.INPUTS + ['chip_group', 'chip_number', 'sample']
+
+    def connect_instruments(self):
+        set_experiment_context(
+            chip=f"{self.chip_group} {self.chip_number}",
+            sample=str(self.sample),
+            experiment=type(self).__name__,
+        )
+        super().connect_instruments()
 
     def shutdown(self):
         if not self.should_stop() and self.status >= self.RUNNING:

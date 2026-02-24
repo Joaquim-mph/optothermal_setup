@@ -172,15 +172,16 @@ Filename:
 
 Logging:
   # Log levels: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  # Set LOG_LEVEL env var at runtime to override (e.g. LOG_LEVEL=DEBUG laser_setup -d)
   version: 1
   disable_existing_loggers: False
   formatters:
     console:
       '()': ${class:laser_setup.config.log.ColoredFormatter}
-      format: '%(asctime)s: [%(levelname)s] %(message)s (%(name)s)'
-      datefmt: '%I:%M:%S %p'
+      format: '%(asctime)s [%(levelname)s] %(message)s (%(name)s)'
+      datefmt: '%H:%M:%S'
     file:
-      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s [chip=%(chip)s sample=%(sample)s exp=%(experiment)s]'
       datefmt: '%Y-%m-%d %H:%M:%S'
   handlers:
       console:
@@ -188,12 +189,13 @@ Logging:
         level: INFO
         formatter: console
       file:
-        class: logging.FileHandler
+        class: logging.handlers.TimedRotatingFileHandler
         level: DEBUG
         formatter: file
         filename: log/laser_setup.log
-        mode: a
-        encoding: null
+        when: midnight
+        backupCount: 14
+        encoding: utf-8
   loggers:
       root:
           level: INFO
@@ -202,7 +204,8 @@ Logging:
           level: INFO
           handlers: ['console']
       pymeasure.log:
-          level: WARNING
+          level: INFO
+          handlers: ['file']
 
 
 matplotlib_rcParams:

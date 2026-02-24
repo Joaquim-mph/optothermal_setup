@@ -77,6 +77,8 @@ class BaseProcedure(Procedure):
         other components before the measurement starts. Override this method
         in a subclass.
         """
+        params = {k: getattr(v, 'value', None) for k, v in self._parameters.items()}
+        log.debug("Starting %s | params: %s", type(self).__name__, params)
         self.connect_instruments()
 
     def shutdown(self):
@@ -107,28 +109,31 @@ class BaseProcedure(Procedure):
             tenma.ramp_to_voltage(0., vg_step=0.5)
             tenma.output = False
             log.info(f"Reset TENMA '{name}' to 0 V and disabled output after abort.")
-        except Exception as exc:
-            log.warning(f"Failed to reset TENMA '{name}' after abort: {exc}")
+        except Exception:
+            log.warning("Failed to reset TENMA '%s' after abort", name, exc_info=True)
 
     @staticmethod
     def _reset_keithley(meter: Keithley2450, name: str) -> None:
         try:
             meter.source_voltage = 0.
-        except Exception as exc:
-            log.warning(f"Failed to set Keithley '{name}' source to 0 V after abort: {exc}")
+        except Exception:
+            log.warning("Failed to set Keithley '%s' source to 0 V after abort", name,
+                        exc_info=True)
 
         if hasattr(meter, "disable_source"):
             try:
                 meter.disable_source()
                 log.info(f"Disabled Keithley '{name}' source after abort.")
-            except Exception as exc:
-                log.warning(f"Failed to disable Keithley '{name}' source after abort: {exc}")
+            except Exception:
+                log.warning("Failed to disable Keithley '%s' source after abort", name,
+                            exc_info=True)
         elif hasattr(meter, "source_enabled"):
             try:
                 meter.source_enabled = False
                 log.info(f"Disabled Keithley '{name}' source after abort.")
-            except Exception as exc:
-                log.warning(f"Failed to disable Keithley '{name}' source after abort: {exc}")
+            except Exception:
+                log.warning("Failed to disable Keithley '%s' source after abort", name,
+                            exc_info=True)
 
     def __init__(self, parameters: Mapping[str, Any] | None = None, **kwargs):
         """Initialize a procedure instance. It wraps the startup
