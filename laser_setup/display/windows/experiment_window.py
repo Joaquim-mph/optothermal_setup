@@ -265,6 +265,13 @@ class ExperimentWindow(ManagedWindowBase):
                 f"For example, IV data has 'Vsd (V)' while IVg data has 'Vg (V)'.\n\n"
                 f"Please open this file from the correct procedure window."
             )
+        else:
+            # manager.load() (used by open) never emits the queued signal, so the
+            # show/hide/clear buttons remain disabled unless we enable them here.
+            if self.browser.invisibleRootItem().childCount() > 0:
+                self.browser_widget.show_button.setEnabled(True)
+                self.browser_widget.hide_button.setEnabled(True)
+                self.browser_widget.clear_button.setEnabled(True)
 
     def new_curve(self, *args, **kwargs) -> ResultsCurve | list[ResultsCurve] | None:
         curves = super().new_curve(*args, **kwargs)

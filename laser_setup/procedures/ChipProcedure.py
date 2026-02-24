@@ -64,7 +64,6 @@ class VgMixin:
         else:
             new_vg = 0.
 
-        self._parameters['vg'] = Parameters.Control.vg
         self._parameters['vg'].value = new_vg
         self.vg = new_vg
         super().patch_parameters()

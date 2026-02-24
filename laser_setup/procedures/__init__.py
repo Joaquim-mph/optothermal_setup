@@ -6,6 +6,7 @@ from .It2 import It2
 from .Vt import Vt
 from .ItVg import ItVg
 from .IV import IV
+from .IVsaw import IVsaw
 from .Pt import Pt
 from .Pwl import Pwl
 from .Tt import Tt

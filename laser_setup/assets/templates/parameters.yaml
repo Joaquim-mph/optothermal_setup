@@ -280,6 +280,13 @@ Control:
     units: V
     group_by: show_more
 
+  vsd_step_fast:
+    _target_: *FloatParameter
+    default: 0.1
+    name: VSD step (fast/steep)
+    units: V
+    group_by: show_more
+
   vl_start:
     _target_: *FloatParameter
     default: 0.

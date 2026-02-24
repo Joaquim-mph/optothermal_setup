@@ -158,6 +158,30 @@ def voltage_ds_sweep_ramp(v_start: float, v_end: float, v_step: float) -> np.nda
     return _dedup_consecutive(V)
 
 
+def sawtooth_ramp(v_end: float, v_step: float, v_step_fast: float, n_cycles: int = 2) -> np.ndarray:
+    """Sawtooth voltage ramp: 0 → v_end (slow, v_step) → 0 (steep, v_step_fast),
+    repeated n_cycles times.
+
+    :param v_end: Peak voltage (positive or negative)
+    :param v_step: Step size for the slow ramp toward v_end
+    :param v_step_fast: Step size for the steep ramp back to 0
+    :param n_cycles: Number of cycles to repeat
+    :return: Array of voltages
+    """
+    step_up = abs(v_step)
+    step_down = abs(v_step_fast)
+    up = _step_ramp(0.0, v_end, step_up, include_end=True)
+    down = _step_ramp(v_end, 0.0, step_down, include_end=True)[1:]
+    one_cycle = _dedup_consecutive(np.concatenate([up, down]))
+
+    if n_cycles <= 1:
+        return one_cycle
+
+    # Concatenate n_cycles, skipping duplicate leading 0 at each junction
+    parts = [one_cycle] + [one_cycle[1:]] * (n_cycles - 1)
+    return _dedup_consecutive(np.concatenate(parts))
+
+
 def get_data_files(pattern: str = '*.csv') -> List[Path]:
     data_path = Path(CONFIG.Dir.data_dir)
     return list(data_path.rglob(pattern))
