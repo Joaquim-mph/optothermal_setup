@@ -98,6 +98,10 @@ class ExperimentWindow(ManagedWindowBase):
             sequence_file=sequence_file or getattr(cls, 'SEQUENCE_FILE', None),
             **kwargs
         )
+        _splitter = self.tabs.parent()
+        if isinstance(_splitter, QtWidgets.QSplitter):
+            _splitter.setSizes([600, 150])
+
         self.setWindowTitle(title or getattr(cls, 'name', cls.__name__))
         self.setWindowIcon(
             QtGui.QIcon(icon) if icon else self.style().standardIcon(
@@ -113,6 +117,35 @@ class ExperimentWindow(ManagedWindowBase):
 
         self.abort_button.setText('&Abort')
         self.queue_button.setText('&Queue')
+
+        # Status bar with live experiment state
+        self._status_bar = self.statusBar()
+        self._run_status_label = QtWidgets.QLabel("Idle")
+        self._run_status_label.setStyleSheet("padding: 2px 6px;")
+        self._status_bar.addWidget(self._run_status_label)
+
+        self._run_progress_bar = QtWidgets.QProgressBar()
+        self._run_progress_bar.setRange(0, 100)
+        self._run_progress_bar.setFixedWidth(150)
+        self._run_progress_bar.setFixedHeight(16)
+        self._run_progress_bar.setTextVisible(True)
+        self._run_progress_bar.hide()
+        self._status_bar.addWidget(self._run_progress_bar)
+
+        self._elapsed_label = QtWidgets.QLabel()
+        self._elapsed_label.setStyleSheet("padding: 2px 6px;")
+        self._elapsed_label.hide()
+        self._status_bar.addWidget(self._elapsed_label)
+
+        self._elapsed_timer = QtCore.QTimer(self)
+        self._elapsed_timer.setInterval(1000)
+        self._elapsed_timer.timeout.connect(self._on_elapsed_tick)
+
+        self.manager.queued.connect(self._on_exp_queued)
+        self.manager.running.connect(self._on_exp_running)
+        self.manager.finished.connect(self._on_exp_finished)
+        self.manager.abort_returned.connect(self._on_exp_aborted)
+        self.manager.failed.connect(self._on_exp_failed)
 
         # Rearrange left panel: inputs fill space; estimator + sequencer as collapsible sections
         _inputs_dock = _seq_dock = _est_dock = None
@@ -144,7 +177,6 @@ class ExperimentWindow(ManagedWindowBase):
                     QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
                 )
                 self._est_toggle.setCheckable(True)
-                self._est_toggle.setChecked(False)
                 self._est_toggle.setSizePolicy(
                     QtWidgets.QSizePolicy.Policy.Expanding,
                     QtWidgets.QSizePolicy.Policy.Fixed,
@@ -154,13 +186,14 @@ class ExperimentWindow(ManagedWindowBase):
 
                 _est_dock.setWidget(None)
                 self.estimator.setParent(container)
-                self.estimator.hide()
 
                 layout.addWidget(self._est_toggle)
                 layout.addWidget(self.estimator)
 
                 self.removeDockWidget(_est_dock)
                 _est_dock.deleteLater()
+
+                self._est_toggle.setChecked(True)  # fires _toggle_estimator → show
 
             if _seq_dock:
                 self._seq_toggle = QtWidgets.QToolButton(container)
@@ -205,6 +238,78 @@ class ExperimentWindow(ManagedWindowBase):
         self._seq_toggle.setArrowType(
             QtCore.Qt.ArrowType.DownArrow if checked else QtCore.Qt.ArrowType.RightArrow
         )
+
+    def _on_exp_queued(self, experiment):
+        name = getattr(type(experiment.procedure), 'name', type(experiment.procedure).__name__)
+        try:
+            n = sum(
+                1 for e in self.manager.experiments
+                if e.procedure.status == Procedure.QUEUED
+            )
+        except Exception:
+            n = 1
+        suffix = f" (+{n - 1} more)" if n > 1 else ""
+        self._run_status_label.setText(f"Queued: {name}{suffix}")
+
+    def _on_exp_running(self, experiment):
+        name = getattr(type(experiment.procedure), 'name', type(experiment.procedure).__name__)
+        self._run_status_label.setText(f"Running: {name}")
+        self._run_progress_bar.setValue(0)
+        self._run_progress_bar.show()
+        monitor = getattr(self.manager, '_monitor', None)
+        if monitor is not None:
+            monitor.progress.connect(self._on_progress)
+        self._run_start_time = time.monotonic()
+        self._elapsed_label.setText("00m 00s")
+        self._elapsed_label.show()
+        self._elapsed_timer.start()
+
+    def _on_elapsed_tick(self) -> None:
+        elapsed = int(time.monotonic() - self._run_start_time)
+        m, s = divmod(elapsed, 60)
+        self._elapsed_label.setText(f"{m:02d}m {s:02d}s")
+
+    def _stop_elapsed_timer(self) -> None:
+        self._elapsed_timer.stop()
+        self._elapsed_label.hide()
+        self._elapsed_label.setText("")
+
+    def _on_progress(self, value: float) -> None:
+        self._run_progress_bar.setValue(int(value))
+
+    def _disconnect_progress(self) -> None:
+        monitor = getattr(self.manager, '_monitor', None)
+        if monitor is not None:
+            try:
+                monitor.progress.disconnect(self._on_progress)
+            except RuntimeError:
+                pass
+
+    def _on_exp_finished(self, experiment):
+        name = getattr(type(experiment.procedure), 'name', type(experiment.procedure).__name__)
+        self._stop_elapsed_timer()
+        self._disconnect_progress()
+        self._run_progress_bar.hide()
+        self._run_progress_bar.setValue(0)
+        self._run_status_label.setText("Idle")
+        self._status_bar.showMessage(f"Finished: {name}", 4000)
+
+    def _on_exp_aborted(self, experiment):
+        self._stop_elapsed_timer()
+        self._disconnect_progress()
+        self._run_progress_bar.hide()
+        self._run_progress_bar.setValue(0)
+        self._run_status_label.setText("Idle")
+        self._status_bar.showMessage("Aborted — instruments ramped to 0 V", 4000)
+
+    def _on_exp_failed(self, experiment):
+        name = getattr(type(experiment.procedure), 'name', type(experiment.procedure).__name__)
+        self._stop_elapsed_timer()
+        self._disconnect_progress()
+        self._run_progress_bar.hide()
+        self._run_progress_bar.setValue(0)
+        self._run_status_label.setText("Idle")
+        self._status_bar.showMessage(f"Failed: {name}", 6000)
 
     def queue(self, procedure: Procedure | None = None):
         if procedure is None:

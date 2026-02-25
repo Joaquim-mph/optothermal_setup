@@ -1,0 +1,1018 @@
+2026-01-12 10:44:18 - laser_setup.config - INFO - Using config file: default
+2026-01-12 10:44:20 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-01-12 10:44:51 - laser_setup.config - INFO - Using config file: default
+2026-01-12 10:44:51 - laser_setup.config.handler - INFO - Copied templates to config/templates
+2026-01-12 10:44:51 - laser_setup.config.handler - INFO - Copied config files to config
+2026-01-12 10:49:53 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-01-12 10:49:54 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-01-12 10:49:59 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-01-12 10:50:00 - laser_setup.config.handler - INFO - Copied templates to config/templates
+2026-01-12 10:50:00 - laser_setup.config.handler - INFO - Config found at config/config.yaml. Skipping.
+2026-01-12 10:50:02 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-01-12 10:50:04 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-01-12 10:56:31 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-01-12 10:56:31 - laser_setup.config.handler - INFO - Copied templates to config/templates
+2026-01-12 10:56:31 - laser_setup.config.handler - INFO - Config found at config/config.yaml. Skipping.
+2026-01-12 10:56:40 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-01-12 10:56:41 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-01-12 10:56:42 - hydra.utils - ERROR - Error getting callable at laser_setup.cli.find_calibration_voltage.main : Error loading 'laser_setup.cli.find_calibration_voltage.main':
+ModuleNotFoundError("No module named 'tkinter'")
+Are you sure that 'find_calibration_voltage' is importable from module 'laser_setup.cli'?
+2026-01-12 10:59:55 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-01-12 10:59:56 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-01-12 11:02:50 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-01-12 11:02:51 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-01-19 00:40:02 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-01-19 00:40:04 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-21 19:02:06 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-21 19:02:07 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 01:14:45 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 01:14:47 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 01:14:47 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 01:16:50 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 01:16:52 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 01:16:52 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 02:04:17 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 02:04:18 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 02:04:18 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 02:09:10 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 02:09:11 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 02:09:11 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 02:29:02 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 02:29:03 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 02:29:03 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 02:34:50 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 02:34:52 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 02:34:52 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 02:38:29 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 02:38:30 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 02:38:31 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 02:40:35 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 02:40:37 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 02:40:37 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 02:41:52 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 02:41:53 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 02:41:54 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 02:43:15 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 02:43:17 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 02:43:17 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 02:45:25 - laser_setup.config.handler - INFO - Copied templates to config/templates
+2026-02-22 02:45:25 - laser_setup.config.handler - INFO - Config found at config/config.yaml. Skipping.
+2026-02-22 02:45:29 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 02:45:30 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 02:45:30 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 02:47:26 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 02:47:27 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 02:47:28 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 16:12:41 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 16:12:42 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 16:12:42 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 16:33:44 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 16:33:45 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 16:33:45 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 16:35:49 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 16:35:51 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 16:35:51 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 16:40:19 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 16:40:20 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 16:40:21 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 16:50:01 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 16:50:03 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 16:50:03 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 17:10:05 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 17:10:06 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 17:10:06 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 17:17:43 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 17:17:44 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 17:17:44 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 17:24:56 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 17:24:58 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 17:24:58 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 17:28:29 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 17:28:30 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 17:28:30 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 17:32:22 - laser_setup.display.theme.manager - INFO - Theme changed to: light
+2026-02-22 17:32:42 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 17:36:25 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 17:36:26 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 17:36:26 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 17:53:37 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 17:53:39 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 17:53:39 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 17:57:14 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 17:57:15 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 17:57:15 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 17:57:50 - laser_setup.display.theme.manager - INFO - Theme changed to: light
+2026-02-22 17:58:40 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 18:10:02 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 18:10:03 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 18:10:03 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 18:10:21 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 18:10:22 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 18:10:22 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 18:11:14 - laser_setup.display.theme.manager - INFO - Theme changed to: light
+2026-02-22 18:20:07 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 18:20:08 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 18:20:08 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 18:20:24 - laser_setup.display.theme.manager - INFO - Theme changed to: light
+2026-02-22 18:20:37 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 18:20:38 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 18:20:38 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 18:38:56 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 18:38:57 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 18:38:57 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 18:39:05 - laser_setup.display.theme.manager - INFO - Theme changed to: light
+2026-02-22 18:39:13 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/IVg2026-02-22_1.csv.
+2026-02-22 18:39:13 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 18:39:13 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg'
+2026-02-22 18:39:13 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 18:39:13 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 18:39:13 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument.
+2026-02-22 18:39:13 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450.
+2026-02-22 18:39:13 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument.
+2026-02-22 18:39:13 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument.
+2026-02-22 18:39:13 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument.
+2026-02-22 18:39:13 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument.
+2026-02-22 18:39:15 - laser_setup.procedures.IVg - INFO - Starting the measurement
+2026-02-22 18:39:37 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 18:41:40 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 18:41:42 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 18:41:42 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 18:42:05 - laser_setup.display.theme.manager - INFO - Theme changed to: light
+2026-02-22 19:20:45 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 19:20:47 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 19:20:47 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 19:24:33 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/IVg2026-02-22_2.csv.
+2026-02-22 19:24:33 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 19:24:33 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg'
+2026-02-22 19:24:33 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 19:24:33 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 19:24:33 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument.
+2026-02-22 19:24:33 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450.
+2026-02-22 19:24:33 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument.
+2026-02-22 19:24:33 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument.
+2026-02-22 19:24:33 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument.
+2026-02-22 19:24:33 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument.
+2026-02-22 19:24:35 - laser_setup.procedures.IVg - INFO - Starting the measurement
+2026-02-22 19:24:57 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 20:05:21 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 20:05:23 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 20:05:23 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 20:06:17 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 20:06:18 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 20:06:19 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 20:06:38 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-10/IVg2025-10-10_2.csv
+2026-02-22 20:10:31 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 20:10:32 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 20:10:32 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 20:11:01 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 20:11:02 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 20:11:02 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 20:28:09 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 20:28:10 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 20:28:10 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 21:09:06 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 21:09:07 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 21:09:07 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 21:11:44 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/It2026-02-22_1.csv.
+2026-02-22 21:11:44 - laser_setup.utils - INFO - Dirac Point found for other 1 other in IVg2026-02-22_2.csv: -6.00 [V]
+2026-02-22 21:11:44 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 21:11:44 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It'
+2026-02-22 21:11:44 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:11:44 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:11:44 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:11:44 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument.
+2026-02-22 21:11:44 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450.
+2026-02-22 21:11:44 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument.
+2026-02-22 21:11:44 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument.
+2026-02-22 21:11:44 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument.
+2026-02-22 21:11:44 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument.
+2026-02-22 21:11:45 - laser_setup.procedures.It - INFO - Starting the measurement (ON-OFF period: 120.0s, Relax time: 0.0s)
+2026-02-22 21:11:45 - laser_setup.procedures.It - INFO - Phase 1: LED OFF for 60.0s
+2026-02-22 21:12:44 - laser_setup.procedures.It - INFO - Phase 2: LED ON for 60.0s
+2026-02-22 21:12:54 - laser_setup.procedures.It - WARNING - Measurement aborted
+2026-02-22 21:12:54 - laser_setup.procedures.It - INFO - Phase 3: Relax time (LED OFF) for 0.0s
+2026-02-22 21:12:54 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 21:13:24 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/It2026-02-22_2.csv.
+2026-02-22 21:13:24 - laser_setup.utils - INFO - Dirac Point found for other 1 other in IVg2026-02-22_2.csv: -6.00 [V]
+2026-02-22 21:13:38 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/It2026-02-22_2.csv.
+2026-02-22 21:13:38 - laser_setup.utils - INFO - Dirac Point found for other 1 other in IVg2026-02-22_2.csv: -6.00 [V]
+2026-02-22 21:13:40 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 21:13:40 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It'
+2026-02-22 21:13:40 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:13:40 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:13:40 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM7: [Errno 2] No such file or directory: 'COM7' Using DebugInstrument.
+2026-02-22 21:13:40 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument.
+2026-02-22 21:13:41 - laser_setup.procedures.It - INFO - Starting the measurement (ON-OFF period: 20.0s, Relax time: 0.0s)
+2026-02-22 21:13:41 - laser_setup.procedures.It - INFO - Phase 1: LED OFF for 10.0s
+2026-02-22 21:13:41 - laser_setup.procedures.It - INFO - Phase 2: LED ON for 10.0s
+2026-02-22 21:13:41 - laser_setup.procedures.It - INFO - Phase 3: Relax time (LED OFF) for 0.0s
+2026-02-22 21:13:41 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 21:14:29 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/It2026-02-22_3.csv.
+2026-02-22 21:14:29 - laser_setup.utils - INFO - Dirac Point found for other 1 other in IVg2026-02-22_2.csv: -6.00 [V]
+2026-02-22 21:14:29 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 21:14:29 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It'
+2026-02-22 21:14:29 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:14:29 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:14:31 - laser_setup.procedures.It - INFO - Starting the measurement (ON-OFF period: 20.0s, Relax time: 10.0s)
+2026-02-22 21:14:31 - laser_setup.procedures.It - INFO - Phase 1: LED OFF for 10.0s
+2026-02-22 21:14:31 - laser_setup.procedures.It - INFO - Phase 2: LED ON for 10.0s
+2026-02-22 21:14:31 - laser_setup.procedures.It - INFO - Phase 3: Relax time (LED OFF) for 10.0s
+2026-02-22 21:14:31 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 21:14:46 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/It2026-02-22_4.csv.
+2026-02-22 21:14:46 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 21:14:46 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It'
+2026-02-22 21:14:46 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:14:46 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:14:46 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:14:46 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:14:48 - laser_setup.procedures.It - INFO - Starting the measurement (ON-OFF period: 20.0s, Relax time: 10.0s)
+2026-02-22 21:14:48 - laser_setup.procedures.It - INFO - Phase 1: LED OFF for 10.0s
+2026-02-22 21:14:48 - laser_setup.procedures.It - INFO - Phase 2: LED ON for 10.0s
+2026-02-22 21:14:48 - laser_setup.procedures.It - INFO - Phase 3: Relax time (LED OFF) for 10.0s
+2026-02-22 21:14:48 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 21:15:05 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/It2026-02-22_5.csv.
+2026-02-22 21:15:05 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 21:15:05 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It'
+2026-02-22 21:15:05 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:15:05 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:15:05 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:15:05 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:15:05 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 21:15:07 - laser_setup.procedures.It - INFO - Starting the measurement (ON-OFF period: 20.0s, Relax time: 10.0s)
+2026-02-22 21:15:07 - laser_setup.procedures.It - INFO - Phase 1: LED OFF for 10.0s
+2026-02-22 21:15:07 - laser_setup.procedures.It - INFO - Phase 2: LED ON for 10.0s
+2026-02-22 21:15:07 - laser_setup.procedures.It - INFO - Phase 3: Relax time (LED OFF) for 10.0s
+2026-02-22 21:15:07 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 22:02:42 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 22:02:44 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 22:02:44 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 22:03:31 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/It2026-02-22_6.csv.
+2026-02-22 22:03:31 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 22:03:31 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It'
+2026-02-22 22:03:31 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 22:03:31 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 22:03:31 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 22:03:31 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 22:03:31 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 22:03:31 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument.
+2026-02-22 22:03:31 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450.
+2026-02-22 22:03:33 - laser_setup.procedures.It - INFO - Starting the measurement
+2026-02-22 22:04:58 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/It2026-02-22_7.csv.
+2026-02-22 22:05:01 - laser_setup.procedures.It - WARNING - Measurement aborted
+2026-02-22 22:05:01 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 22:05:02 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 22:05:02 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It'
+2026-02-22 22:05:02 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 22:05:02 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 22:05:02 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 22:05:02 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 22:05:02 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM7: [Errno 2] No such file or directory: 'COM7' Using DebugInstrument.
+2026-02-22 22:05:02 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument.
+2026-02-22 22:05:03 - laser_setup.procedures.It - INFO - Starting the measurement
+2026-02-22 22:08:03 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 22:09:19 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 22:09:20 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 22:09:21 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 22:18:23 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 22:18:25 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 22:18:25 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 22:18:40 - laser_setup.display.theme.manager - INFO - Theme changed to: dracula
+2026-02-22 22:18:46 - laser_setup.display.theme.manager - INFO - Theme changed to: catppuccin
+2026-02-22 22:18:54 - laser_setup.display.theme.manager - INFO - Theme changed to: solarized_dark
+2026-02-22 22:18:58 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-22 22:46:58 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 22:46:59 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 22:46:59 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 22:48:26 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-22 22:48:34 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 22:48:35 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 22:48:36 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 22:52:59 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 22:53:00 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 22:53:00 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 22:54:55 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 22:54:57 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 22:54:57 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 22:56:43 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 22:56:44 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 22:56:44 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 22:58:15 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 22:58:16 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 22:58:16 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 23:00:32 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 23:00:33 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 23:00:33 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 23:07:46 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 23:07:47 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 23:07:47 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 23:09:25 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 23:09:26 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 23:09:26 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 23:10:52 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 23:10:53 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 23:10:53 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 23:11:05 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/IVg2026-02-22_3.csv.
+2026-02-22 23:11:05 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 23:11:05 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg'
+2026-02-22 23:11:05 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 23:11:05 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 23:11:05 - laser_setup.instruments.manager - ERROR - Failed to connect to instrument 'KEITHLEY': Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py.
+2026-02-22 23:11:05 - pymeasure.experiment.workers - ERROR - Worker caught an error on <IVg(status=Running,parameters_are_set=True)>
+Traceback (most recent call last):
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/experiment/workers.py", line 177, in run
+    self.procedure.startup()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/BaseProcedure.py", line 195, in wrapper
+    return method(*args, **kwargs)
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/IVg.py", line 69, in startup
+    self.connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/IVg.py", line 66, in connect_instruments
+    super().connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/BaseProcedure.py", line 67, in connect_instruments
+    self.instruments.connect_all(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 181, in connect_all
+    instrument = self.connect(
+        instrument_class=attr.instrument_class,
+    ...<3 lines>...
+        **attr.kwargs
+    )
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 219, in connect
+    instance = self.setup_adapter(
+        instrument_class, adapter=adapter, **kwargs
+    )
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 169, in setup_adapter
+    raise e
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 162, in setup_adapter
+    return instrument_class(adapter=adapter, **kwargs)
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/keithley.py", line 21, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        adapter, name or "Keithley 2450 SourceMeter", **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/keithley/keithley2450.py", line 64, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        adapter,
+        ^^^^^^^^
+        name,
+        ^^^^^
+        **kwargs
+        ^^^^^^^^
+    )
+    ^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/generic_types.py", line 39, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/instrument.py", line 86, in __init__
+    adapter = VISAAdapter(adapter, **kwargs)
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/adapters/visa.py", line 111, in __init__
+    self.manager = pyvisa.ResourceManager(visa_library)
+                   ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2993, in __new__
+    visa_library = open_visa_library(visa_library)
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2900, in open_visa_library
+    wrapper = _get_default_wrapper()
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2859, in _get_default_wrapper
+    raise ValueError(
+        "Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py."
+    )
+ValueError: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py.
+2026-02-22 23:11:05 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 23:11:09 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/IVg2026-02-22_4.csv.
+2026-02-22 23:11:09 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 23:11:09 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg'
+2026-02-22 23:11:09 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 23:11:09 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 23:11:09 - laser_setup.instruments.manager - ERROR - Failed to connect to instrument 'KEITHLEY': Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py.
+2026-02-22 23:11:09 - pymeasure.experiment.workers - ERROR - Worker caught an error on <IVg(status=Running,parameters_are_set=True)>
+Traceback (most recent call last):
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/experiment/workers.py", line 177, in run
+    self.procedure.startup()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/BaseProcedure.py", line 195, in wrapper
+    return method(*args, **kwargs)
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/IVg.py", line 69, in startup
+    self.connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/IVg.py", line 66, in connect_instruments
+    super().connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/BaseProcedure.py", line 67, in connect_instruments
+    self.instruments.connect_all(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 181, in connect_all
+    instrument = self.connect(
+        instrument_class=attr.instrument_class,
+    ...<3 lines>...
+        **attr.kwargs
+    )
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 219, in connect
+    instance = self.setup_adapter(
+        instrument_class, adapter=adapter, **kwargs
+    )
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 169, in setup_adapter
+    raise e
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 162, in setup_adapter
+    return instrument_class(adapter=adapter, **kwargs)
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/keithley.py", line 21, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        adapter, name or "Keithley 2450 SourceMeter", **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/keithley/keithley2450.py", line 64, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        adapter,
+        ^^^^^^^^
+        name,
+        ^^^^^
+        **kwargs
+        ^^^^^^^^
+    )
+    ^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/generic_types.py", line 39, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/instrument.py", line 86, in __init__
+    adapter = VISAAdapter(adapter, **kwargs)
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/adapters/visa.py", line 111, in __init__
+    self.manager = pyvisa.ResourceManager(visa_library)
+                   ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2993, in __new__
+    visa_library = open_visa_library(visa_library)
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2900, in open_visa_library
+    wrapper = _get_default_wrapper()
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2859, in _get_default_wrapper
+    raise ValueError(
+        "Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py."
+    )
+ValueError: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py.
+2026-02-22 23:11:09 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 23:11:10 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/IVg2026-02-22_5.csv.
+2026-02-22 23:11:10 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 23:11:10 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg'
+2026-02-22 23:11:10 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 23:11:10 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 23:11:10 - laser_setup.instruments.manager - ERROR - Failed to connect to instrument 'KEITHLEY': Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py.
+2026-02-22 23:11:10 - pymeasure.experiment.workers - ERROR - Worker caught an error on <IVg(status=Running,parameters_are_set=True)>
+Traceback (most recent call last):
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/experiment/workers.py", line 177, in run
+    self.procedure.startup()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/BaseProcedure.py", line 195, in wrapper
+    return method(*args, **kwargs)
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/IVg.py", line 69, in startup
+    self.connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/IVg.py", line 66, in connect_instruments
+    super().connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/BaseProcedure.py", line 67, in connect_instruments
+    self.instruments.connect_all(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 181, in connect_all
+    instrument = self.connect(
+        instrument_class=attr.instrument_class,
+    ...<3 lines>...
+        **attr.kwargs
+    )
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 219, in connect
+    instance = self.setup_adapter(
+        instrument_class, adapter=adapter, **kwargs
+    )
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 169, in setup_adapter
+    raise e
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 162, in setup_adapter
+    return instrument_class(adapter=adapter, **kwargs)
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/keithley.py", line 21, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        adapter, name or "Keithley 2450 SourceMeter", **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/keithley/keithley2450.py", line 64, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        adapter,
+        ^^^^^^^^
+        name,
+        ^^^^^
+        **kwargs
+        ^^^^^^^^
+    )
+    ^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/generic_types.py", line 39, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/instrument.py", line 86, in __init__
+    adapter = VISAAdapter(adapter, **kwargs)
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/adapters/visa.py", line 111, in __init__
+    self.manager = pyvisa.ResourceManager(visa_library)
+                   ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2993, in __new__
+    visa_library = open_visa_library(visa_library)
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2900, in open_visa_library
+    wrapper = _get_default_wrapper()
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2859, in _get_default_wrapper
+    raise ValueError(
+        "Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py."
+    )
+ValueError: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py.
+2026-02-22 23:11:10 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 23:11:11 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-22/IVg2026-02-22_6.csv.
+2026-02-22 23:11:11 - pymeasure.experiment.workers - INFO - Worker thread started
+2026-02-22 23:11:11 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg'
+2026-02-22 23:11:11 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 23:11:11 - pymeasure.instruments.instrument - INFO - Initializing None.
+2026-02-22 23:11:11 - laser_setup.instruments.manager - ERROR - Failed to connect to instrument 'KEITHLEY': Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py.
+2026-02-22 23:11:11 - pymeasure.experiment.workers - ERROR - Worker caught an error on <IVg(status=Running,parameters_are_set=True)>
+Traceback (most recent call last):
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/experiment/workers.py", line 177, in run
+    self.procedure.startup()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/BaseProcedure.py", line 195, in wrapper
+    return method(*args, **kwargs)
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/IVg.py", line 69, in startup
+    self.connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/IVg.py", line 66, in connect_instruments
+    super().connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/BaseProcedure.py", line 67, in connect_instruments
+    self.instruments.connect_all(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 181, in connect_all
+    instrument = self.connect(
+        instrument_class=attr.instrument_class,
+    ...<3 lines>...
+        **attr.kwargs
+    )
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 219, in connect
+    instance = self.setup_adapter(
+        instrument_class, adapter=adapter, **kwargs
+    )
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 169, in setup_adapter
+    raise e
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 162, in setup_adapter
+    return instrument_class(adapter=adapter, **kwargs)
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/keithley.py", line 21, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        adapter, name or "Keithley 2450 SourceMeter", **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/keithley/keithley2450.py", line 64, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        adapter,
+        ^^^^^^^^
+        name,
+        ^^^^^
+        **kwargs
+        ^^^^^^^^
+    )
+    ^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/generic_types.py", line 39, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/instruments/instrument.py", line 86, in __init__
+    adapter = VISAAdapter(adapter, **kwargs)
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/adapters/visa.py", line 111, in __init__
+    self.manager = pyvisa.ResourceManager(visa_library)
+                   ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2993, in __new__
+    visa_library = open_visa_library(visa_library)
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2900, in open_visa_library
+    wrapper = _get_default_wrapper()
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pyvisa/highlevel.py", line 2859, in _get_default_wrapper
+    raise ValueError(
+        "Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py."
+    )
+ValueError: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py.
+2026-02-22 23:11:11 - pymeasure.display.listeners - INFO - Monitor caught stop command
+2026-02-22 23:11:16 - pymeasure.display.windows.managed_window - ERROR - Failed to abort experiment
+Traceback (most recent call last):
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/display/windows/managed_window.py", line 606, in abort
+    self.manager.abort()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/.local/lib/python3.14/site-packages/pymeasure/display/manager.py", line 266, in abort
+    raise Exception("Attempting to abort when no experiment "
+                    "is running")
+Exception: Attempting to abort when no experiment is running
+2026-02-22 23:14:28 - laser_setup.utils - INFO - Empty files removed
+2026-02-22 23:14:32 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 23:14:34 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-22 23:14:34 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 23:14:51 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-22 23:14:59 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 23:15:00 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-22 23:15:00 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 23:15:26 - laser_setup.display.theme.manager - INFO - Theme changed to: light
+2026-02-22 23:16:33 - laser_setup.display.theme.manager - INFO - Theme changed to: catppuccin
+2026-02-22 23:16:48 - laser_setup.display.theme.manager - INFO - Theme changed to: solarized_dark
+2026-02-22 23:20:45 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-22 23:20:46 - laser_setup.display.theme.manager - INFO - Theme changed to: solarized_dark
+2026-02-22 23:20:46 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-22 23:21:01 - laser_setup.display.theme.manager - INFO - Theme changed to: monokai
+2026-02-22 23:23:07 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-23 02:16:48 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-23 02:16:49 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-23 02:16:50 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-23 02:50:53 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-23 02:50:55 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-23 02:50:55 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-23 17:09:18 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-23 17:09:20 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-23 17:09:20 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-23 17:09:38 - laser_setup.display.theme.manager - INFO - Theme changed to: light
+2026-02-23 17:09:48 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-24 08:02:13 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 08:02:15 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-24 08:02:15 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 08:23:27 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 08:23:28 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-24 08:23:28 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 08:32:34 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 08:32:35 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-24 08:32:35 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 08:38:32 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 08:38:33 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-24 08:38:33 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 08:38:50 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 08:48:29 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 08:48:31 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-24 08:48:31 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 08:56:54 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 08:56:56 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-24 08:56:56 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 08:58:39 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 08:58:50 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 08:58:51 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-24 08:58:51 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 08:59:43 - laser_setup.display.theme.manager - INFO - Theme changed to: dracula
+2026-02-24 08:59:51 - laser_setup.display.theme.manager - INFO - Theme changed to: catppuccin
+2026-02-24 08:59:54 - laser_setup.display.theme.manager - INFO - Theme changed to: solarized_dark
+2026-02-24 09:00:01 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 09:00:05 - laser_setup.display.theme.manager - INFO - Theme changed to: monokai
+2026-02-24 09:00:19 - laser_setup.display.theme.manager - INFO - Theme changed to: monokai_light
+2026-02-24 09:00:27 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox_light
+2026-02-24 09:00:34 - laser_setup.display.theme.manager - INFO - Theme changed to: solarized_light
+2026-02-24 09:00:45 - laser_setup.display.theme.manager - INFO - Theme changed to: catppuccin_light
+2026-02-24 09:00:52 - laser_setup.display.theme.manager - INFO - Theme changed to: dracula_light
+2026-02-24 09:00:56 - laser_setup.display.theme.manager - INFO - Theme changed to: light
+2026-02-24 09:01:03 - laser_setup.display.theme.manager - INFO - Theme changed to: monokai_light
+2026-02-24 09:01:15 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox_light
+2026-02-24 09:03:13 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 09:03:14 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox_light
+2026-02-24 09:03:14 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 09:03:18 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:22:56 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:22:57 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:22:57 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:23:48 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:23:49 - laser_setup.display.theme.manager - INFO - Theme changed to: light
+2026-02-24 10:23:53 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:23:53 - laser_setup.display.theme.manager - INFO - Theme changed to: dracula_light
+2026-02-24 10:24:04 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:24:05 - laser_setup.display.theme.manager - INFO - Theme changed to: monokai
+2026-02-24 10:24:09 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:24:10 - laser_setup.display.theme.manager - INFO - Theme changed to: monokai_light
+2026-02-24 10:24:25 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:24:45 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:24:45 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:24:52 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:24:58 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:24:59 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:24:59 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:25:10 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:25:11 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:25:11 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:27:25 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:27:26 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:27:26 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:27:42 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:27:56 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:27:58 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:27:58 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:28:11 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:28:17 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:28:18 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:28:18 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:30:21 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:30:22 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:30:22 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:30:42 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:30:42 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-24 10:30:52 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:30:53 - laser_setup.display.theme.manager - INFO - Theme changed to: dark
+2026-02-24 10:30:53 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:31:15 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:31:21 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:31:21 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:31:36 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:31:42 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:31:43 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:31:43 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:42:20 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:42:21 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:42:21 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:42:52 - laser_setup.config.handler - INFO - Config saved to config/config.yaml
+2026-02-24 10:42:58 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:42:59 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:42:59 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 10:43:53 - laser_setup.config - INFO - Using config file: config/config.yaml
+2026-02-24 10:43:55 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox
+2026-02-24 10:43:55 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter
+2026-02-24 11:24:14 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 11:24:16 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 11:24:16 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 11:26:12 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 11:26:13 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 11:26:14 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 11:26:43 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/It2026-02-24_1.csv. [chip=- sample=- exp=-]
+2026-02-24 11:26:43 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 11:26:43 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It' [chip=- sample=- exp=-]
+2026-02-24 11:26:43 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 11:26:43 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 11:26:43 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 11:26:43 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 11:26:43 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 11:26:43 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=- sample=- exp=-]
+2026-02-24 11:26:43 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=- sample=- exp=-]
+2026-02-24 11:26:45 - laser_setup.procedures.It - INFO - Starting the measurement [chip=- sample=- exp=-]
+2026-02-24 11:27:22 - laser_setup.instruments.manager - INFO - Shutting down all instruments (remove_from_cache=False). [chip=- sample=- exp=-]
+2026-02-24 11:27:22 - laser_setup.procedures.It - WARNING - Measurement aborted [chip=- sample=- exp=-]
+2026-02-24 11:27:22 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 11:37:34 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 11:37:35 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 11:37:35 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 11:37:55 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/It2026-02-24_2.csv. [chip=- sample=- exp=-]
+2026-02-24 11:37:55 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 11:37:55 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It' [chip=- sample=- exp=-]
+2026-02-24 11:37:55 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 11:37:55 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 11:37:55 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 11:37:55 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 11:37:55 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 11:37:55 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=Alisson 1 sample=C exp=It]
+2026-02-24 11:37:55 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=Alisson 1 sample=C exp=It]
+2026-02-24 11:37:56 - laser_setup.procedures.It - INFO - Starting the measurement [chip=Alisson 1 sample=C exp=It]
+2026-02-24 11:38:18 - laser_setup.instruments.manager - INFO - Shutting down all instruments (remove_from_cache=False). [chip=- sample=- exp=-]
+2026-02-24 11:38:18 - laser_setup.procedures.It - WARNING - Measurement aborted [chip=Alisson 1 sample=C exp=It]
+2026-02-24 11:38:18 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 11:47:21 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 11:47:22 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 11:47:22 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 12:37:15 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 12:37:16 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 12:37:16 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 12:47:45 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 12:47:46 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 12:47:46 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 12:49:07 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 12:49:08 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 12:49:08 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 12:50:16 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 12:50:17 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 12:50:17 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 12:50:43 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_1.csv. [chip=- sample=- exp=-]
+2026-02-24 12:50:43 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 12:50:43 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 12:50:43 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:50:43 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:50:43 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:50:43 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:50:43 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:50:43 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:50:44 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (221 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:50:49 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (221 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:50:54 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 12:52:31 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_2.csv. [chip=- sample=- exp=-]
+2026-02-24 12:52:31 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 12:52:31 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 12:52:31 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:31 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:31 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:31 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:32 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (211 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:52:37 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (211 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:52:40 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_3.csv. [chip=- sample=- exp=-]
+2026-02-24 12:52:41 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 12:52:41 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 12:52:41 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 12:52:41 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:41 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:41 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:41 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:42 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_4.csv. [chip=- sample=- exp=-]
+2026-02-24 12:52:43 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (209 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:52:45 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_5.csv. [chip=- sample=- exp=-]
+2026-02-24 12:52:47 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (209 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:52:48 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_6.csv. [chip=- sample=- exp=-]
+2026-02-24 12:52:51 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_7.csv. [chip=- sample=- exp=-]
+2026-02-24 12:52:51 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 12:52:51 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 12:52:51 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 12:52:51 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:51 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:51 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:51 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:52:53 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (207 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:52:57 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (207 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:52:57 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_8.csv. [chip=- sample=- exp=-]
+2026-02-24 12:53:02 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 12:53:02 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 12:53:02 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 12:53:02 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:02 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:02 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:02 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:03 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:53:04 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_9.csv. [chip=- sample=- exp=-]
+2026-02-24 12:53:07 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:53:12 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 12:53:12 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 12:53:12 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 12:53:12 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:12 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:12 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:12 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:13 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:53:18 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:53:22 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 12:53:22 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 12:53:22 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 12:53:22 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:22 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:22 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:22 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:23 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:53:28 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:53:32 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 12:53:32 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 12:53:32 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 12:53:32 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:32 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:32 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:32 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:34 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:53:38 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:53:42 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 12:53:42 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 12:53:42 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 12:53:42 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:42 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:42 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:42 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 12:53:44 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (203 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:53:48 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (203 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 12:53:52 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 13:12:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_1.csv [chip=- sample=- exp=-]
+2026-02-24 13:12:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_2.csv [chip=- sample=- exp=-]
+2026-02-24 13:12:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_3.csv [chip=- sample=- exp=-]
+2026-02-24 13:12:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_4.csv [chip=- sample=- exp=-]
+2026-02-24 13:12:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_5.csv [chip=- sample=- exp=-]
+2026-02-24 13:12:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_6.csv [chip=- sample=- exp=-]
+2026-02-24 13:12:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_7.csv [chip=- sample=- exp=-]
+2026-02-24 13:12:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_8.csv [chip=- sample=- exp=-]
+2026-02-24 13:12:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_9.csv [chip=- sample=- exp=-]
+2026-02-24 13:13:09 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_10.csv. [chip=- sample=- exp=-]
+2026-02-24 13:13:09 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 13:13:09 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 13:13:09 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 13:13:09 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 13:13:09 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 13:13:09 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 13:13:11 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 13:13:15 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 13:13:19 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 13:13:27 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_11.csv. [chip=- sample=- exp=-]
+2026-02-24 13:13:27 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 13:13:27 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVsaw' [chip=- sample=- exp=-]
+2026-02-24 13:13:27 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 13:13:27 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 13:13:27 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 13:13:27 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 13:13:29 - laser_setup.procedures.IVsaw - INFO - Starting positive sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 13:13:33 - laser_setup.procedures.IVsaw - INFO - Starting negative sweep (205 points) [chip=other 1 sample=other exp=IVsaw]
+2026-02-24 13:13:37 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 13:32:55 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 13:32:57 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 13:32:57 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 13:33:17 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_1.csv [chip=- sample=- exp=-]
+2026-02-24 13:33:17 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_2.csv [chip=- sample=- exp=-]
+2026-02-24 13:33:17 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_3.csv [chip=- sample=- exp=-]
+2026-02-24 13:33:17 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_4.csv [chip=- sample=- exp=-]
+2026-02-24 13:33:17 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_5.csv [chip=- sample=- exp=-]
+2026-02-24 13:33:17 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_6.csv [chip=- sample=- exp=-]
+2026-02-24 13:33:17 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_7.csv [chip=- sample=- exp=-]
+2026-02-24 13:33:18 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_8.csv [chip=- sample=- exp=-]
+2026-02-24 13:33:18 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_9.csv [chip=- sample=- exp=-]
+2026-02-24 13:33:18 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_10.csv [chip=- sample=- exp=-]
+2026-02-24 13:33:18 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_11.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:34 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 13:34:35 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 13:34:35 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 13:34:51 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_1.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:51 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_2.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:51 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_3.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:51 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_4.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:51 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_5.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:51 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_6.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:51 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_7.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:51 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_8.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:51 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_9.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_10.csv [chip=- sample=- exp=-]
+2026-02-24 13:34:52 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_11.csv [chip=- sample=- exp=-]
+2026-02-24 13:43:13 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 13:43:15 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 13:43:15 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 13:45:08 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_1.csv [chip=- sample=- exp=-]
+2026-02-24 13:45:08 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_2.csv [chip=- sample=- exp=-]
+2026-02-24 13:45:09 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_3.csv [chip=- sample=- exp=-]
+2026-02-24 13:45:09 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_4.csv [chip=- sample=- exp=-]
+2026-02-24 13:45:09 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_5.csv [chip=- sample=- exp=-]
+2026-02-24 13:45:09 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_6.csv [chip=- sample=- exp=-]
+2026-02-24 13:45:09 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_7.csv [chip=- sample=- exp=-]
+2026-02-24 13:45:09 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_8.csv [chip=- sample=- exp=-]
+2026-02-24 13:45:09 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_9.csv [chip=- sample=- exp=-]
+2026-02-24 13:45:09 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_10.csv [chip=- sample=- exp=-]
+2026-02-24 13:45:09 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2026-02-24/IVsaw2026-02-24_11.csv [chip=- sample=- exp=-]
+2026-02-24 14:03:01 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 14:03:02 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 14:03:02 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 14:03:25 - laser_setup.display.theme.manager - INFO - Theme changed to: default_dark [chip=- sample=- exp=-]
+2026-02-24 14:03:47 - laser_setup.display.theme.manager - INFO - Theme changed to: default_light [chip=- sample=- exp=-]
+2026-02-24 14:04:07 - laser_setup.display.theme.manager - INFO - Theme changed to: light [chip=- sample=- exp=-]
+2026-02-24 14:04:13 - laser_setup.display.theme.manager - INFO - Theme changed to: dark [chip=- sample=- exp=-]
+2026-02-24 14:13:23 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 14:13:24 - laser_setup.display.theme.manager - INFO - Theme changed to: dark [chip=- sample=- exp=-]
+2026-02-24 14:13:24 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 14:13:32 - laser_setup.display.theme.manager - INFO - Theme changed to: dracula [chip=- sample=- exp=-]
+2026-02-24 14:13:37 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 14:13:42 - laser_setup.display.theme.manager - INFO - Theme changed to: monokai [chip=- sample=- exp=-]
+2026-02-24 17:43:31 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 17:43:32 - laser_setup.display.theme.manager - INFO - Theme changed to: monokai [chip=- sample=- exp=-]
+2026-02-24 17:43:32 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-24 17:43:42 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 17:43:57 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVg2026-02-24_1.csv. [chip=- sample=- exp=-]
+2026-02-24 17:43:57 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 17:43:57 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-24 17:43:57 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 17:43:57 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 17:43:57 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-24 17:43:57 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=other 1 sample=other exp=IVg]
+2026-02-24 17:43:57 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-24 17:43:57 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-24 17:43:57 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-24 17:43:57 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-24 17:43:59 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-24 17:43:59 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVg2026-02-24_2.csv. [chip=- sample=- exp=-]
+2026-02-24 17:44:21 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 17:44:21 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 17:44:21 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-24 17:44:21 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 17:44:21 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 17:44:22 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-24 17:44:45 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 17:44:59 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-24/IVg2026-02-24_3.csv. [chip=- sample=- exp=-]
+2026-02-24 17:44:59 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-24 17:44:59 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-24 17:44:59 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 17:44:59 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-24 17:45:01 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-24 17:45:09 - laser_setup.instruments.manager - INFO - Shutting down all instruments (remove_from_cache=False). [chip=- sample=- exp=-]
+2026-02-24 17:45:09 - laser_setup.procedures.IVg - WARNING - Measurement aborted [chip=other 1 sample=other exp=IVg]
+2026-02-24 17:45:09 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-24 22:27:42 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_1.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_2.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_3.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_4.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_5.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_6.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_7.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_8.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_9.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_10.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_11.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_12.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_13.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_14.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_15.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:43 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_16.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:44 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_17.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:44 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_18.csv [chip=- sample=- exp=-]
+2026-02-24 22:27:44 - pymeasure.display.windows.managed_window - INFO - Opened data file /home/mphstphls/laser_setup/data/2025-10-13/IVg2025-10-13_19.csv [chip=- sample=- exp=-]
+2026-02-24 22:29:00 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-24 22:29:02 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-24 22:29:02 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
