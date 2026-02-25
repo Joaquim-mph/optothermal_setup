@@ -143,31 +143,17 @@ class ExperimentWindow(ManagedWindowBase):
 
         # Status bar with live experiment state
         self._status_bar = self.statusBar()
-        self._run_status_label = QtWidgets.QLabel("Idle")
-        self._run_status_label.setStyleSheet("padding: 2px 6px;")
-        self._status_bar.addWidget(self._run_status_label)
 
         self._run_progress_bar = QtWidgets.QProgressBar()
         self._run_progress_bar.setRange(0, 100)
-        self._run_progress_bar.setFixedWidth(150)
         self._run_progress_bar.setFixedHeight(16)
         self._run_progress_bar.setTextVisible(True)
         self._run_progress_bar.hide()
-        self._status_bar.addWidget(self._run_progress_bar)
-
-        self._elapsed_label = QtWidgets.QLabel()
-        self._elapsed_label.setStyleSheet("padding: 2px 6px;")
-        self._elapsed_label.hide()
-        self._status_bar.addWidget(self._elapsed_label)
+        self._status_bar.addWidget(self._run_progress_bar, 1)
 
         self._elapsed_timer = QtCore.QTimer(self)
         self._elapsed_timer.setInterval(1000)
         self._elapsed_timer.timeout.connect(self._on_elapsed_tick)
-
-        self._last_value_label = QtWidgets.QLabel()
-        self._last_value_label.setStyleSheet("padding: 2px 6px;")
-        self._last_value_label.hide()
-        self._status_bar.addWidget(self._last_value_label)
 
         self._browser_toggle = QtWidgets.QToolButton()
         self._browser_toggle.setText(' Run Browser')
@@ -187,14 +173,23 @@ class ExperimentWindow(ManagedWindowBase):
         self._save_plot_btn.setStyleSheet('QToolButton { border: none; padding: 2px 6px; }')
         self._save_plot_btn.setToolTip('Save current plot as image (Ctrl+Shift+S)')
         self._save_plot_btn.clicked.connect(self._save_plot)
+        self._save_plot_btn.hide()
         self._status_bar.addPermanentWidget(self._save_plot_btn)
 
-        self._file_path_label = QtWidgets.QLabel()
-        self._file_path_label.setStyleSheet("padding: 2px 6px;")
-        self._file_path_label.setOpenExternalLinks(False)
-        self._file_path_label.linkActivated.connect(self._reveal_file)
-        self._file_path_label.hide()
-        self._status_bar.addPermanentWidget(self._file_path_label)
+        self._elapsed_label = QtWidgets.QLabel()
+        self._elapsed_label.setStyleSheet("padding: 2px 6px;")
+        self._elapsed_label.hide()
+        self._status_bar.addPermanentWidget(self._elapsed_label)
+
+        self._open_folder_btn = QtWidgets.QToolButton()
+        self._open_folder_btn.setIcon(
+            self.style().standardIcon(QtWidgets.QStyle.StandardPixmap.SP_DirOpenIcon)
+        )
+        self._open_folder_btn.setToolTip('Open folder where last experiment was saved')
+        self._open_folder_btn.setStyleSheet('QToolButton { border: none; padding: 2px 6px; }')
+        self._open_folder_btn.clicked.connect(self._reveal_last_folder)
+        self._open_folder_btn.hide()
+        self._status_bar.addPermanentWidget(self._open_folder_btn)
 
         self.manager.queued.connect(self._on_exp_queued)
         self.manager.running.connect(self._on_exp_running)
@@ -278,6 +273,7 @@ class ExperimentWindow(ManagedWindowBase):
 
         self.browser_widget.browser.measured_quantities.update([self.x_axis, self.y_axis])
 
+
         self.log = logging.getLogger("laser_setup")
         self.log.addHandler(self.log_widget.handler)
         self.log.debug(f"{type(self).__name__} connected to logging")
@@ -311,11 +307,14 @@ class ExperimentWindow(ManagedWindowBase):
         except Exception:
             n = 1
         suffix = f" (+{n - 1} more)" if n > 1 else ""
-        self._run_status_label.setText(f"Queued: {name}{suffix}")
+        self._run_progress_bar.setFormat(f"Queued: {name}{suffix}")
+        self._run_progress_bar.setValue(0)
+        self._run_progress_bar.show()
+        self._save_plot_btn.show()
 
     def _on_exp_running(self, experiment):
         name = getattr(type(experiment.procedure), 'name', type(experiment.procedure).__name__)
-        self._run_status_label.setText(f"Running: {name}")
+        self._run_progress_bar.setFormat(f"Running: {name}  %p%")
         self._run_progress_bar.setValue(0)
         self._run_progress_bar.show()
         monitor = getattr(self.manager, '_monitor', None)
@@ -325,7 +324,6 @@ class ExperimentWindow(ManagedWindowBase):
         self._elapsed_label.setText("00m 00s")
         self._elapsed_label.show()
         self._elapsed_timer.start()
-        self.plot_widget.plot_frame.updated.connect(self._on_plot_updated)
 
     def _on_elapsed_tick(self) -> None:
         elapsed = int(time.monotonic() - self._run_start_time)
@@ -350,35 +348,7 @@ class ExperimentWindow(ManagedWindowBase):
     def _toggle_browser_shortcut(self) -> None:
         self._browser_toggle.setChecked(not self._browser_toggle.isChecked())
 
-    def _stop_last_value(self) -> None:
-        try:
-            self.plot_widget.plot_frame.updated.disconnect(self._on_plot_updated)
-        except RuntimeError:
-            pass
-        self._last_value_label.hide()
-        self._last_value_label.setText("")
-
-    def _on_plot_updated(self) -> None:
-        for item in self.plot_widget.plot_frame.plot.items:
-            if not isinstance(item, ResultsCurve):
-                continue
-            if item.yData is None or len(item.yData) == 0:
-                continue
-            value = item.yData[-1]
-            col = self.y_axis
-            if '(' in col and col.endswith(')'):
-                label = col[:col.rfind('(')].strip()
-                unit = col[col.rfind('(') + 1:-1]
-            else:
-                label, unit = col, ''
-            self._last_value_label.setText(
-                f"{label} = {pg.siFormat(value, suffix=unit, precision=3)}"
-            )
-            self._last_value_label.show()
-            break
-
     def _stop_elapsed_timer(self) -> None:
-        self._stop_last_value()
         self._elapsed_timer.stop()
         self._elapsed_label.hide()
         self._elapsed_label.setText("")
@@ -400,7 +370,7 @@ class ExperimentWindow(ManagedWindowBase):
         self._disconnect_progress()
         self._run_progress_bar.hide()
         self._run_progress_bar.setValue(0)
-        self._run_status_label.setText("Idle")
+        self._run_progress_bar.setFormat("%p%")
         self._status_bar.showMessage(f"Finished: {name}", 4000)
         self._show_file_path()
 
@@ -409,7 +379,7 @@ class ExperimentWindow(ManagedWindowBase):
         self._disconnect_progress()
         self._run_progress_bar.hide()
         self._run_progress_bar.setValue(0)
-        self._run_status_label.setText("Idle")
+        self._run_progress_bar.setFormat("%p%")
         self._status_bar.showMessage("Aborted — instruments ramped to 0 V", 4000)
         self._show_file_path()
 
@@ -419,26 +389,24 @@ class ExperimentWindow(ManagedWindowBase):
         self._disconnect_progress()
         self._run_progress_bar.hide()
         self._run_progress_bar.setValue(0)
-        self._run_status_label.setText("Idle")
+        self._run_progress_bar.setFormat("%p%")
         self._status_bar.showMessage(f"Failed: {name}", 6000)
         self._show_file_path()
 
     def _show_file_path(self) -> None:
+        if getattr(self, '_last_filename', None):
+            self._open_folder_btn.show()
+
+    def _reveal_last_folder(self) -> None:
         path = getattr(self, '_last_filename', None)
-        if not path:
-            return
-        rel = os.path.relpath(path)
-        self._file_path_label.setText(f'<a href="{path}">→ {rel}</a>')
-        self._file_path_label.show()
+        if path:
+            QtGui.QDesktopServices.openUrl(
+                QtCore.QUrl.fromLocalFile(os.path.dirname(os.path.abspath(path)))
+            )
 
     def _save_plot(self) -> None:
         exporter = pg.exporters.ImageExporter(self.plot_widget.plot_frame.plot)
         exporter.export()
-
-    def _reveal_file(self, path: str) -> None:
-        QtGui.QDesktopServices.openUrl(
-            QtCore.QUrl.fromLocalFile(os.path.dirname(os.path.abspath(path)))
-        )
 
     def queue(self, procedure: Procedure | None = None):
         if procedure is None:
