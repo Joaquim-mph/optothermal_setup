@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 
 import pyqtgraph as pg
@@ -118,6 +119,7 @@ class ExperimentWindow(ManagedWindowBase):
         self.abort_button.setText('&Abort')
         self.queue_button.setText('&Queue')
 
+
         # Keyboard shortcuts
         QtGui.QShortcut(
             QtGui.QKeySequence("Ctrl+Return"), self
@@ -132,6 +134,9 @@ class ExperimentWindow(ManagedWindowBase):
         QtGui.QShortcut(
             QtGui.QKeySequence("Ctrl+G"), self
         ).activated.connect(self._toggle_grid)
+        QtGui.QShortcut(
+            QtGui.QKeySequence("Ctrl+B"), self
+        ).activated.connect(self._toggle_browser_shortcut)
 
         # Status bar with live experiment state
         self._status_bar = self.statusBar()
@@ -155,6 +160,26 @@ class ExperimentWindow(ManagedWindowBase):
         self._elapsed_timer = QtCore.QTimer(self)
         self._elapsed_timer.setInterval(1000)
         self._elapsed_timer.timeout.connect(self._on_elapsed_tick)
+
+        self._browser_toggle = QtWidgets.QToolButton()
+        self._browser_toggle.setText(' Run Browser')
+        self._browser_toggle.setArrowType(QtCore.Qt.ArrowType.DownArrow)
+        self._browser_toggle.setToolButtonStyle(
+            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
+        )
+        self._browser_toggle.setCheckable(True)
+        self._browser_toggle.setChecked(True)
+        self._browser_toggle.setStyleSheet('QToolButton { border: none; padding: 2px 6px; }')
+        self._browser_toggle.setToolTip('Show/hide run browser (Ctrl+B)')
+        self._browser_toggle.toggled.connect(self._toggle_browser)
+        self._status_bar.addPermanentWidget(self._browser_toggle)
+
+        self._file_path_label = QtWidgets.QLabel()
+        self._file_path_label.setStyleSheet("padding: 2px 6px;")
+        self._file_path_label.setOpenExternalLinks(False)
+        self._file_path_label.linkActivated.connect(self._reveal_file)
+        self._file_path_label.hide()
+        self._status_bar.addPermanentWidget(self._file_path_label)
 
         self.manager.queued.connect(self._on_exp_queued)
         self.manager.running.connect(self._on_exp_running)
@@ -293,6 +318,15 @@ class ExperimentWindow(ManagedWindowBase):
         for pw in (self.plot_widget, *self.dock_widget.plot_frames):
             pw.plot_frame.plot.showGrid(x=self._grid_on, y=self._grid_on)
 
+    def _toggle_browser(self, checked: bool) -> None:
+        self.browser_widget.setVisible(checked)
+        self._browser_toggle.setArrowType(
+            QtCore.Qt.ArrowType.DownArrow if checked else QtCore.Qt.ArrowType.RightArrow
+        )
+
+    def _toggle_browser_shortcut(self) -> None:
+        self._browser_toggle.setChecked(not self._browser_toggle.isChecked())
+
     def _stop_elapsed_timer(self) -> None:
         self._elapsed_timer.stop()
         self._elapsed_label.hide()
@@ -317,6 +351,7 @@ class ExperimentWindow(ManagedWindowBase):
         self._run_progress_bar.setValue(0)
         self._run_status_label.setText("Idle")
         self._status_bar.showMessage(f"Finished: {name}", 4000)
+        self._show_file_path()
 
     def _on_exp_aborted(self, experiment):
         self._stop_elapsed_timer()
@@ -325,6 +360,7 @@ class ExperimentWindow(ManagedWindowBase):
         self._run_progress_bar.setValue(0)
         self._run_status_label.setText("Idle")
         self._status_bar.showMessage("Aborted — instruments ramped to 0 V", 4000)
+        self._show_file_path()
 
     def _on_exp_failed(self, experiment):
         name = getattr(type(experiment.procedure), 'name', type(experiment.procedure).__name__)
@@ -334,6 +370,20 @@ class ExperimentWindow(ManagedWindowBase):
         self._run_progress_bar.setValue(0)
         self._run_status_label.setText("Idle")
         self._status_bar.showMessage(f"Failed: {name}", 6000)
+        self._show_file_path()
+
+    def _show_file_path(self) -> None:
+        path = getattr(self, '_last_filename', None)
+        if not path:
+            return
+        rel = os.path.relpath(path)
+        self._file_path_label.setText(f'<a href="{path}">→ {rel}</a>')
+        self._file_path_label.show()
+
+    def _reveal_file(self, path: str) -> None:
+        QtGui.QDesktopServices.openUrl(
+            QtCore.QUrl.fromLocalFile(os.path.dirname(os.path.abspath(path)))
+        )
 
     def queue(self, procedure: Procedure | None = None):
         if procedure is None:
@@ -343,6 +393,7 @@ class ExperimentWindow(ManagedWindowBase):
         prefix = filename_kwargs.pop('prefix', '') or type(procedure).__name__
         filename = unique_filename(CONFIG.Dir.data_dir,
                                    prefix=prefix, **filename_kwargs)
+        self._last_filename = filename
         log.info(f"Saving data to {filename}.")
 
         if hasattr(procedure, 'patch_parameters') and callable(procedure.patch_parameters):
