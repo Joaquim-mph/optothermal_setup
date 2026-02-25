@@ -137,6 +137,9 @@ class ExperimentWindow(ManagedWindowBase):
         QtGui.QShortcut(
             QtGui.QKeySequence("Ctrl+B"), self
         ).activated.connect(self._toggle_browser_shortcut)
+        QtGui.QShortcut(
+            QtGui.QKeySequence("Ctrl+Shift+S"), self
+        ).activated.connect(self._save_plot)
 
         # Status bar with live experiment state
         self._status_bar = self.statusBar()
@@ -173,6 +176,13 @@ class ExperimentWindow(ManagedWindowBase):
         self._browser_toggle.setToolTip('Show/hide run browser (Ctrl+B)')
         self._browser_toggle.toggled.connect(self._toggle_browser)
         self._status_bar.addPermanentWidget(self._browser_toggle)
+
+        self._save_plot_btn = QtWidgets.QToolButton()
+        self._save_plot_btn.setText('Save Plot')
+        self._save_plot_btn.setStyleSheet('QToolButton { border: none; padding: 2px 6px; }')
+        self._save_plot_btn.setToolTip('Save current plot as image (Ctrl+Shift+S)')
+        self._save_plot_btn.clicked.connect(self._save_plot)
+        self._status_bar.addPermanentWidget(self._save_plot_btn)
 
         self._file_path_label = QtWidgets.QLabel()
         self._file_path_label.setStyleSheet("padding: 2px 6px;")
@@ -379,6 +389,10 @@ class ExperimentWindow(ManagedWindowBase):
         rel = os.path.relpath(path)
         self._file_path_label.setText(f'<a href="{path}">→ {rel}</a>')
         self._file_path_label.show()
+
+    def _save_plot(self) -> None:
+        exporter = pg.exporters.ImageExporter(self.plot_widget.plot_frame.plot)
+        exporter.export()
 
     def _reveal_file(self, path: str) -> None:
         QtGui.QDesktopServices.openUrl(
