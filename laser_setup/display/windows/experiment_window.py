@@ -164,6 +164,11 @@ class ExperimentWindow(ManagedWindowBase):
         self._elapsed_timer.setInterval(1000)
         self._elapsed_timer.timeout.connect(self._on_elapsed_tick)
 
+        self._last_value_label = QtWidgets.QLabel()
+        self._last_value_label.setStyleSheet("padding: 2px 6px;")
+        self._last_value_label.hide()
+        self._status_bar.addWidget(self._last_value_label)
+
         self._browser_toggle = QtWidgets.QToolButton()
         self._browser_toggle.setText(' Run Browser')
         self._browser_toggle.setArrowType(QtCore.Qt.ArrowType.DownArrow)
@@ -277,6 +282,13 @@ class ExperimentWindow(ManagedWindowBase):
         self.log.addHandler(self.log_widget.handler)
         self.log.debug(f"{type(self).__name__} connected to logging")
 
+        theme_manager().theme_changed.connect(self._on_theme_changed)
+
+    def _on_theme_changed(self, colors: ThemeColors) -> None:
+        PlotFrame.LABEL_STYLE['color'] = colors.fg
+        for pw in (self.plot_widget, *self.dock_widget.plot_frames):
+            _apply_plot_style(pw.plot_frame, colors)
+
     def _toggle_estimator(self, checked: bool) -> None:
         self.estimator.setVisible(checked)
         self._est_toggle.setArrowType(
@@ -313,6 +325,7 @@ class ExperimentWindow(ManagedWindowBase):
         self._elapsed_label.setText("00m 00s")
         self._elapsed_label.show()
         self._elapsed_timer.start()
+        self.plot_widget.plot_frame.updated.connect(self._on_plot_updated)
 
     def _on_elapsed_tick(self) -> None:
         elapsed = int(time.monotonic() - self._run_start_time)
@@ -337,7 +350,35 @@ class ExperimentWindow(ManagedWindowBase):
     def _toggle_browser_shortcut(self) -> None:
         self._browser_toggle.setChecked(not self._browser_toggle.isChecked())
 
+    def _stop_last_value(self) -> None:
+        try:
+            self.plot_widget.plot_frame.updated.disconnect(self._on_plot_updated)
+        except RuntimeError:
+            pass
+        self._last_value_label.hide()
+        self._last_value_label.setText("")
+
+    def _on_plot_updated(self) -> None:
+        for item in self.plot_widget.plot_frame.plot.items:
+            if not isinstance(item, ResultsCurve):
+                continue
+            if item.yData is None or len(item.yData) == 0:
+                continue
+            value = item.yData[-1]
+            col = self.y_axis
+            if '(' in col and col.endswith(')'):
+                label = col[:col.rfind('(')].strip()
+                unit = col[col.rfind('(') + 1:-1]
+            else:
+                label, unit = col, ''
+            self._last_value_label.setText(
+                f"{label} = {pg.siFormat(value, suffix=unit, precision=3)}"
+            )
+            self._last_value_label.show()
+            break
+
     def _stop_elapsed_timer(self) -> None:
+        self._stop_last_value()
         self._elapsed_timer.stop()
         self._elapsed_label.hide()
         self._elapsed_label.setText("")
