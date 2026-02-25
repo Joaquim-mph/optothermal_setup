@@ -118,6 +118,21 @@ class ExperimentWindow(ManagedWindowBase):
         self.abort_button.setText('&Abort')
         self.queue_button.setText('&Queue')
 
+        # Keyboard shortcuts
+        QtGui.QShortcut(
+            QtGui.QKeySequence("Ctrl+Return"), self
+        ).activated.connect(self.queue_button.click)
+        QtGui.QShortcut(
+            QtGui.QKeySequence("Escape"), self
+        ).activated.connect(self._shortcut_abort)
+        if issubclass(self.procedure_class, BaseProcedure):
+            QtGui.QShortcut(
+                QtGui.QKeySequence("Ctrl+Shift+K"), self
+            ).activated.connect(self.shutdown_button.click)
+        QtGui.QShortcut(
+            QtGui.QKeySequence("Ctrl+G"), self
+        ).activated.connect(self._toggle_grid)
+
         # Status bar with live experiment state
         self._status_bar = self.statusBar()
         self._run_status_label = QtWidgets.QLabel("Idle")
@@ -268,6 +283,15 @@ class ExperimentWindow(ManagedWindowBase):
         elapsed = int(time.monotonic() - self._run_start_time)
         m, s = divmod(elapsed, 60)
         self._elapsed_label.setText(f"{m:02d}m {s:02d}s")
+
+    def _shortcut_abort(self) -> None:
+        if self.manager.is_running():
+            self.abort_button.click()
+
+    def _toggle_grid(self) -> None:
+        self._grid_on = not getattr(self, '_grid_on', False)
+        for pw in (self.plot_widget, *self.dock_widget.plot_frames):
+            pw.plot_frame.plot.showGrid(x=self._grid_on, y=self._grid_on)
 
     def _stop_elapsed_timer(self) -> None:
         self._elapsed_timer.stop()
