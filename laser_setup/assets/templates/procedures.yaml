@@ -110,9 +110,11 @@ Stress:
 _types:
   Wait: ${class:laser_setup.procedures.Wait}
   It: ${class:laser_setup.procedures.It}
+  It2: ${class:laser_setup.procedures.It2}
   IVg: ${class:laser_setup.procedures.IVg}
   Vt: ${class:laser_setup.procedures.Vt}
   IV: ${class:laser_setup.procedures.IV}
+  IVsaw: ${class:laser_setup.procedures.IVsaw}
   ItWl: ${class:laser_setup.procedures.ItWl}
   Pt: ${class:laser_setup.procedures.Pt}
   Pwl: ${class:laser_setup.procedures.Pwl}
