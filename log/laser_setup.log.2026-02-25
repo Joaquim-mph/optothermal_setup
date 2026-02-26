@@ -1,0 +1,230 @@
+2026-02-25 00:04:30 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-25 00:04:32 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-25 00:04:32 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-25 00:04:45 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/IVg2026-02-25_1.csv. [chip=- sample=- exp=-]
+2026-02-25 00:04:45 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 00:04:45 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-25 00:04:45 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 00:04:45 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 00:04:45 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 00:04:45 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=other 1 sample=other exp=IVg]
+2026-02-25 00:04:45 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 00:04:45 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 00:04:45 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 00:04:45 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 00:04:47 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-25 00:05:09 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-25 00:07:20 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/IVg2026-02-25_2.csv. [chip=- sample=- exp=-]
+2026-02-25 00:07:20 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 00:07:20 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-25 00:07:20 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 00:07:20 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 00:07:22 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-25 00:07:41 - laser_setup.instruments.manager - INFO - Shutting down all instruments (remove_from_cache=False). [chip=- sample=- exp=-]
+2026-02-25 00:07:41 - laser_setup.procedures.IVg - WARNING - Measurement aborted [chip=other 1 sample=other exp=IVg]
+2026-02-25 00:07:41 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-25 01:03:08 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-25 01:03:09 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-25 01:03:09 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-25 01:03:27 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/It2026-02-25_1.csv. [chip=- sample=- exp=-]
+2026-02-25 01:03:27 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 01:03:27 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It' [chip=- sample=- exp=-]
+2026-02-25 01:03:27 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 01:03:27 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 01:03:27 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 01:03:27 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 01:03:27 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 01:03:27 - laser_setup.instruments.manager - ERROR - Failed to connect to instrument 'KEITHLEY': Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. [chip=other 1 sample=other exp=It]
+2026-02-25 01:03:27 - pymeasure.experiment.workers - ERROR - Worker caught an error on <It(status=Running,parameters_are_set=True)> [chip=other 1 sample=other exp=It]
+Traceback (most recent call last):
+  File "/home/mphstphls/laser_setup/.venv/lib64/python3.14/site-packages/pymeasure/experiment/workers.py", line 177, in run
+    self.procedure.startup()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/BaseProcedure.py", line 200, in wrapper
+    return method(*args, **kwargs)
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/It.py", line 94, in startup
+    self.connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/It.py", line 91, in connect_instruments
+    super().connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/ChipProcedure.py", line 29, in connect_instruments
+    super().connect_instruments()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/mphstphls/laser_setup/laser_setup/procedures/BaseProcedure.py", line 67, in connect_instruments
+    self.instruments.connect_all(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 181, in connect_all
+    instrument = self.connect(
+        instrument_class=attr.instrument_class,
+    ...<3 lines>...
+        **attr.kwargs
+    )
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 219, in connect
+    instance = self.setup_adapter(
+        instrument_class, adapter=adapter, **kwargs
+    )
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 169, in setup_adapter
+    raise e
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/manager.py", line 162, in setup_adapter
+    return instrument_class(adapter=adapter, **kwargs)
+  File "/home/mphstphls/laser_setup/laser_setup/instruments/keithley.py", line 21, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        adapter, name or "Keithley 2450 SourceMeter", **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/mphstphls/laser_setup/.venv/lib64/python3.14/site-packages/pymeasure/instruments/keithley/keithley2450.py", line 64, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        adapter,
+        ^^^^^^^^
+        name,
+        ^^^^^
+        **kwargs
+        ^^^^^^^^
+    )
+    ^
+  File "/home/mphstphls/laser_setup/.venv/lib64/python3.14/site-packages/pymeasure/instruments/generic_types.py", line 39, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/mphstphls/laser_setup/.venv/lib64/python3.14/site-packages/pymeasure/instruments/instrument.py", line 86, in __init__
+    adapter = VISAAdapter(adapter, **kwargs)
+  File "/home/mphstphls/laser_setup/.venv/lib64/python3.14/site-packages/pymeasure/adapters/visa.py", line 111, in __init__
+    self.manager = pyvisa.ResourceManager(visa_library)
+                   ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/mphstphls/laser_setup/.venv/lib64/python3.14/site-packages/pyvisa/highlevel.py", line 2993, in __new__
+    visa_library = open_visa_library(visa_library)
+  File "/home/mphstphls/laser_setup/.venv/lib64/python3.14/site-packages/pyvisa/highlevel.py", line 2900, in open_visa_library
+    wrapper = _get_default_wrapper()
+  File "/home/mphstphls/laser_setup/.venv/lib64/python3.14/site-packages/pyvisa/highlevel.py", line 2859, in _get_default_wrapper
+    raise ValueError(
+        "Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py."
+    )
+ValueError: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py.
+2026-02-25 01:03:27 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-25 01:03:35 - laser_setup.utils - INFO - Empty files removed [chip=- sample=- exp=-]
+2026-02-25 01:03:42 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-25 01:03:43 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-25 01:03:43 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-25 01:03:50 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/IVg2026-02-25_3.csv. [chip=- sample=- exp=-]
+2026-02-25 01:03:50 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 01:03:50 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-25 01:03:50 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 01:03:50 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 01:03:50 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 01:03:50 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=other 1 sample=other exp=IVg]
+2026-02-25 01:03:50 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 01:03:50 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 01:03:50 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 01:03:50 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 01:03:52 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-25 01:04:14 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-25 01:23:48 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-25 01:23:49 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-25 01:23:49 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-25 02:16:20 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-25 02:16:21 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-25 02:16:21 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-25 02:16:36 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/IVg2026-02-25_4.csv. [chip=- sample=- exp=-]
+2026-02-25 02:16:36 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 02:16:36 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-25 02:16:36 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 02:16:36 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 02:16:36 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 02:16:36 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=other 1 sample=other exp=IVg]
+2026-02-25 02:16:36 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 02:16:36 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 02:16:36 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 02:16:36 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 02:16:37 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-25 02:17:00 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-25 03:01:24 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-25 03:01:25 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-25 03:01:25 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-25 03:02:09 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/IVg2026-02-25_5.csv. [chip=- sample=- exp=-]
+2026-02-25 03:02:09 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 03:02:09 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-25 03:02:09 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:02:09 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:02:09 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:02:09 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:02:09 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:02:09 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:02:09 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:02:09 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:02:10 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:02:33 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-25 03:09:25 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-25 03:09:26 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-25 03:09:26 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-25 03:09:35 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/IVg2026-02-25_6.csv. [chip=- sample=- exp=-]
+2026-02-25 03:09:35 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 03:09:35 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-25 03:09:35 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:09:35 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:09:35 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:09:35 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:09:35 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:09:35 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:09:35 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:09:35 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:09:36 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:09:59 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-25 03:13:59 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-25 03:14:00 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-25 03:14:00 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-25 03:14:15 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/It2026-02-25_1.csv. [chip=- sample=- exp=-]
+2026-02-25 03:14:15 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 03:14:15 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'It' [chip=- sample=- exp=-]
+2026-02-25 03:14:15 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:14:15 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:14:15 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:14:15 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:14:15 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:14:15 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=other 1 sample=other exp=It]
+2026-02-25 03:14:15 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=other 1 sample=other exp=It]
+2026-02-25 03:14:17 - laser_setup.procedures.It - INFO - Starting the measurement [chip=other 1 sample=other exp=It]
+2026-02-25 03:16:39 - laser_setup.instruments.manager - INFO - Shutting down all instruments (remove_from_cache=False). [chip=- sample=- exp=-]
+2026-02-25 03:16:39 - laser_setup.procedures.It - WARNING - Measurement aborted [chip=other 1 sample=other exp=It]
+2026-02-25 03:16:39 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-25 03:52:21 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-25 03:52:22 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-25 03:52:22 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-25 03:52:31 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/IVg2026-02-25_7.csv. [chip=- sample=- exp=-]
+2026-02-25 03:52:31 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 03:52:31 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-25 03:52:31 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:52:31 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:52:31 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:52:31 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:52:31 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:52:31 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:52:31 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:52:31 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:52:33 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:52:55 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-25 03:55:44 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/IVg2026-02-25_8.csv. [chip=- sample=- exp=-]
+2026-02-25 03:55:44 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 03:55:44 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-25 03:55:44 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:55:44 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:55:46 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:56:08 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]
+2026-02-25 03:58:23 - laser_setup.config - INFO - Using config file: config/config.yaml [chip=- sample=- exp=-]
+2026-02-25 03:58:24 - laser_setup.display.theme.manager - INFO - Theme changed to: gruvbox [chip=- sample=- exp=-]
+2026-02-25 03:58:24 - pymeasure.adapters.vxi11 - WARNING - Failed to import vxi11 package, which is required for the VXI11Adapter [chip=- sample=- exp=-]
+2026-02-25 03:58:33 - laser_setup.display.windows.experiment_window - INFO - Saving data to /home/mphstphls/laser_setup/data/2026-02-25/IVg2026-02-25_9.csv. [chip=- sample=- exp=-]
+2026-02-25 03:58:33 - pymeasure.experiment.workers - INFO - Worker thread started [chip=- sample=- exp=-]
+2026-02-25 03:58:33 - pymeasure.experiment.workers - INFO - Worker started running an instance of 'IVg' [chip=- sample=- exp=-]
+2026-02-25 03:58:33 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:58:33 - pymeasure.instruments.instrument - INFO - Initializing None. [chip=- sample=- exp=-]
+2026-02-25 03:58:33 - laser_setup.instruments.manager - WARNING - Could not connect to Keithley2450: Could not locate a VISA implementation. Install either the IVI binary or pyvisa-py. Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:58:33 - pymeasure.instruments.instrument - INFO - Initializing Keithley 2450. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:58:33 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:58:33 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:58:33 - laser_setup.instruments.manager - WARNING - Could not connect to TENMA: [Errno 2] could not open port COM4: [Errno 2] No such file or directory: 'COM4' Using DebugInstrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:58:33 - pymeasure.instruments.instrument - INFO - Initializing Debug instrument. [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:58:34 - laser_setup.procedures.IVg - INFO - Starting the measurement [chip=other 1 sample=other exp=IVg]
+2026-02-25 03:58:57 - pymeasure.display.listeners - INFO - Monitor caught stop command [chip=- sample=- exp=-]

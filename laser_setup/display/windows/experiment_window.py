@@ -3,6 +3,7 @@ import os
 import time
 
 import pyqtgraph as pg
+import pyqtgraph.exporters
 from pymeasure.display.curves import ResultsCurve
 from pymeasure.display.widgets import PlotFrame, PlotWidget
 from pymeasure.display.widgets.dock_widget import DockWidget
@@ -405,8 +406,8 @@ class ExperimentWindow(ManagedWindowBase):
             )
 
     def _save_plot(self) -> None:
-        exporter = pg.exporters.ImageExporter(self.plot_widget.plot_frame.plot)
-        exporter.export()
+        self._exporter = pg.exporters.ImageExporter(self.plot_widget.plot_frame.plot)
+        self._exporter.export()
 
     def queue(self, procedure: Procedure | None = None):
         if procedure is None:
@@ -475,6 +476,7 @@ class ExperimentWindow(ManagedWindowBase):
                 self.browser_widget.show_button.setEnabled(True)
                 self.browser_widget.hide_button.setEnabled(True)
                 self.browser_widget.clear_button.setEnabled(True)
+                self._save_plot_btn.show()
 
     def new_curve(self, *args, **kwargs) -> ResultsCurve | list[ResultsCurve] | None:
         curves = super().new_curve(*args, **kwargs)
