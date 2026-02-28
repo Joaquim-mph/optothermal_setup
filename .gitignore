@@ -3,6 +3,16 @@ dev/
 video/
 config/*
 data/
+log/
+
+# Images (exclude bundled assets)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.svg
+!laser_setup/assets/**
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

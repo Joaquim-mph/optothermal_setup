@@ -281,6 +281,13 @@ class ExperimentWindow(ManagedWindowBase):
 
         theme_manager().theme_changed.connect(self._on_theme_changed)
 
+        # Ensure continuous auto-range is on from the start.  Counteracts any
+        # stale zoom/pan state that DockWidget._layout() may have restored from
+        # a saved dock-layout JSON (Bug 4) and ensures the first measurement
+        # auto-ranges without the user having to press "View All" first.
+        for pw in (self.plot_widget, *self.dock_widget.plot_frames):
+            pw.plot_frame.plot.vb.enableAutoRange()
+
     def _on_theme_changed(self, colors: ThemeColors) -> None:
         PlotFrame.LABEL_STYLE['color'] = colors.fg
         for pw in (self.plot_widget, *self.dock_widget.plot_frames):
@@ -406,8 +413,23 @@ class ExperimentWindow(ManagedWindowBase):
             )
 
     def _save_plot(self) -> None:
+        data_dir = os.path.abspath(CONFIG.Dir.data_dir)
+        figs_dir = os.path.join(os.path.dirname(data_dir), 'figs')
+        os.makedirs(figs_dir, exist_ok=True)
+
+        proc_name = getattr(self.procedure_class, '__name__', 'plot')
+        timestamp = time.strftime('%Y-%m-%d_%H%M%S')
+        default_path = os.path.join(figs_dir, f'{proc_name}_{timestamp}.png')
+
+        path, _ = QtWidgets.QFileDialog.getSaveFileName(
+            self, 'Save Plot', default_path,
+            'Images (*.png *.jpg *.svg);;All Files (*)'
+        )
+        if not path:
+            return
+
         self._exporter = pg.exporters.ImageExporter(self.plot_widget.plot_frame.plot)
-        self._exporter.export()
+        self._exporter.export(path)
 
     def queue(self, procedure: Procedure | None = None):
         if procedure is None:
@@ -477,6 +499,99 @@ class ExperimentWindow(ManagedWindowBase):
                 self.browser_widget.hide_button.setEnabled(True)
                 self.browser_widget.clear_button.setEnabled(True)
                 self._save_plot_btn.show()
+
+    def browser_item_changed(self, item, column):
+        """Override to guard against load() failures and recover the ViewBox range.
+
+        The base implementation calls curve.wdg.load(curve) directly from the
+        itemChanged signal handler with no error handling. If update_data() throws
+        (e.g. a pandas KeyError or a race condition on the CSV), addItem() is
+        silently skipped and the browser item stays Checked — reproducing the same
+        desync that causes plots to disappear. This override catches those failures
+        and calls autoRange() after a show operation so a corrupted ViewBox range
+        is recovered whenever the user checks an individual experiment back on.
+        """
+        if column != 0:
+            return
+
+        experiment = self.manager.experiments.with_browser_item(item)
+        if experiment is None:
+            return
+
+        if item.checkState(0) == QtCore.Qt.CheckState.Unchecked:
+            for curve in experiment.curve_list:
+                if curve:
+                    curve.wdg.remove(curve)
+        else:
+            for curve in experiment.curve_list:
+                if curve:
+                    try:
+                        curve.wdg.load(curve)
+                    except Exception as e:
+                        log.warning(
+                            f"Could not load curve for {experiment.data_filename}: {e}"
+                        )
+            for pw in (self.plot_widget, *self.dock_widget.plot_frames):
+                pw.plot_frame.plot.vb.enableAutoRange()
+
+    def show_experiments(self):
+        """Force-reload all curves and reset the view range.
+
+        The base implementation calls setCheckState(Checked) for every browser item.
+        Qt only emits itemChanged when the state actually changes, so if curves
+        disappear while items remain Checked the base call is a no-op and nothing is
+        restored. This override bypasses that by directly calling remove/load on every
+        curve and calling autoRange() on every plot, which also recovers from a
+        corrupted pyqtgraph ViewBox range.
+        """
+        # Remove all curves first (safe no-op if a curve is not in the plot)
+        for experiment in self.manager.experiments:
+            for curve in experiment.curve_list:
+                if curve:
+                    curve.wdg.remove(curve)
+
+        # Sync browser check states without re-triggering browser_item_changed
+        self.browser.blockSignals(True)
+        try:
+            super().show_experiments()
+        finally:
+            self.browser.blockSignals(False)
+
+        # Re-add all curves; guard against update_data() failures so addItem() is
+        # always reached even when the underlying data file has an issue
+        for experiment in self.manager.experiments:
+            for curve in experiment.curve_list:
+                if curve:
+                    try:
+                        curve.wdg.load(curve)
+                    except Exception as e:
+                        log.warning(
+                            f"Could not reload curve for {experiment.data_filename}: {e}"
+                        )
+
+        # Re-enable continuous auto-range — recovers from a corrupted ViewBox state
+        # and ensures a running measurement keeps the view updated after Show All.
+        for pw in (self.plot_widget, *self.dock_widget.plot_frames):
+            pw.plot_frame.plot.vb.enableAutoRange()
+
+    def hide_experiments(self):
+        """Remove all curves from the plots.
+
+        Blocks itemChanged while setting check states to prevent browser_item_changed
+        from calling removeItem() a second time on curves we already removed.
+        """
+        # Sync browser check states without triggering browser_item_changed
+        self.browser.blockSignals(True)
+        try:
+            super().hide_experiments()
+        finally:
+            self.browser.blockSignals(False)
+
+        # Explicitly remove all curves
+        for experiment in self.manager.experiments:
+            for curve in experiment.curve_list:
+                if curve:
+                    curve.wdg.remove(curve)
 
     def new_curve(self, *args, **kwargs) -> ResultsCurve | list[ResultsCurve] | None:
         curves = super().new_curve(*args, **kwargs)
