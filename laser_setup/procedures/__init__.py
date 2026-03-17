@@ -14,6 +14,7 @@ from .ItWl import ItWl
 from .Wait import Wait
 from .LaserCalibration import LaserCalibration
 from .VVg import VVg
+from .VVgCooldown import VVgCooldown
 from .waveform_generator import WaveformGenerator, DualChannelWaveforms
 from .Stress import Stress
 from .Sequence import Sequence

@@ -66,19 +66,8 @@ class ThemeManager(QtCore.QObject):
 
     theme_changed = QtCore.Signal(object)  # Emits ThemeColors
 
-    _instance: "ThemeManager | None" = None
-    _initialized: bool = False
-
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-        return cls._instance
-
     def __init__(self):
-        if self._initialized:
-            return
         super().__init__()
-        self._initialized = True
 
         self._mode = ThemeMode.AUTO
         self._current_colors: ThemeColors | None = None
