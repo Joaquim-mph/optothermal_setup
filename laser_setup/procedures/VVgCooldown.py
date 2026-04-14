@@ -82,6 +82,8 @@ class VVgCooldown(VVg):
 
         type(self).DATA[0] = list(self.vg_ramp)
 
+        t_start = time.time()
+
         for sweep_num in range(self.n_sweeps):
             if self.should_stop():
                 log.warning("Measurement aborted")
@@ -103,7 +105,8 @@ class VVgCooldown(VVg):
 
                 time.sleep(self.step_time)
 
-                keithley_time, voltage = self.meter.get_data()
+                _, voltage = self.meter.get_data()
+                elapsed_time = time.time() - t_start
                 temperature_data = self.temperature_sensor.data
 
                 type(self).DATA[1].append(voltage)
@@ -115,7 +118,7 @@ class VVgCooldown(VVg):
                             [
                                 vg,
                                 type(self).DATA[1][-1],
-                                keithley_time,
+                                elapsed_time,
                                 *temperature_data,
                                 sweep_num + 1,
                             ],
