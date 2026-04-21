@@ -122,5 +122,8 @@ _types:
   Tt: ${class:laser_setup.procedures.Tt}
   LaserCalibration: ${class:laser_setup.procedures.LaserCalibration}
   VVg: ${class:laser_setup.procedures.VVg}
+  VVgCooldown: ${class:laser_setup.procedures.VVgCooldown}
+  WaveformGenerator: ${class:laser_setup.procedures.WaveformGenerator}
+  DualChannelWaveforms: ${class:laser_setup.procedures.DualChannelWaveforms}
   Stress: ${class:laser_setup.procedures.Stress}
   FakeProcedure: ${class:laser_setup.procedures.FakeProcedure.FakeProcedure}
