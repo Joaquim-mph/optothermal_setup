@@ -166,7 +166,9 @@ def display_window(procedure: type[Procedure] | None = None, **kwargs):
 
     splash_timer = QtCore.QTimer()
     splash_timer.setSingleShot(True)
-    splash_timer.timeout.connect(lambda: (splash.finish(window), window.show()))
+    splash_timer.timeout.connect(
+        lambda: (splash.finish(window), window.show(), app.processEvents())
+    )
     splash_timer.start(remaining)
 
     app.exec()
