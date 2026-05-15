@@ -69,3 +69,9 @@ class LaserCalibration(BaseProcedure):
 
             self.emit('results', dict(zip(self.DATA_COLUMNS, [vl, np.mean(avg_array)])))
             avg_array[:] = 0.
+
+    def shutdown(self):
+        if hasattr(self, 'tenma_laser'):
+            self.tenma_laser.ramp_to_voltage(0., vg_step=0.5)
+            self.tenma_laser.output = False
+        super().shutdown()

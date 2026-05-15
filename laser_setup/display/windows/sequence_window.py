@@ -28,6 +28,7 @@ class SequenceWindow(QtWidgets.QMainWindow):
         Status.QUEUED: {'label': '🠞', 'color': ''},
         Status.RUNNING: {'label': '⏳', 'color': 'yellow'},
         Status.ABORTED: {'label': '⛔', 'color': 'red'},
+        Status.FAILED: {'label': '❌', 'color': 'red'},
         Status.FINISHED: {'label': '✔', 'color': 'green'},
     }
     status: Status | None = None
@@ -245,10 +246,6 @@ class SequenceWindow(QtWidgets.QMainWindow):
 
         for i in range(len(self.sequence) + 1):
             self.set_inputs_enabled(inputs[i], True)
-
-        # Shutdown common instruments if possible
-        if issubclass(self.sequence.common_procedure, BaseProcedure):
-            self.sequence.common_procedure.instruments.shutdown_all()
 
         self.queue_button.setEnabled(True)
         if self.status == Status.RUNNING:

@@ -74,9 +74,14 @@ class InstrumentManager:
     """
     id_template = "{instrument.__name__}/{adapter}"
 
+    # Shared across all InstrumentManager instances: physical USB/VISA devices
+    # are global resources, so different procedure classes that target the same
+    # device must reuse the same open handle (otherwise the OS rejects the
+    # second open with EBUSY).
+    instrument_dict: dict[str, Instrument] = {}
+
     def __init__(self):
         """Initializes the InstrumentManager."""
-        self.instrument_dict: dict[str, Instrument] = {}
 
     @staticmethod
     def help(instrument_class: type[Instrument], return_str=False) -> str | None:

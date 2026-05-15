@@ -292,6 +292,10 @@ class AppConfig:
                 name="Get updates",
                 target='${function:laser_setup.cli.get_updates.main}'
             ),
+            'find_calibration_voltage': MenuItemConfig(
+                name="Find calibration voltage",
+                target='${function:laser_setup.cli.find_calibration_voltage.main}'
+            ),
         },
         metadata={'title': 'Scripts', 'readonly': True}
     )

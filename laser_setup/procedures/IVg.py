@@ -128,6 +128,10 @@ class IVg(LaserMixin, ChipProcedure):
 
     def shutdown(self):
         type(self).DATA = [[], []]
+        try:
+            self.tenma_laser.voltage = 0.
+        except Exception:
+            log.warning("Failed to turn off laser TENMA at IVg shutdown", exc_info=True)
         super().shutdown()
 
     def get_estimates(self):

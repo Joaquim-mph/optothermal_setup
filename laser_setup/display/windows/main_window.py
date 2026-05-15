@@ -534,7 +534,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for cls in self.procedure_types.values():
             mgr = getattr(cls, "instruments", None)
             if isinstance(mgr, InstrumentManager):
-                mgr.shutdown_all()
+                mgr.shutdown_all(remove_from_cache=True)
         self._refresh_instrument_status()
         self._update_laser_indicator()
 

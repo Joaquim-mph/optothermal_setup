@@ -113,7 +113,9 @@ class ExperimentWindow(ManagedWindowBase):
         # Add a shutdown all button if the procedure is a BaseProcedure
         if issubclass(self.procedure_class, BaseProcedure):
             self.shutdown_button = QtWidgets.QPushButton('&Shutdown', self)
-            self.shutdown_button.clicked.connect(self.procedure_class.instruments.shutdown_all)
+            self.shutdown_button.clicked.connect(
+                lambda: self.procedure_class.instruments.shutdown_all(remove_from_cache=True)
+            )
             self.shutdown_button.setToolTip('Shutdown all instruments')
             self.abort_button.parent().layout().children()[0].insertWidget(2, self.shutdown_button)
 
@@ -465,7 +467,7 @@ class ExperimentWindow(ManagedWindowBase):
             if self.manager.is_running():  # Check again in case the user took too long
                 self.manager.abort()
             if issubclass(self.procedure_class, BaseProcedure):
-                self.procedure_class.instruments.shutdown_all()
+                self.procedure_class.instruments.shutdown_all(remove_from_cache=True)
             time.sleep(0.5)
 
         self.log.removeHandler(self.log_widget.handler)

@@ -88,9 +88,11 @@ class BaseProcedure(Procedure):
 
         Note: Instruments are kept connected and cached for reuse between experiments.
         They will only be fully shut down when the application exits.
+
+        Safety reset for abort/failure is NOT performed here — it is run
+        unconditionally by the wrapper installed in __init__, so it survives
+        skip_shutdown=True and crashes mid-execute.
         """
-        if self.should_stop():
-            self._reset_instruments_on_abort()
         # Don't shut down instruments between experiments - keep them cached for reuse
         # This prevents USB "Resource busy" errors on consecutive experiments
         log.debug("Keeping instruments connected for reuse in next experiment")
@@ -147,7 +149,7 @@ class BaseProcedure(Procedure):
 
         # Wrap methods to skip execution
         self.startup = self._wrap_skip(self.startup, 'skip_startup', self.connect_instruments)
-        self.shutdown = self._wrap_skip(self.shutdown, 'skip_shutdown')
+        self.shutdown = self._wrap_safe_shutdown(self.shutdown)
 
     def override_parameters(self, parameters: Mapping[str, Any]):
         """Override the procedure parameters with a dictionary. It will update
@@ -180,6 +182,28 @@ class BaseProcedure(Procedure):
                 except AttributeError:
                     target_class = getattr(target, '__class__', target)
                     log.error(f"Error updating parameter {key} in {target_class.__name__}")
+
+    def _wrap_safe_shutdown(self, shutdown_method):
+        """Wrap shutdown so the safety reset (zero TENMA outputs, disable
+        Keithley source) ALWAYS runs on abort or failure, regardless of
+        skip_shutdown. Without this, a procedure that crashes mid-execute
+        (e.g. on a USB I/O error) leaves the laser at its last setpoint.
+        """
+        @wraps(shutdown_method)
+        def wrapper(*args, **kwargs):
+            status = getattr(self, 'status', None)
+            if self.should_stop() or status == self.FAILED:
+                try:
+                    self._reset_instruments_on_abort()
+                except Exception:
+                    log.exception("Safety reset failed during shutdown")
+
+            if getattr(self, 'skip_shutdown', False):
+                log.info(f"Skipping {shutdown_method.__name__} for {type(self).__name__}")
+                return
+
+            return shutdown_method(*args, **kwargs)
+        return wrapper
 
     def _wrap_skip(self, method, flag_name: str, fallback=None):
         """Wraps a method to skip execution if a flag is set to True.
