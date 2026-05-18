@@ -433,7 +433,44 @@ class ExperimentWindow(ManagedWindowBase):
         self._exporter = pg.exporters.ImageExporter(self.plot_widget.plot_frame.plot)
         self._exporter.export(path)
 
+    def _find_other_running_experiment(self) -> 'ExperimentWindow | None':
+        """Return another ExperimentWindow whose manager is currently running, if any.
+
+        Used to prevent two procedures from driving the shared instruments at
+        the same time. Scans top-level widgets so it works regardless of how
+        the window was opened (main menu, sequence, scripts).
+        """
+        app = QtWidgets.QApplication.instance()
+        if app is None:
+            return None
+        for w in app.topLevelWidgets():
+            if w is self or not isinstance(w, ExperimentWindow):
+                continue
+            try:
+                if w.manager.is_running():
+                    return w
+            except Exception:
+                continue
+        return None
+
     def queue(self, procedure: Procedure | None = None):
+        other = self._find_other_running_experiment()
+        if other is not None:
+            other_name = getattr(other.procedure_class, '__name__', 'another procedure')
+            log.warning(
+                f"Refusing to queue {self.procedure_class.__name__}: "
+                f"{other_name} is already running."
+            )
+            QtWidgets.QMessageBox.warning(
+                self,
+                "Experiment already running",
+                f"'{other_name}' is currently running.\n"
+                "Abort or wait for it to finish before starting a new procedure.",
+            )
+            other.raise_()
+            other.activateWindow()
+            return
+
         if procedure is None:
             procedure = self.make_procedure()
 

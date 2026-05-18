@@ -693,8 +693,16 @@ class MainWindow(QtWidgets.QMainWindow):
     # ------------------------------------------------------------------
 
     def open_sequence(self, cls: type[Sequence]):
-        self.windows[cls] = SequenceWindow(cls, parent=self)
-        self.windows[cls].show()
+        existing = self.windows.get(cls)
+        if existing is not None and not existing.isHidden():
+            existing.showNormal()
+            existing.raise_()
+            existing.activateWindow()
+            return
+        window = SequenceWindow(cls, parent=self)
+        self.windows[cls] = window
+        window.destroyed.connect(lambda _=None, c=cls: self.windows.pop(c, None))
+        window.show()
 
     def open_sequence_creator(self):
         """Opens the sequence creator window."""
@@ -743,17 +751,34 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def open_procedure(self, cls: type[Procedure]):
         self._record_recent(cls.__name__)
-        self.windows[cls] = ExperimentWindow(cls)
-        self.windows[cls].show()
-        self._apply_session_context(self.windows[cls], cls)
+        existing = self.windows.get(cls)
+        if existing is not None and not existing.isHidden():
+            existing.showNormal()
+            existing.raise_()
+            existing.activateWindow()
+            return
+        window = ExperimentWindow(cls)
+        self.windows[cls] = window
+        window.destroyed.connect(lambda _=None, c=cls: self.windows.pop(c, None))
+        window.show()
+        self._apply_session_context(window, cls)
         self._update_laser_indicator()
 
     def run_script(self, f: Callable, **kwargs):
         """Runs the given script function in the main thread."""
         try:
-            f(parent=self, **kwargs)
-        except TypeError:
-            f(**kwargs)
+            try:
+                f(parent=self, **kwargs)
+            except TypeError:
+                f(**kwargs)
+        except Exception as e:
+            log.exception(f"Script {getattr(f, '__name__', f)!r} failed: {e}")
+            QtWidgets.QMessageBox.critical(
+                self,
+                "Script error",
+                f"{getattr(f, '__name__', f)!r} failed:\n{e}",
+            )
+            return
         self.suggest_reload()
 
     def open_widget(self, widget: QtWidgets.QWidget, title: str):

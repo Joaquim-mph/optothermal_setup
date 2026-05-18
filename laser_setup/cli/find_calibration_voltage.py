@@ -1,12 +1,11 @@
 import logging
 from pathlib import Path
-from tkinter import Tk, simpledialog
-from tkinter.filedialog import askopenfilenames
-
-from laser_setup.utils import read_pymeasure, get_data_files
 
 import numpy as np
 import pandas as pd
+
+from laser_setup.display.Qt import QtWidgets
+from laser_setup.utils import get_data_files, read_pymeasure
 
 log = logging.getLogger(__name__)
 
@@ -31,8 +30,11 @@ def main(parent=None):
     """Find the corresponding voltages of the given powers from the selected
     calibration curve.
     """
-    root = Tk()
-    root.withdraw()
+    owns_app = False
+    app = QtWidgets.QApplication.instance()
+    if app is None:
+        app = QtWidgets.QApplication([])
+        owns_app = True
 
     try:
         initial_path = get_data_files('LaserCalibration*.csv')[-1].parent
@@ -40,28 +42,28 @@ def main(parent=None):
         log.error("No calibration files found. Exiting.")
         return
 
-    path_to_files = askopenfilenames(
-        parent=root,
-        initialdir=str(initial_path),
-        title="Select Calibration to find voltages",
-        filetypes=[("CSV files", "*.csv"), ("All files", "*.*")]
+    path_to_files, _ = QtWidgets.QFileDialog.getOpenFileNames(
+        parent,
+        "Select Calibration to find voltages",
+        str(initial_path),
+        "CSV files (*.csv);;All files (*.*)",
     )
 
     if not path_to_files:
         log.warning("No files selected. Exiting.")
         return
 
-    powers: list[float] = []
-    inputs = simpledialog.askstring(
+    inputs, ok = QtWidgets.QInputDialog.getText(
+        parent,
         "Power Input",
         "Enter powers in µW separated by commas:",
-        parent=root
     )
 
-    if not inputs:
+    if not ok or not inputs:
         log.warning("No powers entered. Exiting.")
         return
 
+    powers: list[float] = []
     for power in inputs.split(","):
         try:
             powers.append(float(power.strip()))
@@ -72,23 +74,28 @@ def main(parent=None):
         log.warning("No valid powers entered. Exiting.")
         return
 
+    lines: list[str] = []
     for path in path_to_files:
         try:
             data = read_pymeasure(path)
-            print(f"File: '{Path(path)}'")
-
+            lines.append(f"File: '{Path(path)}'")
             for power in powers:
-                voltage = get_calibration_voltage(data[1], power*1e-6)
+                voltage = get_calibration_voltage(data[1], power * 1e-6)
                 if voltage == -1:
-                    print(f"Power: {power:.2f} [µW] \t Voltage: Out of range")
+                    lines.append(f"Power: {power:.2f} [µW] \t Voltage: Out of range")
                 else:
-                    print(f"Power: {power:.2f} [µW] \t Voltage: {voltage:.2f} [V]")
-            print()
-
+                    lines.append(f"Power: {power:.2f} [µW] \t Voltage: {voltage:.2f} [V]")
+            lines.append("")
         except Exception as e:
             log.error(f"Error processing file {path}: {str(e)}")
 
-    root.destroy()
+    message = "\n".join(lines).rstrip()
+    if message:
+        log.info("Calibration voltages:\n" + message)
+        QtWidgets.QMessageBox.information(parent, "Calibration Voltages", message)
+
+    if owns_app:
+        app.quit()
 
 
 if __name__ == "__main__":
