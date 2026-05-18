@@ -82,12 +82,23 @@ def parse_header(header: str, procedure_class=None):
 
 @wraps(_Results_reload)
 def reload(self: Results):
-    """Reloads the data from the file, ensuring missing columns are present."""
+    """Reloads the data from the file, ensuring missing columns are present
+    and DATA_COLUMNS are numeric.
+
+    When the CSV has only a header (no data rows yet), pandas infers object
+    dtype for every column. pyqtgraph then crashes inside np.isfinite() on the
+    first plot refresh that races ahead of the first emit(). Coercing to
+    numeric makes empty columns float64 and silences the error spam.
+    """
+    import pandas as pd
+
     _Results_reload(self)
 
-    missing_cols = [col for col in self.procedure.DATA_COLUMNS if col not in self._data.columns]
-    for col in missing_cols:
-        self._data[col] = float('nan')  # Add missing columns with NaN values
+    for col in self.procedure.DATA_COLUMNS:
+        if col not in self._data.columns:
+            self._data[col] = float('nan')
+        elif self._data[col].dtype == object:
+            self._data[col] = pd.to_numeric(self._data[col], errors='coerce')
 
 
 Results.__init__ = __init__
