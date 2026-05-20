@@ -89,16 +89,20 @@ class BaseProcedure(Procedure):
         Note: Instruments are kept connected and cached for reuse between experiments.
         They will only be fully shut down when the application exits.
 
-        Safety reset for abort/failure is NOT performed here — it is run
-        unconditionally by the wrapper installed in __init__, so it survives
-        skip_shutdown=True and crashes mid-execute.
+        Safety reset is NOT performed here — it is run unconditionally by the
+        wrapper installed in __init__, so it survives skip_shutdown=True and
+        crashes mid-execute.
         """
         # Don't shut down instruments between experiments - keep them cached for reuse
         # This prevents USB "Resource busy" errors on consecutive experiments
         log.debug("Keeping instruments connected for reuse in next experiment")
 
-    def _reset_instruments_on_abort(self) -> None:
-        """Reset critical instrument outputs to safe values on abort."""
+    def _safe_state_instruments(self) -> None:
+        """Reset critical instrument outputs to safe values.
+
+        Runs on every shutdown (normal completion, manual abort, and failure)
+        so the sample is never left biased between runs.
+        """
         for name, instrument in inspect.getmembers(self):
             if isinstance(instrument, TENMA):
                 self._reset_tenma(instrument, name)
@@ -185,18 +189,32 @@ class BaseProcedure(Procedure):
 
     def _wrap_safe_shutdown(self, shutdown_method):
         """Wrap shutdown so the safety reset (zero TENMA outputs, disable
-        Keithley source) ALWAYS runs on abort or failure, regardless of
-        skip_shutdown. Without this, a procedure that crashes mid-execute
-        (e.g. on a USB I/O error) leaves the laser at its last setpoint.
+        Keithley source) ALWAYS runs, regardless of skip_shutdown or outcome.
+        Without this, a normally-completed run leaves the sample biased, and a
+        procedure that crashes mid-execute (e.g. on a USB I/O error) leaves the
+        laser at its last setpoint.
+
+        On a genuine error (status == FAILED) the cached connections are also
+        released, so a wedged USB interface frees without an application
+        restart. Manual abort keeps the cache, since caching is what prevents
+        EBUSY on consecutive runs.
         """
         @wraps(shutdown_method)
         def wrapper(*args, **kwargs):
             status = getattr(self, 'status', None)
-            if self.should_stop() or status == self.FAILED:
+            # Always return outputs to a safe state (normal completion, abort, fail).
+            try:
+                self._safe_state_instruments()
+            except Exception:
+                log.exception("Safety reset failed during shutdown")
+
+            # On a genuine error, release cached connections so the USB interface
+            # frees without an application restart. Manual abort keeps the cache.
+            if status == self.FAILED:
                 try:
-                    self._reset_instruments_on_abort()
+                    self.instruments.release_all()
                 except Exception:
-                    log.exception("Safety reset failed during shutdown")
+                    log.exception("Failed to release instruments after error")
 
             if getattr(self, 'skip_shutdown', False):
                 log.info(f"Skipping {shutdown_method.__name__} for {type(self).__name__}")

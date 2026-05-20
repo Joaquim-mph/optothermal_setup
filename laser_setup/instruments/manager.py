@@ -272,6 +272,35 @@ class InstrumentManager:
         for instance_id in list(self):
             self.shutdown(instance_id, remove_from_cache=remove_from_cache)
 
+    def release(self, instance_id: str) -> None:
+        """Force-close and evict an instrument WITHOUT the normal shutdown ramp,
+        to free the USB interface after a comms error so the next connect() can
+        re-claim it without an application restart.
+
+        :param instance_id: The id of the instrument to release.
+        """
+        if instance_id not in self:
+            return
+
+        instance = self[instance_id]
+        connection = getattr(getattr(instance, "adapter", None), "connection", None)
+        if connection is not None:
+            for op in ("clear", "close"):   # clear() may unhalt a stalled endpoint
+                try:
+                    getattr(connection, op)()
+                except Exception:
+                    pass
+
+        del self[instance_id]
+        log.info(f"Released instrument '{instance_id}' after comms error.")
+
+    def release_all(self) -> None:
+        """Force-close and evict all cached instruments. Used after a comms
+        error to recover the host side without an application restart.
+        """
+        for instance_id in list(self):
+            self.release(instance_id)
+
     def disable(self, obj, attr: str) -> None:
         """Replaces the given attribute with a DisabledInstrument. Deletes the original
         attribute from the object.
