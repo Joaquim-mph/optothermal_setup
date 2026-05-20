@@ -53,7 +53,14 @@ class TENMA(SCPIMixin, Instrument):
         :param vg_step: The step size in Volts.
         :param step_time: The time between steps in seconds.
         """
-        v = self.voltage
+        vg_end = float(vg_end)
+        try:
+            v = float(self.voltage)
+        except (TypeError, ValueError):
+            # A non-numeric voltage read must not abort safe-state teardown.
+            log.warning("TENMA voltage read non-numeric; commanding target directly.")
+            self.voltage = vg_end
+            return
         while abs(vg_end - v) > vg_step:
             v += np.sign(vg_end - v) * vg_step
             self.voltage = v

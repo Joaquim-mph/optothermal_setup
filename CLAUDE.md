@@ -173,7 +173,7 @@ The `@configurable` decorator registers classes so they appear in `CONFIG.proced
 
 5. **Time Columns**: Place time as the 3rd+ column in `DATA_COLUMNS` so default plots show column 1 vs column 2.
 
-6. **Abort Safety**: `BaseProcedure._reset_instruments_on_abort()` is called on abort to ramp TENMA supplies to 0 V and disable Keithley sources.
+6. **Shutdown Safety**: `BaseProcedure._safe_state_instruments()` runs on every shutdown (normal completion, manual abort, and failure) to ramp TENMA supplies to 0 V (output off) and disable Keithley sources, so the sample is never left biased between runs. On failure (`status == FAILED`), `InstrumentManager.release_all()` also force-closes and evicts cached connections so a wedged USB interface frees without an app restart; manual abort keeps the cache.
 
 ## Common Modifications
 
