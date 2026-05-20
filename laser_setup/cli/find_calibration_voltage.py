@@ -1,11 +1,13 @@
 import logging
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
+from laser_setup.config import CONFIG
 from laser_setup.display.Qt import QtWidgets
-from laser_setup.utils import get_data_files, read_pymeasure
+from laser_setup.utils import read_pymeasure
 
 log = logging.getLogger(__name__)
 
@@ -36,11 +38,12 @@ def main(parent=None):
         app = QtWidgets.QApplication([])
         owns_app = True
 
-    try:
-        initial_path = get_data_files('LaserCalibration*.csv')[-1].parent
-    except (IndexError, FileNotFoundError):
-        log.error("No calibration files found. Exiting.")
-        return
+    # Open the dialog in today's dated data folder (matching where new data is
+    # saved by unique_filename), falling back to the data dir if it doesn't
+    # exist yet (e.g. no measurements taken today).
+    data_dir = Path(CONFIG.Dir.data_dir)
+    today_dir = data_dir / datetime.now().strftime('%Y-%m-%d')
+    initial_path = today_dir if today_dir.is_dir() else data_dir
 
     path_to_files, _ = QtWidgets.QFileDialog.getOpenFileNames(
         parent,

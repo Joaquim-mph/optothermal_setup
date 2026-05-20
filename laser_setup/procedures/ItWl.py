@@ -115,6 +115,8 @@ class ItWl(VgMixin, ChipProcedure):
             f"Sleeping for {self.burn_in_t} seconds to let the current stabilize."
         )
         measuring_loop(self.burn_in_t, 0.)
+        if self.should_stop():
+            return
         log.info('Turning on the light source')
         self.light_source.set_wavelength(self.wl)
         measuring_loop(total_time, self.wl)

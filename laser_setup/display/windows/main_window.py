@@ -93,6 +93,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.sequences = sequences
         self.scripts = scripts
         self.instruments = instruments
+        self._online_instruments: set[str] = set()
         self.main_procedures = (
             list(main_procedures)
             if main_procedures
@@ -321,11 +322,19 @@ class MainWindow(QtWidgets.QMainWindow):
         inst_menu = menu.addMenu("&Instruments")
         inst_menu.setToolTipsVisible(True)
 
+        refresh_action = QtGui.QAction("Refresh status", self)
+        refresh_action.setStatusTip("Probe instruments and update connection status")
+        refresh_action.triggered.connect(self._probe_instruments_async)
+        inst_menu.addAction(refresh_action)
+        inst_menu.addSeparator()
+
         self._instrument_actions: dict[str, QtGui.QAction] = {}
         for key, item in self.instruments.items():
             display_name = getattr(item, "name", None) or key
             action = QtGui.QAction(display_name, self)
-            action.setEnabled(False)  # Status display only
+            # Status display only, but kept enabled so the colored status icon
+            # renders at full opacity (Qt washes out disabled-action icons).
+            action.triggered.connect(self._probe_instruments_async)
             inst_menu.addAction(action)
             self._instrument_actions[key] = action
 
@@ -517,17 +526,89 @@ class MainWindow(QtWidgets.QMainWindow):
             target_name = getattr(target, "__name__", "") if target else key
             adapter = getattr(item, "adapter", "")
 
-            # Check by IDN first, then by "{ClassName}/{adapter}" pattern
+            # Check by IDN first, then by "{ClassName}/{adapter}" pattern,
+            # then by the last manual probe result.
             if idn and idn in connected_ids:
                 connected = True
             elif any(target_name in cid for cid in connected_ids):
                 connected = True
             elif f"{target_name}/{adapter}" in connected_ids:
                 connected = True
+            elif key in self._online_instruments:
+                connected = True
             else:
                 connected = False
 
             action.setIcon(self._make_status_icon(connected))
+
+    def _probe_instruments_async(self):
+        """Probe instruments off the GUI thread, then refresh status icons."""
+        if getattr(self, "_probe_thread", None) is not None:
+            return  # a probe is already running
+
+        log.info("Probing instruments for connection status...")
+        self._probe_thread = QtCore.QThread()
+        self._probe_worker = Worker(self._probe_instruments, thread=self._probe_thread)
+        self._probe_worker.finished.connect(self._on_probe_finished)
+        self._probe_thread.finished.connect(
+            lambda: setattr(self, "_probe_thread", None)
+        )
+        self._probe_thread.start()
+
+    def _probe_instruments(self) -> set:
+        """Attempt to reach each configured instrument and return the set of
+        keys that are online. Runs in a worker thread.
+
+        Already-cached instruments are reported online without re-querying so a
+        probe never interleaves commands on a bus a running procedure is using.
+        """
+        connected_ids = self._get_connected_instrument_ids()
+        manager = InstrumentManager()
+        online: set = set()
+        # Failures are expected when an instrument is simply absent, so silence
+        # the manager's per-failure error logging for the duration of the probe.
+        mgr_log = logging.getLogger("laser_setup.instruments.manager")
+        prev_level = mgr_log.level
+        mgr_log.setLevel(logging.CRITICAL)
+        try:
+            for key, item in self.instruments.items():
+                idn = getattr(item, "IDN", None)
+                target = getattr(item, "target", None)
+                target_name = getattr(target, "__name__", "") if target else key
+
+                already_cached = (
+                    (idn and idn in connected_ids)
+                    or any(target_name in cid for cid in connected_ids)
+                )
+                if already_cached:
+                    online.add(key)
+                    continue
+
+                if target is None:
+                    continue
+
+                try:
+                    instrument = manager.connect(
+                        instrument_class=target,
+                        adapter=getattr(item, "adapter", None),
+                        name=getattr(item, "name", None),
+                        _instance_id=idn,
+                        **(getattr(item, "kwargs", None) or {}),
+                    )
+                    _ = instrument.id  # raises if the device is unreachable
+                    online.add(key)
+                except Exception as e:
+                    log.debug(f"Instrument '{key}' offline: {e}")
+        finally:
+            mgr_log.setLevel(prev_level)
+        return online
+
+    def _on_probe_finished(self, online: set):
+        """Apply probe results on the GUI thread."""
+        self._online_instruments = online or set()
+        log.info(f"Instrument probe complete. Online: {sorted(self._online_instruments)}")
+        self._refresh_instrument_status()
+        self._update_laser_indicator()
 
     def _shutdown_all_instruments(self):
         """Shut down all instruments across all procedure managers."""

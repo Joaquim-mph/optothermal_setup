@@ -154,10 +154,14 @@ class It2(VgMixin, LaserMixin, ChipProcedure):
         # Phase 1: laser off
         self.tenma_laser.voltage = 0.
         measuring_loop(phase1_end, 0.)
+        if self.should_stop():
+            return
 
         # Phase 2: laser on
         self.tenma_laser.voltage = self.laser_v
         measuring_loop(phase2_end, self.laser_v)
+        if self.should_stop():
+            return
 
         # Phase 3: laser off again
         self.tenma_laser.voltage = 0.

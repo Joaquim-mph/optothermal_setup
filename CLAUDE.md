@@ -175,6 +175,8 @@ The `@configurable` decorator registers classes so they appear in `CONFIG.proced
 
 6. **Shutdown Safety**: `BaseProcedure._safe_state_instruments()` runs on every shutdown (normal completion, manual abort, and failure) to ramp TENMA supplies to 0 V (output off) and disable Keithley sources, so the sample is never left biased between runs. On failure (`status == FAILED`), `InstrumentManager.release_all()` also force-closes and evicts cached connections so a wedged USB interface frees without an app restart; manual abort keeps the cache.
 
+7. **YAML override type-safety**: `_apply_parameter_config` does `setattr(param, 'value', v)` with no coercion. A YAML override must match the parameter's declared type, or the GUI crashes later in `Input.setValue`. Notably, `vg` on It/Vt/IV/Stress/ItWl/IVsaw/It2 is `vg_dynamic` (string `Parameter`, accepts `"DP"`, `"DP + 0. V"`, `"0"`), NOT the FloatParameter `vg`. Quote numeric overrides: `value: "0"`, not `value: 0.`.
+
 ## Common Modifications
 
 ### Adding a New Procedure

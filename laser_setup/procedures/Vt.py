@@ -138,7 +138,11 @@ class Vt(VgMixin, LaserMixin, ChipProcedure):
 
         self.tenma_laser.voltage = 0.
         measuring_loop(total_time / 3, 0.)
+        if self.should_stop():
+            return
         self.tenma_laser.voltage = self.laser_v
         measuring_loop(total_time * 2/3, self.laser_v)
+        if self.should_stop():
+            return
         self.tenma_laser.voltage = 0.
         measuring_loop(total_time, 0.)
